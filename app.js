@@ -25,7 +25,6 @@ const CLASSMATES = [
   { id:14,    first:'Keith',                     mid:'',          last:'Boscarino',               suf:'',      full:'Keith Boscarino',                           status:'missing',     page:1  },
   { id:15,    first:'Erin',                      mid:'',          last:'Brown',                   suf:'',      full:'Erin Brown',                                status:'portrait',    page:2  },
   { id:16,    first:'Jeremy',                    mid:'',          last:'Buechner',                suf:'',      full:'Jeremy Buechner',                           status:'portrait',    page:2  },
-  { id:17,    first:'Andrew',                    mid:'',          last:'Burke',                   suf:'',      full:'Andrew Burke',                              status:'missing',     page:2  },
   { id:18,    first:'Kelly',                     mid:'',          last:'Burke',                   suf:'',      full:'Kelly Burke',                               status:'portrait',    page:2  },
   { id:19,    first:'Wendy',                     mid:'',          last:'Butterfield',             suf:'',      full:'Wendy Butterfield',                         status:'portrait',    page:2  },
   { id:20,    first:'Julie',                     mid:'C.',        last:'Buyea',                   suf:'',      full:'Julie C. Buyea',                            status:'portrait',    page:2  },
@@ -85,7 +84,7 @@ const CLASSMATES = [
   { id:74,    first:'Shannon',                   mid:'',          last:'Hayden',                  suf:'',      full:'Shannon Hayden',                            status:'portrait',    page:6  },
   { id:75,    first:'Loretta',                   mid:'',          last:'Haynes',                  suf:'',      full:'Loretta Haynes',                            status:'portrait',    page:6  },
   { id:76,    first:'Johna',                     mid:'A.',        last:'Higgins',                 suf:'',      full:'Johna A. Higgins',                          status:'missing',     page:6  },
-  { id:77,    first:'Tracy',                     mid:'L.',        last:'Holland',                 suf:'',      full:'Tracy L. Holland',                          status:'missing',     page:6  },
+  { id:77,    first:'Tracy',                     mid:'L.',        last:'Holland',                 suf:'',      full:'Tracy L. Holland',                          status:'portrait',    page:6  },
   { id:78,    first:'Melissa',                   mid:'',          last:'Hotaling',                suf:'',      full:'Melissa Hotaling',                          status:'missing',     page:6  },
   { id:79,    first:'Sarah',                     mid:'A.',        last:'Hutchins',                suf:'',      full:'Sarah A. Hutchins',                         status:'portrait',    page:6  },
   { id:80,    first:'Laura',                     mid:'L.',        last:'Immeke',                  suf:'',      full:'Laura L. Immeke',                           status:'portrait',    page:6  },
@@ -125,7 +124,6 @@ const CLASSMATES = [
   { id:114,   first:'Michael',                   mid:'F.',        last:'Mazzarella',              suf:'',      full:'Michael F. Mazzarella',                     status:'missing',     page:9  },
   { id:115,   first:'Timothy',                   mid:'G.',        last:'McCormack',               suf:'',      full:'Timothy G. McCormack',                      status:'missing',     page:9  },
   { id:116,   first:'Brian',                     mid:'',          last:'McDonnell',               suf:'',      full:'Brian McDonnell',                           status:'missing',     page:9  },
-  { id:117,   first:'Robyn',                     mid:'A.',        last:'McGee',                   suf:'',      full:'Robyn A. McGee',                            status:'missing',     page:16  },
   { id:118,   first:'Michelle',                  mid:'',          last:'McGinty',                 suf:'',      full:'Michelle McGinty',                          status:'portrait',    page:9  },
   { id:119,   first:'Gregory',                   mid:'',          last:'McGrath',                 suf:'',      full:'Gregory McGrath',                           status:'portrait',    page:9  },
   { id:120,   first:'Stacia',                    mid:'C.',        last:'Messere',                 suf:'',      full:'Stacia C. Messere',                         status:'portrait',    page:9  },
@@ -199,7 +197,6 @@ const CLASSMATES = [
   { id:188,   first:'Andrew',                    mid:'M.',        last:'Sorenson',                suf:'',      full:'Andrew M. Sorenson',                        status:'missing',     page:16  },
   { id:189,   first:'Clifton',                   mid:'B.',        last:'Stringfellow',            suf:'',      full:'Clifton B. Stringfellow',                   status:'portrait',    page:14  },
   { id:190,   first:'Jacquelyn',                 mid:'',          last:'Sukala',                  suf:'',      full:'Jacquelyn Sukala',                          status:'portrait',    page:15  },
-  { id:191,   first:'Kristen',                   mid:'',          last:'Sweet',                   suf:'',      full:'Kristen Sweet',                             status:'missing',     page:16  },
   { id:192,   first:'Michael',                   mid:'A.',        last:'Teetsel',                 suf:'',      full:'Michael A. Teetsel',                        status:'portrait',    page:16  },
   { id:193,   first:'Benjamin',                  mid:'W.',        last:'Teriele',                 suf:'',      full:'Benjamin W. Teriele',                       status:'missing',     page:15  },
   { id:194,   first:'Kevin',                     mid:'R.',        last:'Thomas',                  suf:'',      full:'Kevin R. Thomas',                           status:'portrait',    page:15  },
@@ -448,7 +445,7 @@ function createClassmateCard(c) {
   // Only show badge for missing and fallen — not portrait
   let badgeHtml = '';
   if (isFallen) {
-    badgeHtml = `<span class="status-badge badge-fallen"><span class="yellow-rose">🌹</span> Fallen Warrior</span>`;
+    badgeHtml = `<span class="status-badge badge-fallen">🌼 Fallen Warrior</span>`;
   } else if (isMissing) {
     badgeHtml = `<span class="status-badge badge-missing">⚠ Warriors MIA</span>`;
   }
@@ -486,7 +483,7 @@ function createClassmateCard(c) {
   if (isFallen) {
     emailHtml = `
       <div class="card-email fallen-memorial">
-        <span class="email-icon"><span class="yellow-rose">🌹</span></span>
+        <span class="email-icon">🌼</span>
         <span style="color:#C4A96A;font-style:italic;font-size:0.85rem;">In Memoriam — Forever a Warrior</span>
       </div>`;
   } else if (isMissing) {
@@ -523,7 +520,7 @@ function createClassmateCard(c) {
       <div class="card-actions">
         <a class="btn btn-fallen-share btn-xs"
           href="fallen.html#warrior-${c.id}" style="text-decoration:none;display:inline-block;">
-          <span class="yellow-rose">🌹</span> Share a Tribute
+          🌼 Share a Tribute
         </a>
       </div>`;
   } else {

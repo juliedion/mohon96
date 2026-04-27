@@ -235,9 +235,9 @@
 <!-- ═══ HERO ══════════════════════════════════════ -->
 <header class="fallen-hero">
   <div class="fallen-hero-roses">
-    <span class="yellow-rose">🌹</span>
-    <span class="yellow-rose">🌹</span>
-    <span class="yellow-rose">🌹</span>
+    🌼
+    🌼
+    🌼
   </div>
   <h1>Fallen Warriors</h1>
   <p class="fallen-hero-sub">Mohonasen Class of 1996 &mdash; those who left us too soon,<br>but never left our hearts.</p>
@@ -251,15 +251,32 @@
   <!-- ─── VICKI VANNIE ─────────────────────────── -->
   <div class="vicki-section">
     <div class="vicki-card" id="vicki-vannie">
-      <div class="vicki-rose"><span class="yellow-rose">🌹</span></div>
+      <div class="vicki-rose">🌼</div>
       <div class="vicki-title">Vicki Vannie</div>
       <div class="vicki-years">1978 &ndash; 1994</div>
       <div class="vicki-divider">— Always Remembered —</div>
       <div class="vicki-lyrics">
-        And even though I know how very<br>
+        ♪ &nbsp;&ldquo;And even though I know how very<br>
         Far apart we are<br>
         It helps to think we might be wishing<br>
-        On the same bright star
+        On the same bright star&rdquo; &nbsp; ♪
+      </div>
+
+      <!-- Tribute form for Vicki -->
+      <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(139,115,85,0.25);text-align:left;">
+        <label class="tribute-form-label" style="color:#8B7355;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;display:block;margin-bottom:0.6rem;"
+               for="tribute-vicki">Share a memory or tribute for Vicki</label>
+        <input type="text" class="tribute-author-field" id="author-vicki"
+               placeholder="Your name (optional)" autocomplete="name"
+               style="width:100%;padding:0.55rem 0.85rem;background:rgba(255,255,255,0.04);border:1px solid rgba(139,115,85,0.4);border-radius:6px;color:#F0E6C8;font-size:0.88rem;margin-bottom:0.55rem;box-sizing:border-box;font-family:'Roboto',sans-serif;">
+        <textarea class="tribute-textarea" id="tribute-vicki"
+                  placeholder="Share a memory or a few words for Vicki…"
+                  style="width:100%;padding:0.75rem 0.9rem;background:rgba(255,255,255,0.04);border:1px solid rgba(139,115,85,0.4);border-radius:6px;color:#F0E6C8;font-size:0.9rem;resize:vertical;min-height:90px;font-family:'Roboto',sans-serif;line-height:1.65;box-sizing:border-box;"></textarea>
+        <button class="btn-tribute-submit" onclick="submitVickiTribute()" style="margin-top:0.65rem;background:rgba(200,169,106,0.1);border:1px solid #8B7355;color:#C4A96A;font-size:0.82rem;font-weight:600;border-radius:6px;padding:0.5rem 1.25rem;cursor:pointer;font-family:'Roboto',sans-serif;">
+          🌼 Submit Tribute
+        </button>
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#5A5040;margin-bottom:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(139,115,85,0.2);">Tributes from Classmates</div>
+        <div id="tributes-vicki" class="tributes-list" style="text-align:left;"></div>
       </div>
     </div>
   </div>
@@ -338,7 +355,34 @@ function submitTribute(id) {
   document.getElementById('author-' + id).value  = '';
   document.getElementById('tribute-' + id).value = '';
   renderTributes(id);
-  showToast('Your tribute has been saved. Thank you. 🌹');
+  showToast('Your tribute has been saved. Thank you. 🌼');
+}
+
+function renderVickiTributes() {
+  var list = getWarriorTributes('vicki_vannie');
+  var container = document.getElementById('tributes-vicki');
+  if (!container) return;
+  if (list.length === 0) {
+    container.innerHTML = '<div class="tribute-empty">No tributes yet — be the first to share a memory of Vicki.</div>';
+  } else {
+    container.innerHTML = list.map(function(t) {
+      return '<div class="tribute-entry">' +
+        '<div class="tribute-text">"' + escHtml(t.text) + '"</div>' +
+        '<div class="tribute-meta">— ' + escHtml(t.author) + ' &nbsp;&middot;&nbsp; ' + escHtml(t.date) + '</div>' +
+        '</div>';
+    }).join('');
+  }
+}
+
+function submitVickiTribute() {
+  var author = document.getElementById('author-vicki').value.trim();
+  var text   = document.getElementById('tribute-vicki').value.trim();
+  if (!text) { showToast('Please write something before submitting.'); return; }
+  saveTribute('vicki_vannie', author, text);
+  document.getElementById('author-vicki').value  = '';
+  document.getElementById('tribute-vicki').value = '';
+  renderVickiTributes();
+  showToast('Your tribute has been saved. Thank you. 🌼');
 }
 
 function renderWarriors() {
@@ -353,7 +397,7 @@ function renderWarriors() {
         '</div>' +
       '</div>' +
       '<div class="warrior-in-memoriam">' +
-        '<span class="yellow-rose">🌹</span>' +
+        '🌼' +
         '<span>In Memoriam &mdash; Forever a Warrior</span>' +
       '</div>' +
       '<label class="tribute-form-label" for="tribute-' + w.id + '">Leave a tribute or memory for ' + w.first + '</label>' +
@@ -362,7 +406,7 @@ function renderWarriors() {
       '<textarea class="tribute-textarea" id="tribute-' + w.id + '"' +
                 ' placeholder="Share a memory, a kind word, or a tribute for ' + w.first + '…"></textarea>' +
       '<button class="btn-tribute-submit" onclick="submitTribute(' + w.id + ')">' +
-        '<span class="yellow-rose">🌹</span> Submit Tribute' +
+        '🌼 Submit Tribute' +
       '</button>' +
       '<div class="tributes-section-label">Tributes from Classmates</div>' +
       '<div id="tributes-' + w.id + '" class="tributes-list"></div>' +
@@ -395,6 +439,7 @@ function initNav() {
 
 document.addEventListener('DOMContentLoaded', function() {
   renderWarriors();
+  renderVickiTributes();
   initNav();
   var hash = window.location.hash;
   if (hash) {
