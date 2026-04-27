@@ -519,6 +519,7 @@ section { padding: 5rem 0; }
 .btn-fallen-share:hover { background: rgba(200,169,106,0.22); }
 .filter-btn.filter-fallen.active { background: #8B7355; border-color: #8B7355; color: #fff; }
 .yellow-rose { display: inline-block; filter: hue-rotate(55deg) saturate(1.5); }
+.rose-icon { height: 1.15em; width: 1.15em; vertical-align: middle; display: inline-block; }
 
 .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
 .card-avatar {
@@ -820,7 +821,7 @@ footer .footer-note { margin-top: 0.5rem; }
   user-select: none;
 }
 .alma-mater-overlay div {
-  font-size: clamp(3.5rem, 8vw, 14rem);
+  font-size: clamp(2.2rem, 5.5vw, 9rem);
   white-space: nowrap;
   display: block;
 }
@@ -1047,7 +1048,7 @@ footer .footer-note { margin-top: 0.5rem; }
   .connect-grid { grid-template-columns: 1fr; }
   .ticket-form { padding: 1.25rem; }
   .ticket-form-grid { grid-template-columns: 1fr; }
-  .alma-mater-overlay div { font-size: clamp(2.5rem, 12vw, 6rem); }
+  .alma-mater-overlay div { font-size: clamp(1.8rem, 9vw, 4rem); }
 }
 
 /* ── HERO EVENT BAR ─────────────────────────────── */

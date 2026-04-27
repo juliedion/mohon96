@@ -235,9 +235,9 @@
 <!-- ═══ HERO ══════════════════════════════════════ -->
 <header class="fallen-hero">
   <div class="fallen-hero-roses">
-    🌼
-    🌼
-    🌼
+    <img src="yellow-rose.svg" class="rose-icon" style="height:1.6rem;width:1.6rem;" alt="🌹">
+    <img src="yellow-rose.svg" class="rose-icon" style="height:1.6rem;width:1.6rem;" alt="🌹">
+    <img src="yellow-rose.svg" class="rose-icon" style="height:1.6rem;width:1.6rem;" alt="🌹">
   </div>
   <h1>Fallen Warriors</h1>
   <p class="fallen-hero-sub">Mohonasen Class of 1996 &mdash; those who left us too soon,<br>but never left our hearts.</p>
@@ -251,7 +251,7 @@
   <!-- ─── VICKI VANNIE ─────────────────────────── -->
   <div class="vicki-section">
     <div class="vicki-card" id="vicki-vannie">
-      <div class="vicki-rose">🌼</div>
+      <div class="vicki-rose"><img src="yellow-rose.svg" class="rose-icon" style="height:1.4rem;width:1.4rem;" alt="🌹"></div>
       <div class="vicki-title">Vicki Vannie</div>
       <div class="vicki-years">1978 &ndash; 1994</div>
       <div class="vicki-divider">— Always Remembered —</div>
@@ -273,7 +273,7 @@
                   placeholder="Share a memory or a few words for Vicki…"
                   style="width:100%;padding:0.75rem 0.9rem;background:rgba(255,255,255,0.04);border:1px solid rgba(139,115,85,0.4);border-radius:6px;color:#F0E6C8;font-size:0.9rem;resize:vertical;min-height:90px;font-family:'Roboto',sans-serif;line-height:1.65;box-sizing:border-box;"></textarea>
         <button class="btn-tribute-submit" onclick="submitVickiTribute()" style="margin-top:0.65rem;background:rgba(200,169,106,0.1);border:1px solid #8B7355;color:#C4A96A;font-size:0.82rem;font-weight:600;border-radius:6px;padding:0.5rem 1.25rem;cursor:pointer;font-family:'Roboto',sans-serif;">
-          🌼 Submit Tribute
+          <img src="yellow-rose.svg" class="rose-icon" style="height:1em;width:1em;" alt="🌹"> Submit Tribute
         </button>
         <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#5A5040;margin-bottom:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(139,115,85,0.2);">Tributes from Classmates</div>
         <div id="tributes-vicki" class="tributes-list" style="text-align:left;"></div>
@@ -355,7 +355,7 @@ function submitTribute(id) {
   document.getElementById('author-' + id).value  = '';
   document.getElementById('tribute-' + id).value = '';
   renderTributes(id);
-  showToast('Your tribute has been saved. Thank you. 🌼');
+  showToast('Your tribute has been saved. Thank you.');
 }
 
 function renderVickiTributes() {
@@ -382,7 +382,7 @@ function submitVickiTribute() {
   document.getElementById('author-vicki').value  = '';
   document.getElementById('tribute-vicki').value = '';
   renderVickiTributes();
-  showToast('Your tribute has been saved. Thank you. 🌼');
+  showToast('Your tribute has been saved. Thank you.');
 }
 
 function renderWarriors() {
@@ -397,7 +397,7 @@ function renderWarriors() {
         '</div>' +
       '</div>' +
       '<div class="warrior-in-memoriam">' +
-        '🌼' +
+        '<img src="yellow-rose.svg" class="rose-icon" style="height:1em;width:1em;" alt="🌹">' +
         '<span>In Memoriam &mdash; Forever a Warrior</span>' +
       '</div>' +
       '<label class="tribute-form-label" for="tribute-' + w.id + '">Leave a tribute or memory for ' + w.first + '</label>' +
@@ -406,7 +406,7 @@ function renderWarriors() {
       '<textarea class="tribute-textarea" id="tribute-' + w.id + '"' +
                 ' placeholder="Share a memory, a kind word, or a tribute for ' + w.first + '…"></textarea>' +
       '<button class="btn-tribute-submit" onclick="submitTribute(' + w.id + ')">' +
-        '🌼 Submit Tribute' +
+        '<img src="yellow-rose.svg" class="rose-icon" style="height:1em;width:1em;" alt="🌹"> Submit Tribute' +
       '</button>' +
       '<div class="tributes-section-label">Tributes from Classmates</div>' +
       '<div id="tributes-' + w.id + '" class="tributes-list"></div>' +

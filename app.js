@@ -10,11 +10,11 @@ const REUNION_DATE = new Date('2026-07-31T18:00:00');
 // status: "portrait" | "missing" = Warriors MIA | "fallen" = Fallen Warrior
 const CLASSMATES = [
   { id:1,     first:'Nichole',                   mid:'L.',        last:'Alger',                   suf:'',      full:'Nichole L. Alger',                          status:'portrait',    page:1  },
-  { id:2,     first:'Carla',                     mid:'',          last:'Askew',                   suf:'',      full:'Carla Askew',                               status:'portrait',    page:1  },
-  { id:3,     first:'Joel',                      mid:'C.',        last:'Baldwin',                 suf:'',      full:'Joel C. Baldwin',                           status:'portrait',    page:1  },
+  { id:2,     first:'Carla',                     mid:'',          last:'Askew',                   suf:'',      full:'Carla Askew',                               status:'portrait',    page:1,  email:'Y2FybGFyb2Q0MjdAZ21haWwuY29t'  },
+  { id:3,     first:'Joel',                      mid:'C.',        last:'Baldwin',                 suf:'',      full:'Joel C. Baldwin',                           status:'portrait',    page:1,  email:'amNiMDUwODEwQGdtYWlsLmNvbQ=='  },
   { id:4,     first:'Jeremy',                    mid:'',          last:'Barnes',                  suf:'',      full:'Jeremy Barnes',                             status:'missing',     page:1  },
   { id:5,     first:'Christina',                 mid:'M.',        last:'Barone',                  suf:'',      full:'Christina M. Barone',                       status:'portrait',    page:1  },
-  { id:6,     first:'Ida-Jo',                    mid:'M.',        last:'Barone',                  suf:'',      full:'Ida-Jo M. Barone',                          status:'portrait',    page:1  },
+  { id:6,     first:'Ida-Jo',                    mid:'M.',        last:'Barone',                  suf:'',      full:'Ida-Jo M. Barone',                          status:'portrait',    page:1,  email:'aWRham9zdWRhbm9AeWFob28uY29t'  },
   { id:7,     first:'Douglas',                   mid:'L.',        last:'Bartling',                suf:'',      full:'Douglas L. Bartling',                       status:'portrait',    page:1  },
   { id:8,     first:'Bethany',                   mid:'K.',        last:'Beckett',                 suf:'',      full:'Bethany K. Beckett',                        status:'portrait',    page:1  },
   { id:9,     first:'Mark',                      mid:'M.',        last:'Belschwinder',            suf:'',      full:'Mark M. Belschwinder',                      status:'portrait',    page:1  },
@@ -24,24 +24,24 @@ const CLASSMATES = [
   { id:13,    first:'Ross',                      mid:'',          last:'Boniecki',                suf:'',      full:'Ross Boniecki',                             status:'missing',     page:16  },
   { id:14,    first:'Keith',                     mid:'',          last:'Boscarino',               suf:'',      full:'Keith Boscarino',                           status:'missing',     page:1  },
   { id:15,    first:'Erin',                      mid:'',          last:'Brown',                   suf:'',      full:'Erin Brown',                                status:'portrait',    page:2  },
-  { id:16,    first:'Jeremy',                    mid:'',          last:'Buechner',                suf:'',      full:'Jeremy Buechner',                           status:'portrait',    page:2  },
+  { id:16,    first:'Jeremy',                    mid:'',          last:'Buechner',                suf:'',      full:'Jeremy Buechner',                           status:'portrait',    page:2,  email:'bG9jYWxhY3RvcnNndWlsZEBnbWFpbC5jb20='  },
   { id:18,    first:'Kelly',                     mid:'',          last:'Burke',                   suf:'',      full:'Kelly Burke',                               status:'portrait',    page:2  },
   { id:19,    first:'Wendy',                     mid:'',          last:'Butterfield',             suf:'',      full:'Wendy Butterfield',                         status:'portrait',    page:2  },
   { id:20,    first:'Julie',                     mid:'C.',        last:'Buyea',                   suf:'',      full:'Julie C. Buyea',                            status:'portrait',    page:2  },
   { id:21,    first:'Lawrence',                  mid:'J.',        last:'Caban',                   suf:'',      full:'Lawrence J. Caban',                         status:'missing',     page:2  },
   { id:22,    first:'Renee',                     mid:'E.',        last:'Capeless',                suf:'',      full:'Renee E. Capeless',                         status:'fallen',      page:2  },
   { id:23,    first:'John',                      mid:'C.',        last:'Carey',                   suf:'',      full:'John C. Carey',                             status:'missing',     page:3  },
-  { id:24,    first:'Carrie',                    mid:'',          last:'Carlow',                  suf:'',      full:'Carrie Carlow',                             status:'portrait',    page:2  },
+  { id:24,    first:'Carrie',                    mid:'',          last:'Carlow',                  suf:'',      full:'Carrie Carlow',                             status:'portrait',    page:2,  email:'Y3Jhc2hmb3JkMDEwNEBnbWFpbC5jb20='  },
   { id:25,    first:'Cheryl',                    mid:'',          last:'Carmichael',              suf:'',      full:'Cheryl Carmichael',                         status:'portrait',    page:2  },
   { id:26,    first:'David',                     mid:'M.',        last:'Clay',                    suf:'',      full:'David M. Clay',                             status:'portrait',    page:2  },
-  { id:27,    first:'Heather',                   mid:'',          last:'Coffenberg',              suf:'',      full:'Heather Coffenberg',                        status:'portrait',    page:2  },
+  { id:27,    first:'Heather',                   mid:'',          last:'Coffenberg',              suf:'',      full:'Heather Coffenberg',                        status:'portrait',    page:2,  email:'aGVhdGhlcmNvZmZlbmJlcmdAZ21haWwuY29t'  },
   { id:28,    first:'Heather',                   mid:'',          last:'D\'Arcy',                 suf:'',      full:'Heather D\'Arcy',                           status:'portrait',    page:3  },
   { id:29,    first:'Nichole',                   mid:'L.',        last:'Davis',                   suf:'',      full:'Nichole L. Davis',                          status:'missing',     page:3  },
   { id:30,    first:'Stephanie',                 mid:'A.',        last:'DeCatur',                 suf:'',      full:'Stephanie A. DeCatur',                      status:'missing',     page:16  },
-  { id:31,    first:'Erika',                     mid:'',          last:'DeLorenzo',               suf:'',      full:'Erika DeLorenzo',                           status:'portrait',    page:3  },
+  { id:31,    first:'Erika',                     mid:'',          last:'DeLorenzo',               suf:'',      full:'Erika DeLorenzo',                           status:'portrait',    page:3,  email:'ZWxwZWF0QG91dGxvb2suY29t'  },
   { id:32,    first:'Jill',                      mid:'',          last:'DeMarco',                 suf:'',      full:'Jill De Marco',                             status:'missing',     page:3  },
   { id:33,    first:'Paul',                      mid:'M.',        last:'Demkowski',               suf:'',      full:'Paul M. Demkowski',                         status:'portrait',    page:16  },
-  { id:34,    first:'Kathleen',                  mid:'M.',        last:'Dennis',                  suf:'',      full:'Kathleen M. Dennis',                        status:'portrait',    page:3  },
+  { id:34,    first:'Kathleen',                  mid:'M.',        last:'Dennis',                  suf:'',      full:'Kathleen M. Dennis',                        status:'portrait',    page:3,  email:'a21kNzgzNEBtc24uY29t'  },
   { id:35,    first:'Mark',                      mid:'J.',        last:'Denolfo',                 suf:'Jr.',   full:'Mark J. Denolfo Jr.',                       status:'portrait',    page:3  },
   { id:36,    first:'Daniel',                    mid:'P.',        last:'DiBlasio',                suf:'',      full:'Daniel P. DiBlasio',                        status:'missing',     page:3  },
   { id:37,    first:'John',                      mid:'J.',        last:'Dillenbeck',              suf:'',      full:'John J. Dillenbeck',                        status:'missing',     page:3  },
@@ -50,7 +50,7 @@ const CLASSMATES = [
   { id:40,    first:'Mariann',                   mid:'C.',        last:'DiPiazza',                suf:'',      full:'Mariann C. DiPiazza',                       status:'portrait',    page:16  },
   { id:41,    first:'David',                     mid:'W.',        last:'Dussault',                suf:'',      full:'David W. Dussault',                         status:'missing',     page:4  },
   { id:42,    first:'Shannon',                   mid:'',          last:'D’Ambrosio',              suf:'',      full:'Shannon D’Ambrosio',                        status:'portrait',    page:16  },
-  { id:43,    first:'Heather',                   mid:'M.',        last:'Eckert',                  suf:'',      full:'Heather M. Eckert',                         status:'portrait',    page:4  },
+  { id:43,    first:'Heather',                   mid:'M.',        last:'Eckert',                  suf:'',      full:'Heather M. Eckert',                         status:'portrait',    page:4,  email:'aGVhdGhlcmpvcmRhbjAxMDNAZ21haWwuY29t'  },
   { id:44,    first:'Tracy',                     mid:'L.',        last:'Ellrott',                 suf:'',      full:'Tracy L. Ellrott',                          status:'portrait',    page:4  },
   { id:45,    first:'Rosanna',                   mid:'',          last:'Escobar',                 suf:'',      full:'Rosanna Escobar',                           status:'portrait',    page:4  },
   { id:46,    first:'Lisa',                      mid:'M.',        last:'Evans',                   suf:'',      full:'Lisa M. Evans',                             status:'portrait',    page:4  },
@@ -65,7 +65,7 @@ const CLASSMATES = [
   { id:55,    first:'Roland',                    mid:'',          last:'Gau',                     suf:'',      full:'Roland Gau',                                status:'portrait',    page:5  },
   { id:56,    first:'Randy',                     mid:'S.',        last:'George',                  suf:'',      full:'Randy S. George',                           status:'fallen',      page:5  },
   { id:57,    first:'Lori',                      mid:'',          last:'Giordano',                suf:'',      full:'Lori Giordano',                             status:'portrait',    page:16  },
-  { id:58,    first:'David',                     mid:'',          last:'Girard',                  suf:'',      full:'David Girard',                              status:'portrait',    page:5  },
+  { id:58,    first:'David',                     mid:'',          last:'Girard',                  suf:'',      full:'David Girard',                              status:'portrait',    page:5,  email:'ZGdpcmFyZDRAZ21haWwuY29t'  },
   { id:59,    first:'Timothy',                   mid:'D.',        last:'Goard',                   suf:'',      full:'Timothy D. Goard',                          status:'portrait',    page:5  },
   { id:60,    first:'Sarah',                     mid:'E.',        last:'Godlewski',               suf:'',      full:'Sarah E. Godlewski',                        status:'missing',     page:16  },
   { id:61,    first:'Keith',                     mid:'N.',        last:'Gregory',                 suf:'',      full:'Keith N. Gregory',                          status:'missing',     page:5  },
@@ -81,8 +81,8 @@ const CLASSMATES = [
   { id:71,    first:'Sarah',                     mid:'',          last:'Hall',                    suf:'',      full:'Sarah Hall',                                status:'missing',     page:6  },
   { id:72,    first:'Timothy',                   mid:'J.',        last:'Halsdorf',                suf:'',      full:'Timothy J. Halsdorf',                       status:'missing',     page:6  },
   { id:73,    first:'Danae',                     mid:'',          last:'Handy',                   suf:'',      full:'Danae Handy',                               status:'missing',     page:6  },
-  { id:74,    first:'Shannon',                   mid:'',          last:'Hayden',                  suf:'',      full:'Shannon Hayden',                            status:'portrait',    page:6  },
-  { id:75,    first:'Loretta',                   mid:'',          last:'Haynes',                  suf:'',      full:'Loretta Haynes',                            status:'portrait',    page:6  },
+  { id:74,    first:'Shannon',                   mid:'',          last:'Hayden',                  suf:'',      full:'Shannon Hayden',                            status:'portrait',    page:6,  email:'c2hhbm5vbjc3bWFyaWVAb3V0bG9vay5jb20='  },
+  { id:75,    first:'Loretta',                   mid:'',          last:'Haynes',                  suf:'',      full:'Loretta Haynes',                            status:'portrait',    page:6,  email:'bGlseWxtdEBhb2wuY29t'  },
   { id:76,    first:'Johna',                     mid:'A.',        last:'Higgins',                 suf:'',      full:'Johna A. Higgins',                          status:'missing',     page:6  },
   { id:77,    first:'Tracy',                     mid:'L.',        last:'Holland',                 suf:'',      full:'Tracy L. Holland',                          status:'portrait',    page:6  },
   { id:78,    first:'Melissa',                   mid:'',          last:'Hotaling',                suf:'',      full:'Melissa Hotaling',                          status:'missing',     page:6  },
@@ -92,14 +92,14 @@ const CLASSMATES = [
   { id:82,    first:'Jason',                     mid:'J.',        last:'Isabella',                suf:'',      full:'Jason J. Isabella',                         status:'missing',     page:7  },
   { id:83,    first:'Maria',                     mid:'E.',        last:'Isabella',                suf:'',      full:'Maria E. Isabella',                         status:'missing',     page:16  },
   { id:84,    first:'Sarah',                     mid:'E.',        last:'Jackett',                 suf:'',      full:'Sarah E. Jackett',                          status:'missing',     page:7  },
-  { id:85,    first:'Wendy',                     mid:'',          last:'Jamack',                  suf:'',      full:'Wendy Jamack',                              status:'portrait',    page:7  },
+  { id:85,    first:'Wendy',                     mid:'',          last:'Jamack',                  suf:'',      full:'Wendy Jamack',                              status:'portrait',    page:7,  email:'anVsZXNfd2VuZHlkYW5jZUB5YWhvby5jb20='  },
   { id:86,    first:'Christopher',               mid:'A.',        last:'Jones',                   suf:'',      full:'Christopher A. Jones',                      status:'missing',     page:7  },
-  { id:87,    first:'Melissa',                   mid:'M.',        last:'Jones',                   suf:'',      full:'Melissa M. Jones',                          status:'portrait',    page:7  },
+  { id:87,    first:'Melissa',                   mid:'M.',        last:'Jones',                   suf:'',      full:'Melissa M. Jones',                          status:'portrait',    page:7,  email:'bW1qYXB2QHlhaG9vLmNvbQ=='  },
   { id:88,    first:'Serena',                    mid:'E.',        last:'Kearney',                 suf:'',      full:'Serena E. Kearney',                         status:'portrait',    page:7  },
   { id:89,    first:'Stephanie',                 mid:'',          last:'Keeler',                  suf:'',      full:'Stephanie Keeler',                          status:'missing',     page:7  },
   { id:90,    first:'Megan',                     mid:'B.',        last:'Kilcullen',               suf:'',      full:'Megan B. Kilcullen',                        status:'missing',     page:7  },
   { id:91,    first:'Crystal',                   mid:'D.',        last:'Knauss',                  suf:'',      full:'Crystal D. Knauss',                         status:'missing',     page:7  },
-  { id:92,    first:'Sarah',                     mid:'',          last:'Kowalski',                suf:'',      full:'Sarah Kowalski',                            status:'portrait',    page:7  },
+  { id:92,    first:'Sarah',                     mid:'',          last:'Kowalski',                suf:'',      full:'Sarah Kowalski',                            status:'portrait',    page:7,  email:'c2FyYWhyb2JpbndyaWdodEBnbWFpbC5jb20='  },
   { id:93,    first:'Jason',                     mid:'',          last:'Kristel',                 suf:'',      full:'Jason Kristel',                             status:'missing',     page:7  },
   { id:94,    first:'Angelica',                  mid:'',          last:'LaMalfa',                 suf:'',      full:'Angelica LaMalfa',                          status:'portrait',    page:16  },
   { id:95,    first:'Shannon',                   mid:'',          last:'Lane',                    suf:'',      full:'Shannon Lane',                              status:'portrait',    page:8  },
@@ -107,14 +107,14 @@ const CLASSMATES = [
   { id:97,    first:'Timothy',                   mid:'',          last:'Lawrence',                suf:'',      full:'Timothy Lawrence',                          status:'portrait',    page:8  },
   { id:98,    first:'William',                   mid:'P.',        last:'Lederman',                suf:'',      full:'William P. Lederman',                       status:'portrait',    page:8  },
   { id:99,    first:'Mark',                      mid:'',          last:'Lesniewski',              suf:'',      full:'Mark Lesniewski',                           status:'missing',     page:16  },
-  { id:100,   first:'Christina',                 mid:'',          last:'Levito',                  suf:'',      full:'Christina Levito',                          status:'portrait',    page:8  },
+  { id:100,   first:'Christina',                 mid:'',          last:'Levito',                  suf:'',      full:'Christina Levito',                          status:'portrait',    page:8,  email:'Y3BrYWd1aWRvQGdtYWlsLmNvbQ=='  },
   { id:101,   first:'Heather',                   mid:'',          last:'Liska',                   suf:'',      full:'Heather Liska',                             status:'portrait',    page:8  },
   { id:102,   first:'Jennifer',                  mid:'De',        last:'Loreto',                  suf:'',      full:'Jennifer De Loreto',                        status:'portrait',    page:3  },
-  { id:103,   first:'Jeffrey',                   mid:'',          last:'Lupi',                    suf:'',      full:'Jeffrey Lupi',                              status:'portrait',    page:16  },
+  { id:103,   first:'Jeffrey',                   mid:'',          last:'Lupi',                    suf:'',      full:'Jeffrey Lupi',                              status:'portrait',    page:16,  email:'bnlqamVmZkBhb2wuY29t'  },
   { id:104,   first:'Richard',                   mid:'G.',        last:'Lyons',                   suf:'',      full:'Richard G. Lyons',                          status:'missing',     page:8  },
   { id:105,   first:'Nancy',                     mid:'A.',        last:'Mac',                     suf:'',      full:'Nancy A. Mac',                              status:'portrait',    page:8  },
   { id:106,   first:'David',                     mid:'',          last:'MacDormand',              suf:'Jr.',   full:'David MacDormand Jr.',                      status:'portrait',    page:8  },
-  { id:107,   first:'Cory',                      mid:'T.',        last:'Maloney',                 suf:'',      full:'Cory T. Maloney',                           status:'portrait',    page:8  },
+  { id:107,   first:'Cory',                      mid:'T.',        last:'Maloney',                 suf:'',      full:'Cory T. Maloney',                           status:'portrait',    page:8,  email:'Y3RtYWxvbmV5QHlhaG9vLmNvbQ=='  },
   { id:108,   first:'Nicholas',                  mid:'',          last:'Marano',                  suf:'',      full:'Nicholas Marano',                           status:'portrait',    page:8  },
   { id:109,   first:'Gerardo',                   mid:'',          last:'Marino',                  suf:'',      full:'Gerardo Marino',                            status:'missing',     page:9  },
   { id:110,   first:'Jennifer',                  mid:'L.',        last:'Marion',                  suf:'',      full:'Jennifer L. Marion',                        status:'portrait',    page:9  },
@@ -129,13 +129,13 @@ const CLASSMATES = [
   { id:120,   first:'Stacia',                    mid:'C.',        last:'Messere',                 suf:'',      full:'Stacia C. Messere',                         status:'portrait',    page:9  },
   { id:121,   first:'John',                      mid:'W.',        last:'Messerle',                suf:'',      full:'John W. Messerle',                          status:'portrait',    page:9  },
   { id:122,   first:'Nicole',                    mid:'M. De',     last:'Midio',                   suf:'',      full:'Nicole M. De Midio',                        status:'portrait',    page:3  },
-  { id:123,   first:'Angela',                    mid:'',          last:'Millen',                  suf:'',      full:'Angela Millen',                             status:'portrait',    page:9  },
+  { id:123,   first:'Angela',                    mid:'',          last:'Millen',                  suf:'',      full:'Angela Millen',                             status:'portrait',    page:9,  email:'YW5nYnJvb2tzMjRAZ21haWwuY29t'  },
   { id:124,   first:'Daniel',                    mid:'W.',        last:'Miller',                  suf:'',      full:'Daniel W. Miller',                          status:'missing',     page:16  },
   { id:125,   first:'Dennis',                    mid:'J.',        last:'Miller',                  suf:'',      full:'Dennis J. Miller',                          status:'missing',     page:10  },
   { id:126,   first:'Justin',                    mid:'H.',        last:'Miller',                  suf:'',      full:'Justin H. Miller',                          status:'portrait',    page:10  },
   { id:127,   first:'Brian',                     mid:'D.',        last:'Minbiole',                suf:'',      full:'Brian D. Minbiole',                         status:'fallen',      page:10  },
-  { id:128,   first:'Nicole',                    mid:'',          last:'Minersagen',              suf:'',      full:'Nicole Minersagen',                         status:'portrait',    page:10  },
-  { id:129,   first:'Mary',                      mid:'',          last:'Montgomery',              suf:'',      full:'Mary Montgomery',                           status:'portrait',    page:10  },
+  { id:128,   first:'Nicole',                    mid:'',          last:'Minersagen',              suf:'',      full:'Nicole Minersagen',                         status:'portrait',    page:10,  email:'YXVudG5pbjc4NzdAZ21haWwuY29t'  },
+  { id:129,   first:'Mary',                      mid:'',          last:'Montgomery',              suf:'',      full:'Mary Montgomery',                           status:'portrait',    page:10,  email:'bWFyeWtvbGxhcjM0QGdtYWlsLmNvbQ=='  },
   { id:130,   first:'Melissa',                   mid:'A.',        last:'Moore',                   suf:'',      full:'Melissa A. Moore',                          status:'portrait',    page:10  },
   { id:131,   first:'Melissa',                   mid:'',          last:'Morton',                  suf:'',      full:'Melissa Morton',                            status:'missing',     page:10  },
   { id:132,   first:'Monica',                    mid:'',          last:'Muniz',                   suf:'',      full:'Monica Muniz',                              status:'portrait',    page:16  },
@@ -154,17 +154,17 @@ const CLASSMATES = [
   { id:145,   first:'Carla',                     mid:'M.',        last:'Palleschi',               suf:'',      full:'Carla M. Palleschi',                        status:'portrait',    page:11  },
   { id:146,   first:'Melissa',                   mid:'A.',        last:'Palleschi',               suf:'',      full:'Melissa A. Palleschi',                      status:'missing',     page:11  },
   { id:147,   first:'Peggy',                     mid:'',          last:'Paolelli',                suf:'',      full:'Peggy Paolelli',                            status:'portrait',    page:11  },
-  { id:148,   first:'Christopher',               mid:'',          last:'Paolucci',                suf:'',      full:'Christopher Paolucci',                      status:'portrait',    page:11  },
-  { id:149,   first:'Suzanne',                   mid:'M.',        last:'Patka',                   suf:'',      full:'Suzanne M. Patka',                          status:'portrait',    page:11  },
+  { id:148,   first:'Christopher',               mid:'',          last:'Paolucci',                suf:'',      full:'Christopher Paolucci',                      status:'portrait',    page:11,  email:'Y2hyaXNwYW9sdWNjaUBnbWFpbC5jb20='  },
+  { id:149,   first:'Suzanne',                   mid:'M.',        last:'Patka',                   suf:'',      full:'Suzanne M. Patka',                          status:'portrait',    page:11,  email:'c2x1cGlhQG91dGxvb2suY29t'  },
   { id:150,   first:'Christopher',               mid:'',          last:'Peat',                    suf:'',      full:'Christopher Peat',                          status:'missing',     page:12  },
   { id:151,   first:'Andrew',                    mid:'',          last:'Pedersen',                suf:'',      full:'Andrew Pedersen',                           status:'portrait',    page:12  },
   { id:152,   first:'Steven',                    mid:'M.',        last:'Peters',                  suf:'',      full:'Steven M. Peters',                          status:'portrait',    page:12  },
-  { id:153,   first:'Gina',                      mid:'M.',        last:'Piccola',                 suf:'',      full:'Gina M. Piccola',                           status:'portrait',    page:12  },
+  { id:153,   first:'Gina',                      mid:'M.',        last:'Piccola',                 suf:'',      full:'Gina M. Piccola',                           status:'portrait',    page:12,  email:'Z2p3aW5rMzI5QGdtYWlsLmNvbQ=='  },
   { id:154,   first:'Justine',                   mid:'M.',        last:'Pierce',                  suf:'',      full:'Justine M. Pierce',                         status:'portrait',    page:12  },
   { id:155,   first:'Daniel',                    mid:'O.',        last:'Priotti',                 suf:'',      full:'Daniel O. Priotti',                         status:'portrait',    page:12  },
   { id:156,   first:'Rose',                      mid:'',          last:'Pugliese',                suf:'',      full:'Rose Pugliese',                             status:'missing',     page:12  },
   { id:157,   first:'Shane',                     mid:'',          last:'Quant',                   suf:'',      full:'Shane Quant',                               status:'portrait',    page:16  },
-  { id:158,   first:'Matthew',                   mid:'J.',        last:'Rafalik',                 suf:'',      full:'Matthew J. Rafalik',                        status:'portrait',    page:12  },
+  { id:158,   first:'Matthew',                   mid:'J.',        last:'Rafalik',                 suf:'',      full:'Matthew J. Rafalik',                        status:'portrait',    page:12,  email:'bWpyYWZhbGlrQGdtYWlsLmNvbQ=='  },
   { id:159,   first:'Nicholas',                  mid:'',          last:'Ragucci',                 suf:'',      full:'Nicholas Ragucci',                          status:'portrait',    page:12  },
   { id:160,   first:'Michael',                   mid:'A.',        last:'Randolph',                suf:'',      full:'Michael A. Randolph',                       status:'missing',     page:12  },
   { id:161,   first:'Jason',                     mid:'',          last:'Reed',                    suf:'',      full:'Jason Reed',                                status:'missing',     page:16  },
@@ -174,23 +174,23 @@ const CLASSMATES = [
   { id:165,   first:'Jodi',                      mid:'E.',        last:'Rickard',                 suf:'',      full:'Jodi E. Rickard',                           status:'portrait',    page:13  },
   { id:166,   first:'Jason',                     mid:'',          last:'Rochek',                  suf:'',      full:'Jason Rochek',                              status:'portrait',    page:13  },
   { id:167,   first:'Andrea',                    mid:'A.',        last:'Roman',                   suf:'',      full:'Andrea A. Roman',                           status:'portrait',    page:13  },
-  { id:168,   first:'Jessica',                   mid:'',          last:'Ross',                    suf:'',      full:'Jessica Ross',                              status:'portrait',    page:13  },
+  { id:168,   first:'Jessica',                   mid:'',          last:'Ross',                    suf:'',      full:'Jessica Ross',                              status:'portrait',    page:13,  email:'dm9sbGVlMThAeWFob28uY29t'  },
   { id:169,   first:'Julie',                     mid:'A.',        last:'Rosse',                   suf:'',      full:'Julie A. Rosse',                            status:'portrait',    page:13  },
   { id:170,   first:'Christopher',               mid:'J.',        last:'Rossi',                   suf:'',      full:'Christopher J. Rossi',                      status:'portrait',    page:13  },
   { id:171,   first:'Robert',                    mid:'',          last:'Rotter',                  suf:'',      full:'Robert Rotter',                             status:'portrait',    page:13  },
   { id:172,   first:'Joshua',                    mid:'R.',        last:'Sabatini',                suf:'',      full:'Joshua R. Sabatini',                        status:'missing',     page:13  },
   { id:173,   first:'Maria',                     mid:'',          last:'Sacchetti',               suf:'',      full:'Maria Sacchetti',                           status:'portrait',    page:13  },
-  { id:174,   first:'Amanda',                    mid:'',          last:'Sanger',                  suf:'',      full:'Amanda Sanger',                             status:'portrait',    page:13  },
+  { id:174,   first:'Amanda',                    mid:'',          last:'Sanger',                  suf:'',      full:'Amanda Sanger',                             status:'portrait',    page:13,  email:'YW1hbmRhLnNhbmdlckBnbWFpbC5jb20='  },
   { id:175,   first:'Luisa',                     mid:'',          last:'Santabarbara',            suf:'',      full:'Luisa Santabarbara',                        status:'portrait',    page:13  },
   { id:176,   first:'Gary',                      mid:'P.',        last:'Sarnowicz',               suf:'',      full:'Gary P. Sarnowicz',                         status:'portrait',    page:13  },
   { id:177,   first:'Sarah',                     mid:'',          last:'Schaible',                suf:'',      full:'Sarah Schaible',                            status:'portrait',    page:14  },
-  { id:178,   first:'Jennifer',                  mid:'',          last:'Schlegel',                suf:'',      full:'Jennifer Schlegel',                         status:'portrait',    page:14  },
+  { id:178,   first:'Jennifer',                  mid:'',          last:'Schlegel',                suf:'',      full:'Jennifer Schlegel',                         status:'portrait',    page:14,  email:'amVubmlmZXJtb250cnltQGdtYWlsLmNvbQ=='  },
   { id:179,   first:'Robert',                    mid:'H.',        last:'Scholz',                  suf:'Jr.',   full:'Robert H. Scholz Jr.',                      status:'missing',     page:14  },
   { id:180,   first:'Joseph',                    mid:'L.',        last:'Scott',                   suf:'',      full:'Joseph L. Scott',                           status:'portrait',    page:14  },
   { id:181,   first:'Craig',                     mid:'A.',        last:'Serafini',                suf:'',      full:'Craig A. Serafini',                         status:'portrait',    page:14  },
   { id:182,   first:'Michael',                   mid:'',          last:'Serapilio',               suf:'',      full:'Michael Serapilio',                         status:'missing',     page:14  },
   { id:183,   first:'Marisa',                    mid:'',          last:'Sgueglia',                suf:'',      full:'Marisa Sgueglia',                           status:'portrait',    page:14  },
-  { id:184,   first:'Timothy',                   mid:'P.',        last:'Shannon',                 suf:'',      full:'Timothy P. Shannon',                        status:'portrait',    page:14  },
+  { id:184,   first:'Timothy',                   mid:'P.',        last:'Shannon',                 suf:'',      full:'Timothy P. Shannon',                        status:'portrait',    page:14,  email:'ZnJ1bjEyMjFAZ21haWwuY29t'  },
   { id:185,   first:'Gina',                      mid:'L.',        last:'Sifo',                    suf:'',      full:'Gina L. Sifo',                              status:'missing',     page:14  },
   { id:186,   first:'Ross',                      mid:'M.',        last:'Snyder',                  suf:'',      full:'Ross M. Snyder',                            status:'missing',     page:14  },
   { id:187,   first:'Sarah',                     mid:'',          last:'Snyder',                  suf:'',      full:'Sarah Snyder',                              status:'portrait',    page:14  },
@@ -445,7 +445,7 @@ function createClassmateCard(c) {
   // Only show badge for missing and fallen — not portrait
   let badgeHtml = '';
   if (isFallen) {
-    badgeHtml = `<span class="status-badge badge-fallen">🌼 Fallen Warrior</span>`;
+    badgeHtml = `<span class="status-badge badge-fallen"><img src="yellow-rose.svg" class="rose-icon" alt="🌹"> Fallen Warrior</span>`;
   } else if (isMissing) {
     badgeHtml = `<span class="status-badge badge-missing">⚠ Warriors MIA</span>`;
   }
@@ -483,7 +483,7 @@ function createClassmateCard(c) {
   if (isFallen) {
     emailHtml = `
       <div class="card-email fallen-memorial">
-        <span class="email-icon">🌼</span>
+        <span class="email-icon"><img src="yellow-rose.svg" class="rose-icon" alt="🌹"></span>
         <span style="color:#C4A96A;font-style:italic;font-size:0.85rem;">In Memoriam — Forever a Warrior</span>
       </div>`;
   } else if (isMissing) {
@@ -493,7 +493,8 @@ function createClassmateCard(c) {
         <span class="no-email-text urgent">Warrior Missing in Action!</span>
       </div>`;
   } else {
-    const storedEmail = getStoredEmail(c.id);
+    const preEmail    = c.email ? atob(c.email) : null;
+    const storedEmail = getStoredEmail(c.id) || preEmail;
     if (storedEmail) {
       const masked = storedEmail.replace(/(.{2}).*(@.*)/, '$1***$2');
       emailHtml = `
@@ -520,10 +521,11 @@ function createClassmateCard(c) {
       <div class="card-actions">
         <a class="btn btn-fallen-share btn-xs"
           href="fallen.html#warrior-${c.id}" style="text-decoration:none;display:inline-block;">
-          🌼 Share a Tribute
+          <img src="yellow-rose.svg" class="rose-icon" alt="🌹"> Share a Tribute
         </a>
       </div>`;
   } else {
+    const fbUrl = `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.full)}`;
     actionsHtml = `
       <div class="card-actions">
         <span class="card-know-text">Do you know ${c.first}?</span>
@@ -531,6 +533,8 @@ function createClassmateCard(c) {
           onclick="showForwardModal('${c.full.replace(/'/g,"\'")}', ${isMissing}, '${c.first.replace(/'/g,"\'")}')">
           📨 Forward them a notification
         </button>
+        <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener"
+           style="font-size:0.72rem;text-decoration:none;">📘 Find on Facebook</a>
         ${profileBtnHtml}
       </div>`;
   }

@@ -92,15 +92,15 @@
   <div class="container">
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-num" id="statTotal">213</div>
+        <div class="stat-num" id="statTotal">210</div>
         <div class="stat-label">Classmates Tracked</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num" id="statPortrait">135</div>
+        <div class="stat-num" id="statPortrait">136</div>
         <div class="stat-label">Senior Portraits</div>
       </div>
       <div class="stat-item" style="color:var(--missing-red);">
-        <div class="stat-num" id="statMissing" style="color:var(--missing-red);">73</div>
+        <div class="stat-num" id="statMissing" style="color:var(--missing-red);">70</div>
         <div class="stat-label">Warriors MIA</div>
       </div>
       <div class="stat-item" style="color:#C4A96A;">
@@ -121,7 +121,7 @@
     </div>
 
     <!-- Actual reunion flyer -->
-    <div style="max-width:480px;margin:0 auto 2rem;">
+    <div style="max-width:680px;margin:0 auto 2rem;">
       <img src="flyer.png" alt="Mohonasen Class of 1996 — 30-Year Reunion Invitation"
            style="width:100%;border-radius:10px;box-shadow:0 0 0 6px rgba(244,123,32,0.2),0 20px 56px rgba(0,0,0,0.65);display:block;">
     </div>
@@ -129,7 +129,8 @@
     <!-- Action buttons -->
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
       <a href="#tickets" class="btn btn-primary">🎟 Get Tickets &mdash; $20</a>
-      <a href="#connect" class="btn btn-outline" style="color:var(--orange);border-color:var(--orange);">📞 Contact Organizers</a>
+      <a href="flyer.png" download="MHS96-Reunion-Flyer.png" class="btn btn-outline" style="color:var(--orange);border-color:var(--orange);">⬇ Download &amp; Print Flyer</a>
+      <a href="#connect" class="btn btn-outline" style="color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.3);">📞 Contact Organizers</a>
     </div>
   </div>
 </section>
@@ -194,7 +195,7 @@
     <div class="section-header">
       <h2><span class="accent">Class of &rsquo;96</span> Directory</h2>
       <div class="divider"></div>
-      <p>All <strong>213 classmates</strong> — sorted alphabetically by last name. Fallen and missing Warriors are flagged.
+      <p>All <strong>210 classmates</strong> — sorted alphabetically by last name. Fallen and missing Warriors are flagged.
          Use the forward buttons to help us find Warriors MIA!</p>
     </div>
 
@@ -218,7 +219,7 @@
         <button class="filter-btn active"       data-filter="all">All</button>
         <button class="filter-btn filter-missing" data-filter="missing">⚠ Warriors MIA</button>
         <button class="filter-btn filter-portrait" data-filter="portrait">📷 Portraits</button>
-        <button class="filter-btn filter-fallen"  data-filter="fallen">🌼 Fallen Warriors</button>
+        <button class="filter-btn filter-fallen"  data-filter="fallen"><img src="yellow-rose.svg" class="rose-icon" alt="🌹"> Fallen Warriors</button>
       </div>
       <span class="results-count" id="resultsCount"></span>
     </div>
