@@ -519,7 +519,7 @@ section { padding: 5rem 0; }
 .btn-fallen-share:hover { background: rgba(200,169,106,0.22); }
 .filter-btn.filter-fallen.active { background: #8B7355; border-color: #8B7355; color: #fff; }
 .yellow-rose { display: inline-block; filter: hue-rotate(55deg) saturate(1.5); }
-.rose-icon { height: 1.6em; width: 1.6em; vertical-align: middle; display: inline-block; filter: sepia(1) hue-rotate(22deg) saturate(4) brightness(1.05); }
+.rose-icon { height: 1.6em; width: 1.6em; vertical-align: middle; display: inline-block; }
 
 .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
 .card-edit-email-link { font-size: 0.72rem; color: var(--text-muted); text-decoration: underline; cursor: pointer; padding-left: 0.1rem; }
