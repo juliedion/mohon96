@@ -805,21 +805,21 @@ footer .footer-note { margin-top: 0.5rem; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-45deg);
-  width: 300vw;
+  width: 400vw;
   text-align: center;
   color: var(--white);
-  opacity: 0.05;
+  opacity: 0.055;
   font-family: 'Oswald', system-ui, sans-serif;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  line-height: 0.95;
+  letter-spacing: 0.04em;
+  line-height: 1;
   pointer-events: none;
   z-index: 0;
   user-select: none;
 }
 .alma-mater-overlay div {
-  font-size: clamp(2.5rem, 6vw, 11rem);
+  font-size: clamp(3.5rem, 8vw, 14rem);
   white-space: nowrap;
   display: block;
 }
@@ -1046,7 +1046,7 @@ footer .footer-note { margin-top: 0.5rem; }
   .connect-grid { grid-template-columns: 1fr; }
   .ticket-form { padding: 1.25rem; }
   .ticket-form-grid { grid-template-columns: 1fr; }
-  .alma-mater-overlay div { font-size: clamp(1.5rem, 9vw, 4rem); }
+  .alma-mater-overlay div { font-size: clamp(2.5rem, 12vw, 6rem); }
 }
 
 /* ── HERO EVENT BAR ─────────────────────────────── */

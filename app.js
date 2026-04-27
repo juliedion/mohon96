@@ -853,15 +853,13 @@ function saveProfile() {
     data.spouse      ? `Spouse/Partner: ${data.spouse}` : null,
     data.children    ? `Children: ${data.children}` : null,
     data.career      ? `Career: ${data.career}` : null,
-    data.memory      ? `Favorite Memory:
-${data.memory}` : null,
+    data.memory      ? `Favorite Memory:\n${data.memory}` : null,
     '',
     `Submitted: ${new Date().toLocaleDateString()}`
   ].filter(l => l !== null);
 
   const subject = encodeURIComponent(`MHS '96 Profile Update — ${name}`);
-  const body    = encodeURIComponent(lines.join('
-'));
+  const body    = encodeURIComponent(lines.join('\n'));
   window.open(`mailto:juliedion1@gmail.com?subject=${subject}&body=${body}`, '_self');
 
   closeProfileModal();
@@ -897,9 +895,47 @@ function generateConfCode() {
   return code;
 }
 
+function renderAttendeeFields(qty) {
+  const container = document.getElementById('attendeeNames');
+  if (!container) return;
+  const primaryName = document.getElementById('ticketName').value.trim();
+  const existing = [];
+  container.querySelectorAll('input[data-attendee]').forEach(el => existing.push(el.value));
+
+  let html = `<div style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:0.25rem;">
+    Who is attending? <span style="font-weight:400;text-transform:none;color:var(--text-muted);">(one name per ticket)</span></div>`;
+  for (let i = 0; i < qty; i++) {
+    const placeholder = i === 0 ? (primaryName || 'Ticket 1 — your name') : `Ticket ${i + 1} — attendee name`;
+    const val = existing[i] || (i === 0 && primaryName ? primaryName : '');
+    html += `<input type="text" data-attendee="${i}" placeholder="${placeholder}"
+      value="${val.replace(/"/g, '&quot;')}"
+      style="padding:0.55rem 0.9rem;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;width:100%;transition:border 0.2s;"
+      oninput="syncPrimaryName(this, ${i})"
+      onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">`;
+  }
+  container.innerHTML = html;
+}
+
+function syncPrimaryName(el, idx) {
+  if (idx === 0) {
+    const nameInput = document.getElementById('ticketName');
+    if (nameInput) nameInput.value = el.value;
+  }
+}
+
+function getAttendeeNames(qty) {
+  const names = [];
+  for (let i = 0; i < qty; i++) {
+    const el = document.querySelector(`input[data-attendee="${i}"]`);
+    names.push(el ? el.value.trim() : '');
+  }
+  return names;
+}
+
 function updateTicketTotal() {
   const qty = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
   document.getElementById('ticketTotal').textContent = (qty * 20).toFixed(2);
+  renderAttendeeFields(qty);
 }
 
 function adjustTickets(delta) {
@@ -916,11 +952,13 @@ function submitTicketForm(e) {
   const qty   = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
   if (!name)                  { showToast('Please enter your name.'); return; }
   if (!email.includes('@'))   { showToast('Please enter a valid email address.'); return; }
+  const attendees = getAttendeeNames(qty);
+  if (attendees[0] === '') attendees[0] = name;
   const conf = generateConfCode();
-  showTicketModal(name, email, qty, conf);
+  showTicketModal(name, email, qty, conf, attendees);
 }
 
-function buildTicketCard(name, conf, num, total) {
+function buildTicketCard(attendeeName, conf, num, total) {
   return `
     <div class="ticket-card">
       <div class="ticket-band">
@@ -932,7 +970,7 @@ function buildTicketCard(name, conf, num, total) {
         <div class="ticket-info">
           <div>📅 Friday, July 31, 2026 &nbsp;·&nbsp; 6:00 PM</div>
           <div>📍 Katie O'Byrnes Irish Pub &nbsp;·&nbsp; Schenectady, NY</div>
-          <div>👤 ${name}</div>
+          <div>👤 ${attendeeName || 'Guest'}</div>
         </div>
       </div>
       <div class="ticket-stub">
@@ -943,14 +981,20 @@ function buildTicketCard(name, conf, num, total) {
     </div>`;
 }
 
-function buildTicketEmailBody(name, qty, conf, total) {
+function buildTicketEmailBody(name, qty, conf, total, attendees) {
+  const attendeeList = attendees && attendees.length
+    ? attendees.map((n, i) => `  Ticket ${i+1}: ${n || 'Guest'}`).join('\n')
+    : `  ${name}`;
   return `Hi ${name},
 
 Your tickets for the Mohonasen High School Class of 1996 Reunion are confirmed!
 
 CONFIRMATION: ${conf}
-Name: ${name}
+Purchased by: ${name}
 Tickets: ${qty} x $20 = $${total.toFixed(2)}
+
+ATTENDEES:
+${attendeeList}
 
 EVENT:
 Friday, July 31, 2026 at 6:00 PM
@@ -958,16 +1002,17 @@ Katie O'Byrnes Irish Pub
 121 Wall Street, State Street & Erie Blvd
 Schenectady, NY 12305
 
-Please bring this confirmation number to the event.
-Questions? Contact Gina Marx Pereira or Sue Patka Lupia on Facebook.
+Please bring your confirmation number to the event.
+Questions? Contact Gina Marx Pereira, Sue Patka Lupia, or Julie Dion (juliedion1@gmail.com).
 
 Go Warriors! Orange and Black!`;
 }
 
-function showTicketModal(name, email, qty, conf) {
+function showTicketModal(name, email, qty, conf, attendees) {
   const total = qty * 20;
+  attendees = attendees || [name];
   let ticketsHtml = '';
-  for (let i = 1; i <= qty; i++) ticketsHtml += buildTicketCard(name, conf, i, qty);
+  for (let i = 0; i < qty; i++) ticketsHtml += buildTicketCard(attendees[i] || name, conf, i + 1, qty);
   document.getElementById('ticketCardsContainer').innerHTML = ticketsHtml;
   document.getElementById('tModalConf').textContent  = conf;
   document.getElementById('tModalName').textContent  = name;
@@ -976,7 +1021,7 @@ function showTicketModal(name, email, qty, conf) {
   document.getElementById('tModalTotal').textContent = '$' + total.toFixed(2);
 
   const subject = `Mohonasen Class of '96 Reunion — ${qty} Ticket${qty > 1 ? 's' : ''} · ${conf}`;
-  const body = buildTicketEmailBody(name, qty, conf, total);
+  const body = buildTicketEmailBody(name, qty, conf, total, attendees);
   const emailBtn = document.getElementById('emailTicketsBtn');
   emailBtn.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
@@ -1016,6 +1061,14 @@ function initTicketForm() {
   if (form) form.addEventListener('submit', submitTicketForm);
   const qtyInput = document.getElementById('ticketQty');
   if (qtyInput) qtyInput.addEventListener('input', updateTicketTotal);
+  // Sync attendee field 0 with name field when user types their name
+  const nameInput = document.getElementById('ticketName');
+  if (nameInput) nameInput.addEventListener('input', () => {
+    const first = document.querySelector('input[data-attendee="0"]');
+    if (first && first.value === '') first.placeholder = nameInput.value || 'Ticket 1 — your name';
+  });
   const tModal = document.getElementById('ticketModal');
   if (tModal) tModal.addEventListener('click', e => { if (e.target === tModal) closeTicketModal(); });
+  // Render initial attendee field
+  renderAttendeeFields(1);
 }
