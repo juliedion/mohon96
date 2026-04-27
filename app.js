@@ -295,7 +295,7 @@ Our 30-YEAR REUNION is coming up:
    121 Wall Street, State Street & Erie Blvd
    Schenectady, NY 12305
 💰 Just $20/person · Appetizers & Cash Bar
-🏨 Hotel Block: Hampton Inn Schenectady (518) 377-4500
+🏨 Hotel: https://www.hilton.com/en/hotels/albsyhx-hampton-schenectady-downtown/
 
 If you have their contact info, please forward this to them or reply to me!
 
@@ -444,7 +444,7 @@ function createClassmateCard(c) {
   // Only show badge for missing and fallen — not portrait
   let badgeHtml = '';
   if (isFallen) {
-    badgeHtml = `<span class="status-badge badge-fallen"><img src="yellow-rose.svg" class="rose-icon" alt="🌹"> Fallen Warrior</span>`;
+    badgeHtml = `<span class="status-badge badge-fallen"><img src="yellow-rose.png" class="rose-icon" alt="🌹"> Fallen Warrior</span>`;
   } else if (isMissing) {
     badgeHtml = `<span class="status-badge badge-missing">⚠ Warriors MIA</span>`;
   }
@@ -482,7 +482,7 @@ function createClassmateCard(c) {
   if (isFallen) {
     emailHtml = `
       <div class="card-email fallen-memorial">
-        <span class="email-icon"><img src="yellow-rose.svg" class="rose-icon" alt="🌹"></span>
+        <span class="email-icon"><img src="yellow-rose.png" class="rose-icon" alt="🌹"></span>
         <span style="color:#C4A96A;font-style:italic;font-size:0.85rem;line-height:1.5;">In Memoriam &mdash;<br>Forever a Warrior</span>
       </div>`;
   } else if (isMissing) {
@@ -522,7 +522,7 @@ function createClassmateCard(c) {
       <div class="card-actions">
         <a class="btn btn-fallen-share btn-xs"
           href="fallen.html#warrior-${c.id}" style="text-decoration:none;display:inline-block;">
-          <img src="yellow-rose.svg" class="rose-icon" alt="🌹"> Share a Tribute
+          <img src="yellow-rose.png" class="rose-icon" alt="🌹"> Share a Tribute
         </a>
       </div>`;
   } else {
@@ -803,6 +803,16 @@ function sendEmailToClassmate(id) {
 let verifyEmailId   = null;
 let verifyEmailName = '';
 
+function maskPlainEmail(em) {
+  if (!em) return '';
+  const [local, domain] = em.split('@');
+  if (!domain) return em;
+  const [dname, ...tlds] = domain.split('.');
+  const maskedLocal  = local[0]  + '*'.repeat(Math.min(local.length  - 1, 5));
+  const maskedDomain = dname[0]  + '*'.repeat(Math.min(dname.length  - 1, 4));
+  return `${maskedLocal}@${maskedDomain}.${tlds.join('.')}`;
+}
+
 function openEmailVerifyModal(id, name) {
   verifyEmailId   = id;
   verifyEmailName = name;
@@ -813,6 +823,20 @@ function openEmailVerifyModal(id, name) {
   document.getElementById('verifyError2').textContent = '';
   document.getElementById('verifyStep1').style.display = 'block';
   document.getElementById('verifyStep2').style.display = 'none';
+
+  // Show masked hint of the email currently on file
+  const c = CLASSMATES.find(x => x.id === id);
+  const stored = getStoredEmail(id) || (c && c.email ? atob(c.email) : null);
+  const hint = document.getElementById('verifyEmailHint');
+  if (hint) {
+    if (stored) {
+      hint.textContent = `Email on file: ${maskPlainEmail(stored)}`;
+      hint.style.display = 'block';
+    } else {
+      hint.style.display = 'none';
+    }
+  }
+
   document.getElementById('emailVerifyModal').classList.add('active');
   setTimeout(() => document.getElementById('verifyEmailInput').focus(), 50);
 }
