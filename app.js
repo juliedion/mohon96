@@ -83,7 +83,7 @@ const CLASSMATES = [
   { id:74,    first:'Shannon',                   mid:'',          last:'Hayden',                  suf:'',      full:'Shannon Hayden',                            status:'portrait',    page:6,  email:'c2hhbm5vbjc3bWFyaWVAb3V0bG9vay5jb20=',  married:"O'Brien"    },
   { id:75,    first:'Loretta',                   mid:'',          last:'Haynes',                  suf:'',      full:'Loretta Haynes',                            status:'portrait',    page:6,  email:'bGlseWxtdEBhb2wuY29t',   married:'Murray'     },
   { id:76,    first:'Johna',                     mid:'A.',        last:'Higgins',                 suf:'',      full:'Johna A. Higgins',                          status:'missing',     page:6  },
-  { id:77,    first:'Tracy',                     mid:'L.',        last:'Holland',                 suf:'',      full:'Tracy L. Holland',                          status:'portrait',    page:6  },
+  { id:77,    first:'Tracie',                    mid:'L.',        last:'Holland',                 suf:'',      full:'Tracie L. Holland',                         status:'portrait',    page:6  },
   { id:78,    first:'Melissa',                   mid:'',          last:'Hotaling',                suf:'',      full:'Melissa Hotaling',                          status:'missing',     page:6  },
   { id:79,    first:'Sarah',                     mid:'A.',        last:'Hutchins',                suf:'',      full:'Sarah A. Hutchins',                         status:'portrait',    page:6  },
   { id:80,    first:'Laura',                     mid:'L.',        last:'Immeke',                  suf:'',      full:'Laura L. Immeke',                           status:'portrait',    page:6  },
@@ -107,7 +107,7 @@ const CLASSMATES = [
   { id:99,    first:'Mark',                      mid:'',          last:'Lesniewski',              suf:'',      full:'Mark Lesniewski',                           status:'missing',     page:16  },
   { id:100,   first:'Christina',                 mid:'',          last:'Levito',                  suf:'',      full:'Christina Levito',                          status:'portrait',    page:8,  email:'Y3BrYWd1aWRvQGdtYWlsLmNvbQ==',   married:'Guido'      },
   { id:101,   first:'Heather',                   mid:'',          last:'Liska',                   suf:'',      full:'Heather Liska',                             status:'portrait',    page:8  },
-  { id:102,   first:'Jennifer',                  mid:'De',        last:'Loreto',                  suf:'',      full:'Jennifer De Loreto',                        status:'portrait',    page:3  },
+  { id:102,   first:'Jennifer',                  mid:'',          last:'DeLoreto',                suf:'',      full:'Jennifer DeLoreto',                         status:'portrait',    page:3  },
   { id:103,   first:'Jeffrey',                   mid:'',          last:'Lupi',                    suf:'',      full:'Jeffrey Lupi',                              status:'portrait',    page:16,  email:'bnlqamVmZkBhb2wuY29t'  },
   { id:104,   first:'Richard',                   mid:'G.',        last:'Lyons',                   suf:'',      full:'Richard G. Lyons',                          status:'missing',     page:8  },
   { id:105,   first:'Nancy',                     mid:'A.',        last:'Mac',                     suf:'',      full:'Nancy A. Mac',                              status:'portrait',    page:8  },
@@ -173,7 +173,7 @@ const CLASSMATES = [
   { id:166,   first:'Jason',                     mid:'',          last:'Rochek',                  suf:'',      full:'Jason Rochek',                              status:'portrait',    page:13  },
   { id:167,   first:'Andrea',                    mid:'A.',        last:'Roman',                   suf:'',      full:'Andrea A. Roman',                           status:'portrait',    page:13  },
   { id:168,   first:'Jessica',                   mid:'',          last:'Ross',                    suf:'',      full:'Jessica Ross',                              status:'portrait',    page:13,  email:'dm9sbGVlMThAeWFob28uY29t'  },
-  { id:169,   first:'Julie',                     mid:'A.',        last:'Rosse',                   suf:'',      full:'Julie A. Rosse',                            status:'portrait',    page:13, email:'anVsaWVkaW9uMUBnbWFpbC5jb20='  },
+  { id:169,   first:'Julie',                     mid:'A.',        last:'Rosse',                   suf:'',      full:'Julie A. Rosse',                            status:'portrait',    page:13, email:'anVsaWVkaW9uMUBnbWFpbC5jb20=',  married:'Dion'       },
   { id:170,   first:'Christopher',               mid:'J.',        last:'Rossi',                   suf:'',      full:'Christopher J. Rossi',                      status:'portrait',    page:13  },
   { id:171,   first:'Robert',                    mid:'',          last:'Rotter',                  suf:'',      full:'Robert Rotter',                             status:'portrait',    page:13  },
   { id:172,   first:'Joshua',                    mid:'R.',        last:'Sabatini',                suf:'',      full:'Joshua R. Sabatini',                        status:'missing',     page:13  },
@@ -545,7 +545,7 @@ function createClassmateCard(c) {
       <div class="card-header">
         <div class="card-avatar" style="${avatarStyle}">${getInitials(c.first, c.last)}</div>
         <div class="card-name-block">
-          <div class="card-name">${c.full}</div>
+          <div class="card-name">${c.first} ${c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}
         </div>
         ${badgeHtml}
