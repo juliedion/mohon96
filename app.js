@@ -448,7 +448,7 @@ function createClassmateCard(c) {
   // Only show badge for missing and fallen — not portrait
   let badgeHtml = '';
   if (isFallen) {
-    badgeHtml = `<span class="status-badge badge-fallen">🌹 Fallen Warrior</span>`;
+    badgeHtml = `<span class="status-badge badge-fallen"><span class="yellow-rose">🌹</span> Fallen Warrior</span>`;
   } else if (isMissing) {
     badgeHtml = `<span class="status-badge badge-missing">⚠ Warriors MIA</span>`;
   }
@@ -486,7 +486,7 @@ function createClassmateCard(c) {
   if (isFallen) {
     emailHtml = `
       <div class="card-email fallen-memorial">
-        <span class="email-icon">🌹</span>
+        <span class="email-icon"><span class="yellow-rose">🌹</span></span>
         <span style="color:#C4A96A;font-style:italic;font-size:0.85rem;">In Memoriam — Forever a Warrior</span>
       </div>`;
   } else if (isMissing) {
@@ -521,10 +521,10 @@ function createClassmateCard(c) {
   if (isFallen) {
     actionsHtml = `
       <div class="card-actions">
-        <button class="btn btn-fallen-share btn-xs"
-          onclick="showTributeModal('${c.full.replace(/'/g,"\'")}')">
-          🕯 Share a Tribute
-        </button>
+        <a class="btn btn-fallen-share btn-xs"
+          href="fallen.html#warrior-${c.id}" style="text-decoration:none;display:inline-block;">
+          <span class="yellow-rose">🌹</span> Share a Tribute
+        </a>
       </div>`;
   } else {
     actionsHtml = `

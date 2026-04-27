@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fallen Warriors — Mohonasen Class of 1996</title>
+  <meta name="description" content="In memory of the Mohonasen High School Class of 1996 classmates who left us too soon. Share a tribute or memory.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    h1, h2, h3, h4, .nav-brand { font-family: 'Oswald', system-ui, sans-serif; }
+    body { font-family: 'Roboto', system-ui, sans-serif; background: #0F0F0A; }
+
+    .fallen-hero {
+      background: linear-gradient(180deg, #0A0A08 0%, #1A1A14 60%, #0F0F0A 100%);
+      padding: 5rem 1rem 3rem;
+      text-align: center;
+      border-bottom: 2px solid #8B7355;
+    }
+    .fallen-hero-roses { font-size: 1.6rem; letter-spacing: 0.8rem; margin-bottom: 1.25rem; }
+    .fallen-hero h1 {
+      color: #C4A96A;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin: 0 0 0.5rem;
+    }
+    .fallen-hero-sub {
+      color: #8B7355;
+      font-size: 0.95rem;
+      font-style: italic;
+      max-width: 520px;
+      margin: 0 auto 0.75rem;
+      line-height: 1.6;
+    }
+    .fallen-hero-note {
+      font-size: 0.8rem;
+      color: #4A4030;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .fallen-warriors-list {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .warrior-memorial {
+      background: linear-gradient(135deg, #1A1A14 0%, #252510 100%);
+      border: 2px solid #8B7355;
+      border-radius: 12px;
+      padding: 2rem;
+      scroll-margin-top: 80px;
+    }
+
+    .warrior-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(139,115,85,0.3);
+    }
+
+    .warrior-avatar {
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3A3A2A, #1A1A10);
+      border: 2px solid #8B7355;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 900; color: #C4A96A;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif;
+    }
+
+    .warrior-name {
+      color: #F0E6C8;
+      font-size: 1.35rem;
+      font-weight: 800;
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .warrior-sub { color: #8B7355; font-size: 0.82rem; margin-top: 0.2rem; }
+
+    .warrior-in-memoriam {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.82rem; color: #C4A96A; font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Tribute form */
+    .tribute-form-label {
+      display: block;
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      color: #8B7355; margin-bottom: 0.6rem;
+    }
+
+    .tribute-author-field {
+      width: 100%;
+      padding: 0.55rem 0.85rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(139,115,85,0.4);
+      border-radius: 6px;
+      color: #F0E6C8; font-size: 0.88rem;
+      margin-bottom: 0.55rem;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+      transition: border-color 0.2s;
+    }
+    .tribute-author-field::placeholder { color: #4A4030; }
+    .tribute-author-field:focus { outline: none; border-color: #C4A96A; }
+
+    .tribute-textarea {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(139,115,85,0.4);
+      border-radius: 6px;
+      color: #F0E6C8; font-size: 0.9rem;
+      resize: vertical; min-height: 100px;
+      font-family: 'Roboto', sans-serif; line-height: 1.65;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .tribute-textarea::placeholder { color: #4A4030; }
+    .tribute-textarea:focus { outline: none; border-color: #C4A96A; }
+
+    .btn-tribute-submit {
+      margin-top: 0.65rem;
+      background: rgba(200,169,106,0.1);
+      border: 1px solid #8B7355;
+      color: #C4A96A;
+      font-size: 0.82rem; font-weight: 600;
+      border-radius: 6px; padding: 0.5rem 1.25rem;
+      cursor: pointer; transition: background 0.2s;
+      font-family: 'Roboto', sans-serif;
+    }
+    .btn-tribute-submit:hover { background: rgba(200,169,106,0.22); }
+
+    .tributes-section-label {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      color: #5A5040; margin-bottom: 0.75rem; margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(139,115,85,0.2);
+    }
+
+    .tributes-list { display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .tribute-entry {
+      background: rgba(200,169,106,0.06);
+      border-left: 3px solid #8B7355;
+      padding: 0.8rem 1rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .tribute-text {
+      color: #E8D8A8; font-size: 0.9rem;
+      line-height: 1.7; font-style: italic;
+    }
+
+    .tribute-meta { font-size: 0.74rem; color: #6A5A40; margin-top: 0.4rem; }
+
+    .tribute-empty { color: #4A4030; font-size: 0.85rem; font-style: italic; }
+
+    /* Vicki Vannie */
+    .vicki-section {
+      max-width: 760px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+    }
+
+    .vicki-card {
+      background: linear-gradient(160deg, #12100E 0%, #1E1C14 100%);
+      border: 1px solid rgba(139,115,85,0.5);
+      border-top: 3px solid #8B7355;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      scroll-margin-top: 80px;
+    }
+
+    .vicki-rose { font-size: 1.4rem; margin-bottom: 1rem; }
+    .vicki-title {
+      color: #C4A96A;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.5rem; letter-spacing: 2px;
+      margin-bottom: 0.3rem;
+    }
+    .vicki-years { color: #8B7355; font-size: 0.88rem; letter-spacing: 1.5px; margin-bottom: 1.5rem; }
+    .vicki-divider { color: #5A4A30; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .vicki-lyrics {
+      color: #D4C090; font-style: italic;
+      line-height: 2.4; font-size: 0.95rem;
+      max-width: 380px; margin: 0 auto;
+    }
+
+    .back-link-bar { text-align: center; padding: 2rem 1rem 3rem; }
+    .back-link { color: #6A5A40; text-decoration: none; font-size: 0.85rem; }
+    .back-link:hover { color: #C4A96A; }
+
+    @media (max-width: 600px) {
+      .warrior-memorial { padding: 1.25rem; }
+      .fallen-hero { padding: 4.5rem 1rem 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══════════════════════════════ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-brand" style="text-decoration:none;"><span class="brand-m">M</span>ohonasen &rsquo;96</a>
+  <ul class="nav-links">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#reunion">Reunion</a></li>
+    <li><a href="index.html#bestof96">Best of &rsquo;96</a></li>
+    <li><a href="index.html#classmates">Classmates</a></li>
+    <li><a href="index.html#photos">Photos</a></li>
+    <li><a href="index.html#tickets">Tickets</a></li>
+    <li><a href="index.html#connect">Connect</a></li>
+    <li><a href="fallen.html" class="active">Fallen Warriors</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════ -->
+<header class="fallen-hero">
+  <div class="fallen-hero-roses">
+    <span class="yellow-rose">🌹</span>
+    <span class="yellow-rose">🌹</span>
+    <span class="yellow-rose">🌹</span>
+  </div>
+  <h1>Fallen Warriors</h1>
+  <p class="fallen-hero-sub">Mohonasen Class of 1996 &mdash; those who left us too soon,<br>but never left our hearts.</p>
+  <p class="fallen-hero-note">Share a memory, a tribute, or a few kind words for a classmate who meant something to you.</p>
+</header>
+
+<!-- ═══ WARRIORS LIST ════════════════════════════ -->
+<main>
+  <div class="fallen-warriors-list" id="warriorList"></div>
+
+  <!-- ─── VICKI VANNIE ─────────────────────────── -->
+  <div class="vicki-section">
+    <div class="vicki-card" id="vicki-vannie">
+      <div class="vicki-rose"><span class="yellow-rose">🌹</span></div>
+      <div class="vicki-title">Vicki Vannie</div>
+      <div class="vicki-years">1978 &ndash; 1994</div>
+      <div class="vicki-divider">— Always Remembered —</div>
+      <div class="vicki-lyrics">
+        And even though I know how very<br>
+        Far apart we are<br>
+        It helps to think we might be wishing<br>
+        On the same bright star
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="back-link-bar">
+  <a href="index.html#classmates" class="back-link">← Back to Classmates</a>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const FALLEN = [
+  { id: 12,  first: 'Jason', last: 'Bolton',     full: 'Jason P. Bolton'   },
+  { id: 22,  first: 'Renee', last: 'Capeless',   full: 'Renee E. Capeless' },
+  { id: 56,  first: 'Randy', last: 'George',     full: 'Randy S. George'   },
+  { id: 127, first: 'Brian', last: 'Minbiole',   full: 'Brian D. Minbiole' },
+  { id: 204, first: 'Karen', last: 'Wainwright', full: 'Karen Wainwright'  }
+];
+
+const TRIBUTES_KEY = 'mhs96_tributes';
+
+function getTributes() {
+  try { return JSON.parse(localStorage.getItem(TRIBUTES_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+
+function getWarriorTributes(id) {
+  return getTributes()[String(id)] || [];
+}
+
+function saveTribute(id, author, text) {
+  const all = getTributes();
+  if (!all[String(id)]) all[String(id)] = [];
+  all[String(id)].unshift({
+    author: author || 'A Classmate',
+    text,
+    date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  });
+  localStorage.setItem(TRIBUTES_KEY, JSON.stringify(all));
+}
+
+function getInitials(first, last) {
+  return ((first[0] || '') + (last[0] || '')).toUpperCase();
+}
+
+function renderTributes(id) {
+  const list = getWarriorTributes(id);
+  const container = document.getElementById('tributes-' + id);
+  if (!container) return;
+  if (list.length === 0) {
+    container.innerHTML = '<div class="tribute-empty">No tributes yet — be the first to share a memory.</div>';
+  } else {
+    container.innerHTML = list.map(function(t) {
+      return '<div class="tribute-entry">' +
+        '<div class="tribute-text">“' + escHtml(t.text) + '”</div>' +
+        '<div class="tribute-meta">— ' + escHtml(t.author) + ' &nbsp;&middot;&nbsp; ' + escHtml(t.date) + '</div>' +
+        '</div>';
+    }).join('');
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function submitTribute(id) {
+  var author = document.getElementById('author-' + id).value.trim();
+  var text   = document.getElementById('tribute-' + id).value.trim();
+  if (!text) { showToast('Please write something before submitting.'); return; }
+  saveTribute(id, author, text);
+  document.getElementById('author-' + id).value  = '';
+  document.getElementById('tribute-' + id).value = '';
+  renderTributes(id);
+  showToast('Your tribute has been saved. Thank you. 🌹');
+}
+
+function renderWarriors() {
+  var list = document.getElementById('warriorList');
+  list.innerHTML = FALLEN.map(function(w) {
+    return '<div class="warrior-memorial" id="warrior-' + w.id + '">' +
+      '<div class="warrior-header">' +
+        '<div class="warrior-avatar">' + getInitials(w.first, w.last) + '</div>' +
+        '<div>' +
+          '<div class="warrior-name">' + w.full + '</div>' +
+          '<div class="warrior-sub">Mohonasen Class of 1996</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="warrior-in-memoriam">' +
+        '<span class="yellow-rose">🌹</span>' +
+        '<span>In Memoriam &mdash; Forever a Warrior</span>' +
+      '</div>' +
+      '<label class="tribute-form-label" for="tribute-' + w.id + '">Leave a tribute or memory for ' + w.first + '</label>' +
+      '<input type="text" class="tribute-author-field" id="author-' + w.id + '"' +
+             ' placeholder="Your name (optional)" autocomplete="name">' +
+      '<textarea class="tribute-textarea" id="tribute-' + w.id + '"' +
+                ' placeholder="Share a memory, a kind word, or a tribute for ' + w.first + '…"></textarea>' +
+      '<button class="btn-tribute-submit" onclick="submitTribute(' + w.id + ')">' +
+        '<span class="yellow-rose">🌹</span> Submit Tribute' +
+      '</button>' +
+      '<div class="tributes-section-label">Tributes from Classmates</div>' +
+      '<div id="tributes-' + w.id + '" class="tributes-list"></div>' +
+    '</div>';
+  }).join('');
+
+  FALLEN.forEach(function(w) { renderTributes(w.id); });
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+function initNav() {
+  var toggle = document.querySelector('.nav-toggle');
+  var links  = document.querySelector('.nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', function(e) { e.stopPropagation(); links.classList.toggle('open'); });
+    links.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { links.classList.remove('open'); }); });
+    document.addEventListener('click', function(e) {
+      if (links.classList.contains('open') && !links.contains(e.target) && e.target !== toggle) {
+        links.classList.remove('open');
+      }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  renderWarriors();
+  initNav();
+  var hash = window.location.hash;
+  if (hash) {
+    setTimeout(function() {
+      var el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 120);
+  }
+});
+</script>
+</body>
+</html>

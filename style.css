@@ -518,6 +518,7 @@ section { padding: 5rem 0; }
 }
 .btn-fallen-share:hover { background: rgba(200,169,106,0.22); }
 .filter-btn.filter-fallen.active { background: #8B7355; border-color: #8B7355; color: #fff; }
+.yellow-rose { display: inline-block; filter: hue-rotate(55deg) saturate(1.5); }
 
 .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
 .card-avatar {
