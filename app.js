@@ -363,6 +363,15 @@ Forever a Warrior. 🧡🖤`;
   if (smsBtn)   { smsBtn.textContent   = '💬 Share via Text';          smsBtn.onclick   = () => { window.open(`sms:?&body=${encodeURIComponent(body)}`); hideForwardModal(); }; }
 }
 
+function openLink(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 function forwardViaEmail() {
   const name = currentForwardName;
   const isMissing = currentForwardMissing;
@@ -370,13 +379,13 @@ function forwardViaEmail() {
     ? `Help find ${name} – Mohonasen Class of '96 Reunion`
     : `${name} – Mohonasen Class of '96 Reunion Info`;
   const body = buildForwardMessage(name, isMissing);
-  window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_self');
+  openLink(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
   hideForwardModal();
 }
 
 function forwardViaSMS() {
   const body = buildForwardMessage(currentForwardName, currentForwardMissing);
-  window.open(`sms:?&body=${encodeURIComponent(body)}`);
+  openLink(`sms:?&body=${encodeURIComponent(body)}`);
   hideForwardModal();
 }
 
@@ -526,7 +535,7 @@ function createClassmateCard(c) {
         </a>
       </div>`;
   } else {
-    const fbUrl = `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.full)}`;
+    const fbUrl = `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
     actionsHtml = `
       <div class="card-actions">
         <span class="card-know-text">Do you know ${c.first}?</span>
@@ -773,11 +782,11 @@ function submitEmail() {
   const name = c ? c.full : currentEmailName;
   const subject = encodeURIComponent(`MHS '96 Email Submission — ${name}`);
   const body    = encodeURIComponent(`Email submitted for classmate: ${name}\nEmail: ${em}\nSubmitted: ${new Date().toLocaleDateString()}`);
-  window.open(`mailto:juliedion1@gmail.com?subject=${subject}&body=${body}`, '_self');
+  try { openLink(`mailto:juliedion1@gmail.com?subject=${subject}&body=${body}`); } catch(e) {}
 
   closeEmailModal();
   renderClassmates();
-  showToast('Email saved! Check your mail app to send it to the committee.');
+  showToast('Email saved! Your card has been updated.');
 }
 
 function initEmailModal() {
@@ -796,7 +805,7 @@ function initEmailModal() {
 function sendEmailToClassmate(id) {
   const c = CLASSMATES.find(x => x.id === id);
   const email = getStoredEmail(id) || (c && c.email ? atob(c.email) : null);
-  if (email) window.location.href = 'mailto:' + email;
+  if (email) openLink('mailto:' + email);
 }
 
 // ── EMAIL VERIFY MODAL ─────────────────────────────
