@@ -513,7 +513,8 @@ function createClassmateCard(c) {
     if (storedEmail) {
       emailHtml = `
         <div class="card-email" style="flex-direction:column;align-items:flex-start;gap:0.35rem;padding:0.6rem 0.75rem;">
-          <a class="btn btn-primary btn-xs" style="font-size:0.75rem;text-decoration:none;" href="mailto:${storedEmail}">
+          <a class="btn btn-primary btn-xs" style="font-size:0.75rem;text-decoration:none;"
+             href="mailto:${storedEmail}" data-email="${storedEmail}" onclick="handleEmailClick(this)">
             📧 Email ${c.first}
           </a>
           <a href="#" class="card-edit-email-link" onclick="openEmailVerifyModal(${c.id}, '${c.full.replace(/'/g,"\\'")}');return false;">
@@ -836,11 +837,19 @@ function initEmailModal() {
   });
 }
 
-// ── SEND EMAIL (masked) ────────────────────────────
-function sendEmailToClassmate(id) {
-  const c = CLASSMATES.find(x => x.id === id);
-  const email = getStoredEmail(id) || (c && c.email ? atob(c.email) : null);
-  if (email) openLink('mailto:' + email);
+// ── EMAIL BUTTON CLICK ─────────────────────────────
+// Copies address to clipboard (fallback for users without a mail client)
+// while also letting the mailto: href fire naturally
+function handleEmailClick(el) {
+  const email = el.getAttribute('data-email');
+  if (!email) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email)
+      .then(() => showToast('📋 ' + email + ' — copied to clipboard!'))
+      .catch(() => showToast('📧 ' + email));
+  } else {
+    showToast('📧 ' + email);
+  }
 }
 
 // ── EMAIL VERIFY MODAL ─────────────────────────────
