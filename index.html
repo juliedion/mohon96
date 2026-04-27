@@ -141,7 +141,7 @@
     <div class="section-header">
       <h2>Buy <span class="accent">Tickets</span></h2>
       <div class="divider"></div>
-      <p>$20 per person &mdash; Significant others welcome. Purchase as many tickets as you need!</p>
+      <p>$20 per person &mdash; Significant others welcome.<br>Purchase as many tickets as you need!</p>
     </div>
 
     <div class="ticket-purchase-wrap">
@@ -355,14 +355,14 @@
             <span class="ci-icon">👩</span>
             <div>
               <span class="ci-name">Gina Marx Pereira</span>
-              <span class="ci-role">Reunion Organizer · Phone &amp; Email</span>
+              <span class="ci-role">Reunion Organizer</span>
             </div>
           </div>
           <div class="contact-item-c">
             <span class="ci-icon">👩</span>
             <div>
               <span class="ci-name">Sue Patka Lupia</span>
-              <span class="ci-role">Reunion Organizer · Phone &amp; Email</span>
+              <span class="ci-role">Reunion Organizer</span>
             </div>
           </div>
         </div>
@@ -535,6 +535,55 @@
     <div class="profile-modal-footer">
       <button class="btn btn-primary" onclick="saveProfile()">💾 Save &amp; Send to Committee</button>
       <button class="btn btn-ghost" onclick="closeProfileModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EMAIL VERIFY MODAL ═══════════════════════════ -->
+<div class="modal-overlay" id="emailVerifyModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <h3>🔐 Edit Email Address</h3>
+      <button class="modal-close" onclick="closeEmailVerifyModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="verifyModalTitle" style="font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:1rem;"></div>
+
+      <!-- Step 1: verify current email -->
+      <div id="verifyStep1">
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">
+          To protect your privacy, enter your <strong>current email</strong> first to confirm it&rsquo;s you.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;">
+          <label for="verifyEmailInput" style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Current Email</label>
+          <input type="email" id="verifyEmailInput" placeholder="Enter the email on file"
+                 style="padding:0.65rem 0.9rem;border:2px solid var(--border);border-radius:8px;font-size:0.95rem;width:100%;box-sizing:border-box;transition:border 0.2s;"
+                 autocomplete="email">
+        </div>
+        <div id="verifyError" style="color:#E53E3E;font-size:0.82rem;min-height:1.1rem;margin-bottom:0.5rem;"></div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="verifyOldEmail()">🔐 Verify &amp; Continue</button>
+          <button class="btn btn-ghost btn-sm" onclick="closeEmailVerifyModal()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Step 2: enter new email (revealed after verification) -->
+      <div id="verifyStep2" style="display:none;">
+        <p style="font-size:0.85rem;color:#276749;background:#F0FFF4;border-radius:6px;padding:0.6rem 0.8rem;margin-bottom:1rem;line-height:1.5;">
+          ✅ Verified! Enter your new email address below.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;">
+          <label for="newEmailInput" style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">New Email Address</label>
+          <input type="email" id="newEmailInput" placeholder="your@newemail.com"
+                 style="padding:0.65rem 0.9rem;border:2px solid var(--border);border-radius:8px;font-size:0.95rem;width:100%;box-sizing:border-box;transition:border 0.2s;"
+                 autocomplete="email">
+        </div>
+        <div id="verifyError2" style="color:#E53E3E;font-size:0.82rem;min-height:1.1rem;margin-bottom:0.5rem;"></div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="submitVerifiedEmail()">💾 Save New Email</button>
+          <button class="btn btn-ghost btn-sm" onclick="closeEmailVerifyModal()">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

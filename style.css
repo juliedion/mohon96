@@ -521,7 +521,9 @@ section { padding: 5rem 0; }
 .yellow-rose { display: inline-block; filter: hue-rotate(55deg) saturate(1.5); }
 .rose-icon { height: 1.15em; width: 1.15em; vertical-align: middle; display: inline-block; }
 
-.card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+.card-edit-email-link { font-size: 0.72rem; color: var(--text-muted); text-decoration: underline; cursor: pointer; padding-left: 0.1rem; }
+.card-edit-email-link:hover { color: var(--orange); }
 .card-avatar {
   width: 44px; height: 44px;
   border-radius: 50%;
@@ -551,6 +553,8 @@ section { padding: 5rem 0; }
   text-transform: uppercase;
   letter-spacing: 0.5px;
   flex-shrink: 0;
+  white-space: nowrap;
+  align-self: flex-start;
 }
 .badge-portrait { background: var(--portrait-bg); color: var(--portrait-blue); }
 .badge-missing { background: #FEE2E2; color: var(--missing-red); }

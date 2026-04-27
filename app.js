@@ -47,7 +47,6 @@ const CLASSMATES = [
   { id:37,    first:'John',                      mid:'J.',        last:'Dillenbeck',              suf:'',      full:'John J. Dillenbeck',                        status:'missing',     page:3  },
   { id:38,    first:'Sarah',                     mid:'',          last:'Dingley',                 suf:'',      full:'Sarah Dingley',                             status:'portrait',    page:3  },
   { id:39,    first:'Cory',                      mid:'',          last:'Dinon',                   suf:'',      full:'Cory Dinon',                                status:'portrait',    page:4  },
-  { id:40,    first:'Mariann',                   mid:'C.',        last:'DiPiazza',                suf:'',      full:'Mariann C. DiPiazza',                       status:'portrait',    page:16  },
   { id:41,    first:'David',                     mid:'W.',        last:'Dussault',                suf:'',      full:'David W. Dussault',                         status:'missing',     page:4  },
   { id:42,    first:'Shannon',                   mid:'',          last:'D’Ambrosio',              suf:'',      full:'Shannon D’Ambrosio',                        status:'portrait',    page:16  },
   { id:43,    first:'Heather',                   mid:'M.',        last:'Eckert',                  suf:'',      full:'Heather M. Eckert',                         status:'portrait',    page:4,  email:'aGVhdGhlcmpvcmRhbjAxMDNAZ21haWwuY29t'  },
@@ -484,7 +483,7 @@ function createClassmateCard(c) {
     emailHtml = `
       <div class="card-email fallen-memorial">
         <span class="email-icon"><img src="yellow-rose.svg" class="rose-icon" alt="🌹"></span>
-        <span style="color:#C4A96A;font-style:italic;font-size:0.85rem;">In Memoriam — Forever a Warrior</span>
+        <span style="color:#C4A96A;font-style:italic;font-size:0.85rem;line-height:1.5;">In Memoriam &mdash;<br>Forever a Warrior</span>
       </div>`;
   } else if (isMissing) {
     emailHtml = `
@@ -496,12 +495,14 @@ function createClassmateCard(c) {
     const preEmail    = c.email ? atob(c.email) : null;
     const storedEmail = getStoredEmail(c.id) || preEmail;
     if (storedEmail) {
-      const masked = storedEmail.replace(/(.{2}).*(@.*)/, '$1***$2');
       emailHtml = `
-        <div class="card-email">
-          <span class="email-icon">📧</span>
-          <span class="email-masked">${masked}</span>
-          <button class="btn btn-primary btn-xs" onclick="openEmailModal(${c.id}, '${c.full.replace(/'/g,"\\'")}')">Edit</button>
+        <div class="card-email" style="flex-direction:column;align-items:flex-start;gap:0.35rem;padding:0.6rem 0.75rem;">
+          <button class="btn btn-primary btn-xs" style="font-size:0.75rem;" onclick="sendEmailToClassmate(${c.id})">
+            📧 Send an Email
+          </button>
+          <a href="#" class="card-edit-email-link" onclick="openEmailVerifyModal(${c.id}, '${c.full.replace(/'/g,"\\'")}');return false;">
+            Edit my email
+          </a>
         </div>`;
     } else {
       emailHtml = `
@@ -791,6 +792,83 @@ function initEmailModal() {
   });
 }
 
+// ── SEND EMAIL (masked) ────────────────────────────
+function sendEmailToClassmate(id) {
+  const c = CLASSMATES.find(x => x.id === id);
+  const email = getStoredEmail(id) || (c && c.email ? atob(c.email) : null);
+  if (email) window.location.href = 'mailto:' + email;
+}
+
+// ── EMAIL VERIFY MODAL ─────────────────────────────
+let verifyEmailId   = null;
+let verifyEmailName = '';
+
+function openEmailVerifyModal(id, name) {
+  verifyEmailId   = id;
+  verifyEmailName = name;
+  document.getElementById('verifyModalTitle').textContent = name;
+  document.getElementById('verifyEmailInput').value = '';
+  document.getElementById('newEmailInput').value    = '';
+  document.getElementById('verifyError').textContent  = '';
+  document.getElementById('verifyError2').textContent = '';
+  document.getElementById('verifyStep1').style.display = 'block';
+  document.getElementById('verifyStep2').style.display = 'none';
+  document.getElementById('emailVerifyModal').classList.add('active');
+  setTimeout(() => document.getElementById('verifyEmailInput').focus(), 50);
+}
+
+function closeEmailVerifyModal() {
+  document.getElementById('emailVerifyModal').classList.remove('active');
+  verifyEmailId = null;
+}
+
+function verifyOldEmail() {
+  const entered = document.getElementById('verifyEmailInput').value.trim().toLowerCase();
+  if (!entered) { document.getElementById('verifyError').textContent = 'Please enter your email.'; return; }
+  const c      = CLASSMATES.find(x => x.id === verifyEmailId);
+  const stored = getStoredEmail(verifyEmailId) || (c && c.email ? atob(c.email) : null);
+  if (!stored) {
+    document.getElementById('verifyError').textContent = 'No email on file. Use "Submit your email" instead.';
+    return;
+  }
+  if (entered === stored.toLowerCase()) {
+    document.getElementById('verifyStep1').style.display = 'none';
+    document.getElementById('verifyStep2').style.display = 'block';
+    document.getElementById('verifyError').textContent = '';
+    setTimeout(() => document.getElementById('newEmailInput').focus(), 50);
+  } else {
+    document.getElementById('verifyError').textContent = 'Email does not match our records. Please try again.';
+  }
+}
+
+function submitVerifiedEmail() {
+  const newEmail = document.getElementById('newEmailInput').value.trim();
+  if (!newEmail.includes('@') || !newEmail.includes('.')) {
+    document.getElementById('verifyError2').textContent = 'Please enter a valid email address.';
+    return;
+  }
+  const emails = getEmails();
+  emails[String(verifyEmailId)] = newEmail;
+  localStorage.setItem(EMAILS_KEY, JSON.stringify(emails));
+  const c    = CLASSMATES.find(x => x.id === verifyEmailId);
+  const name = c ? c.full : verifyEmailName;
+  const subject = encodeURIComponent(`MHS '96 Email Update — ${name}`);
+  const body    = encodeURIComponent(`Email updated for: ${name}\nNew email: ${newEmail}\nUpdated: ${new Date().toLocaleDateString()}`);
+  window.open(`mailto:juliedion1@gmail.com?subject=${subject}&body=${body}`, '_self');
+  closeEmailVerifyModal();
+  renderClassmates();
+  showToast('Email updated! Check your mail app to notify the committee.');
+}
+
+function initEmailVerifyModal() {
+  const overlay = document.getElementById('emailVerifyModal');
+  if (!overlay) return;
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeEmailVerifyModal(); });
+  document.getElementById('verifyEmailInput').addEventListener('keydown', e => { if (e.key === 'Enter') verifyOldEmail(); });
+  document.getElementById('newEmailInput').addEventListener('keydown',    e => { if (e.key === 'Enter') submitVerifiedEmail(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeEmailVerifyModal(); });
+}
+
 // ── PROFILES (localStorage) ────────────────────────
 const PROFILES_KEY = 'mhs96_profiles';
 
@@ -884,6 +962,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initModal();
   initEmailModal();
+  initEmailVerifyModal();
   initProfileModal();
   initTicketForm();
 });
