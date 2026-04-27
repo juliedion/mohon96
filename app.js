@@ -6,6 +6,11 @@
 // ── REUNION INFO ───────────────────────────────────
 const REUNION_DATE = new Date('2026-07-31T18:00:00');
 
+// ── GOOGLE SHEET INTEGRATION ───────────────────────
+// After deploying the Apps Script, paste the Web App URL here:
+const APPS_SCRIPT_URL = '';
+let sheetEmails = {}; // "First Last" -> email, loaded from sheet on page load
+
 // ── CLASSMATES (from 1996 Totem Yearbook + Full Class List) ───
 // status: "portrait" | "missing" = Warriors MIA | "fallen" = Fallen Warrior
 const CLASSMATES = [
@@ -504,8 +509,7 @@ function createClassmateCard(c) {
         <span class="no-email-text urgent">Warrior Missing in Action!</span>
       </div>`;
   } else {
-    const preEmail    = c.email ? atob(c.email) : null;
-    const storedEmail = getStoredEmail(c.id) || preEmail;
+    const storedEmail = getEffectiveEmail(c);
     if (storedEmail) {
       emailHtml = `
         <div class="card-email" style="flex-direction:column;align-items:flex-start;gap:0.35rem;padding:0.6rem 0.75rem;">
@@ -753,6 +757,30 @@ function getStoredEmail(id) {
   return getEmails()[String(id)] || null;
 }
 
+// Priority: localStorage > sheet > built-in encoded email
+function getEffectiveEmail(c) {
+  return getStoredEmail(c.id)
+    || sheetEmails[c.first + ' ' + c.last]
+    || (c.email ? atob(c.email) : null);
+}
+
+async function fetchSheetEmails() {
+  if (!APPS_SCRIPT_URL) return;
+  try {
+    const res = await fetch(APPS_SCRIPT_URL);
+    if (res.ok) {
+      sheetEmails = await res.json();
+      renderClassmates();
+    }
+  } catch(e) {}
+}
+
+function saveEmailToSheet(firstName, lastName, email) {
+  if (!APPS_SCRIPT_URL) return;
+  const url = `${APPS_SCRIPT_URL}?action=save&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&email=${encodeURIComponent(email)}`;
+  fetch(url).catch(() => {});
+}
+
 let currentEmailId = null;
 let currentEmailName = '';
 
@@ -782,6 +810,10 @@ function submitEmail() {
   localStorage.setItem(EMAILS_KEY, JSON.stringify(emails));
 
   const c = CLASSMATES.find(x => x.id === parseInt(currentEmailId));
+  if (c) {
+    sheetEmails[c.first + ' ' + c.last] = em;
+    saveEmailToSheet(c.first, c.last, em);
+  }
   const name = c ? c.full : currentEmailName;
   const subject = encodeURIComponent(`MHS '96 Email Submission — ${name}`);
   const body    = encodeURIComponent(`Email submitted for classmate: ${name}\nEmail: ${em}\nSubmitted: ${new Date().toLocaleDateString()}`);
@@ -838,7 +870,7 @@ function openEmailVerifyModal(id, name) {
 
   // Show masked hint of the email currently on file
   const c = CLASSMATES.find(x => x.id === id);
-  const stored = getStoredEmail(id) || (c && c.email ? atob(c.email) : null);
+  const stored = c ? getEffectiveEmail(c) : null;
   const hint = document.getElementById('verifyEmailHint');
   if (hint) {
     if (stored) {
@@ -862,7 +894,7 @@ function verifyOldEmail() {
   const entered = document.getElementById('verifyEmailInput').value.trim().toLowerCase();
   if (!entered) { document.getElementById('verifyError').textContent = 'Please enter your email.'; return; }
   const c      = CLASSMATES.find(x => x.id === verifyEmailId);
-  const stored = getStoredEmail(verifyEmailId) || (c && c.email ? atob(c.email) : null);
+  const stored = c ? getEffectiveEmail(c) : null;
   if (!stored) {
     document.getElementById('verifyError').textContent = 'No email on file. Use "Submit your email" instead.';
     return;
@@ -887,6 +919,10 @@ function submitVerifiedEmail() {
   emails[String(verifyEmailId)] = newEmail;
   localStorage.setItem(EMAILS_KEY, JSON.stringify(emails));
   const c    = CLASSMATES.find(x => x.id === verifyEmailId);
+  if (c) {
+    sheetEmails[c.first + ' ' + c.last] = newEmail;
+    saveEmailToSheet(c.first, c.last, newEmail);
+  }
   const name = c ? c.full : verifyEmailName;
   const subject = encodeURIComponent(`MHS '96 Email Update — ${name}`);
   const body    = encodeURIComponent(`Email updated for: ${name}\nNew email: ${newEmail}\nUpdated: ${new Date().toLocaleDateString()}`);
@@ -994,6 +1030,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCountdown();
   updateStats();
   renderClassmates();
+  fetchSheetEmails(); // async: re-renders cards once sheet emails load
   initFiltersAndSearch();
   initNav();
   initModal();
