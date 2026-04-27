@@ -30,6 +30,7 @@
     <li><a href="#photos">Photos</a></li>
     <li><a href="#tickets">Tickets</a></li>
     <li><a href="#connect">Connect</a></li>
+
   </ul>
   <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
 </nav>
@@ -95,11 +96,11 @@
         <div class="stat-label">Classmates Tracked</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num" id="statPortrait">184</div>
+        <div class="stat-num" id="statPortrait">135</div>
         <div class="stat-label">Senior Portraits</div>
       </div>
       <div class="stat-item" style="color:var(--missing-red);">
-        <div class="stat-num" id="statMissing" style="color:var(--missing-red);">24</div>
+        <div class="stat-num" id="statMissing" style="color:var(--missing-red);">73</div>
         <div class="stat-label">Warriors MIA</div>
       </div>
       <div class="stat-item" style="color:#C4A96A;">
@@ -339,14 +340,14 @@
       <h2><span class="accent">Class of &rsquo;96</span> Directory</h2>
       <div class="divider"></div>
       <p>All <strong>213 classmates</strong> — sorted alphabetically by last name. Fallen and missing Warriors are flagged.
-         Use the forward buttons to help us reconnect!</p>
+         Use the forward buttons to help us find Warriors MIA!</p>
     </div>
 
     <div class="missing-notice">
       <span class="notice-icon">⚠️</span>
       <p>
         <strong>Warriors Missing in Action — We need your help!</strong><br>
-        We've lost touch with <strong id="missingCount">24</strong> classmates.
+        We've lost touch with <strong id="missingCount">73</strong> classmates.
         If you know how to reach any of them, click <strong>"Do you know…? Forward a Notification"</strong>
         on their card to send an email or text to someone who might know them.
       </p>
@@ -362,7 +363,7 @@
         <button class="filter-btn active"       data-filter="all">All</button>
         <button class="filter-btn filter-missing" data-filter="missing">⚠ Warriors MIA</button>
         <button class="filter-btn filter-portrait" data-filter="portrait">📷 Portraits</button>
-        <button class="filter-btn filter-fallen"  data-filter="fallen">✞ Fallen Warriors</button>
+        <button class="filter-btn filter-fallen"  data-filter="fallen">🌹 Fallen Warriors</button>
       </div>
       <span class="results-count" id="resultsCount"></span>
     </div>
@@ -414,66 +415,6 @@
       <div class="photo-slot"><span class="slot-icon">📷</span><span>Your photo here</span></div>
       <div class="photo-slot"><span class="slot-icon">📷</span><span>Your photo here</span></div>
     </div>
-
-  </div>
-</section>
-
-<!-- ═══ YEARBOOK ══════════════════════════════════ -->
-<section id="yearbook">
-  <div class="container">
-    <div class="section-header">
-      <h2>The <span class="accent">Totem</span></h2>
-      <div class="divider"></div>
-      <p>Mohonasen High School Class of 1996 Yearbook</p>
-    </div>
-
-    <div class="book-container">
-      <div class="book-header">
-        <div class="book-title">
-          <h3>📖 The Totem — 1996</h3>
-          <p>Mohonasen High School · Schenectady, New York</p>
-        </div>
-        <div class="book-badge">Class Yearbook</div>
-      </div>
-
-      <div class="book-body">
-        <div class="book-placeholder">
-          <div class="book-icon-wrap">📚</div>
-          <h4>Help Us Digitize The Totem!</h4>
-          <p>
-            The 1996 edition of <em>The Totem</em> has not yet been digitized or archived online.
-            Do you still have your copy? We'd love to create a shared digital archive so every
-            classmate can relive those memories!
-          </p>
-          <p style="color:rgba(255,255,255,0.5);font-size:0.83rem;">
-            If you can scan pages from your yearbook (any resolution works!), please share them
-            with the committee via our Facebook group or by reaching out to Gina or Sue.
-          </p>
-
-          <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Click to contribute yearbook scans">
-            <div class="upload-icon">📤</div>
-            <strong style="color:rgba(255,255,255,0.7);">Click here or drag &amp; drop scans</strong><br>
-            <span style="font-size:0.78rem;">JPG, PNG, PDF accepted</span>
-          </div>
-
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem;">
-            <a href="https://www.classmates.com/yearbooks/school/mohonasen-high-school/1879"
-               target="_blank" rel="noopener" class="btn btn-outline" style="font-size:0.82rem;">
-              📔 Mohonasen on Classmates.com
-            </a>
-            <a href="http://facebook.com/search/top?q=mohonasen%20hs%20class%20of%201996"
-               target="_blank" rel="noopener" class="btn btn-dark" style="font-size:0.82rem;">
-              💬 Share on Facebook Group
-            </a>
-          </div>
-
-          <p style="color:rgba(255,255,255,0.35);font-size:0.75rem;text-align:center;margin-top:0.5rem;">
-            Note: Classmates.com hosts Mohonasen yearbooks from the 1960s–1980s.
-            Your scans would be the first digital record of the Class of 1996!
-          </p>
-        </div>
-      </div>
-    </div><!-- /book-container -->
 
   </div>
 </section>
@@ -648,6 +589,35 @@
 </div>
 
 <div id="toast" class="toast"></div>
+
+<!-- ═══ EMAIL ENTRY MODAL ═════════════════════════ -->
+<div class="modal-overlay" id="emailEntryModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h3 id="emailModalTitle">📧 Add Your Email</h3>
+      <button class="modal-close" onclick="closeEmailModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">
+        Your email will be shared with the reunion committee to send updates and confirm your attendance.
+        It will not be published publicly.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.25rem;">
+        <label for="emailEntryInput" style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Email Address</label>
+        <input type="email" id="emailEntryInput" placeholder="you@example.com"
+               style="padding:0.65rem 0.9rem;border:2px solid var(--border);border-radius:8px;font-size:0.95rem;width:100%;transition:border 0.2s;"
+               autocomplete="email">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="submitEmail()">📧 Submit to Committee</button>
+        <button class="btn btn-ghost btn-sm" onclick="closeEmailModal()">Cancel</button>
+      </div>
+      <p style="font-size:0.74rem;color:var(--text-muted);margin-top:0.75rem;text-align:center;">
+        Shared only with the Mohonasen Class of 1996 reunion committee.
+      </p>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ PROFILE MODAL ══════════════════════════════ -->
 <div class="profile-modal-overlay" id="profileModal" role="dialog" aria-modal="true">
