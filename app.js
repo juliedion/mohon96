@@ -314,20 +314,23 @@ function showForwardModal(name, isMissing, firstName) {
   currentForwardName = name;
   currentForwardMissing = isMissing;
   const fn = firstName || name.split(' ')[0];
-  const overlay = document.getElementById('forwardModal');
+  const subject = isMissing
+    ? `Help find ${name} – Mohonasen Class of '96 Reunion`
+    : `${name} – Mohonasen Class of '96 Reunion Info`;
+  const msgBody = buildForwardMessage(name, isMissing);
+
   document.getElementById('modalName').textContent = `Do you know ${fn}?`;
   document.getElementById('modalDesc').textContent = isMissing
     ? `We've lost touch with ${name}. Send this message to someone who might be able to reach them!`
     : `Forward reunion details to ${name} or someone who can pass it along.`;
-  document.getElementById('modalPreview').textContent = buildForwardMessage(name, isMissing);
+  document.getElementById('modalPreview').textContent = msgBody;
 
-  // reset button labels (may have been swapped by tribute modal)
-  const emailBtn = overlay.querySelector('.modal-actions .btn-primary');
-  const smsBtn   = overlay.querySelector('.modal-actions .btn-dark');
-  if (emailBtn) { emailBtn.textContent = '📧 Send via Email'; emailBtn.onclick = forwardViaEmail; }
-  if (smsBtn)   { smsBtn.textContent   = '💬 Send via Text';  smsBtn.onclick   = forwardViaSMS;  }
+  const emailBtn = document.getElementById('forwardEmailBtn');
+  const smsBtn   = document.getElementById('forwardSmsBtn');
+  if (emailBtn) emailBtn.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msgBody)}`;
+  if (smsBtn)   smsBtn.href   = `sms:?body=${encodeURIComponent(msgBody)}`;
 
-  overlay.classList.add('active');
+  document.getElementById('forwardModal').classList.add('active');
 }
 
 function hideForwardModal() {
@@ -506,9 +509,9 @@ function createClassmateCard(c) {
     if (storedEmail) {
       emailHtml = `
         <div class="card-email" style="flex-direction:column;align-items:flex-start;gap:0.35rem;padding:0.6rem 0.75rem;">
-          <button class="btn btn-primary btn-xs" style="font-size:0.75rem;" onclick="sendEmailToClassmate(${c.id})">
+          <a class="btn btn-primary btn-xs" style="font-size:0.75rem;text-decoration:none;" href="mailto:${storedEmail}">
             📧 Email ${c.first}
-          </button>
+          </a>
           <a href="#" class="card-edit-email-link" onclick="openEmailVerifyModal(${c.id}, '${c.full.replace(/'/g,"\\'")}');return false;">
             Edit my email
           </a>

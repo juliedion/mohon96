@@ -451,12 +451,12 @@
       <div class="modal-desc" id="modalDesc"></div>
       <div class="modal-preview" id="modalPreview"></div>
       <div class="modal-actions">
-        <button class="btn btn-primary" onclick="forwardViaEmail()">
+        <a id="forwardEmailBtn" class="btn btn-primary" href="mailto:" onclick="hideForwardModal()" style="text-decoration:none;">
           📧 Send via Email
-        </button>
-        <button class="btn btn-dark" onclick="forwardViaSMS()">
+        </a>
+        <a id="forwardSmsBtn" class="btn btn-dark" href="sms:" onclick="hideForwardModal()" style="text-decoration:none;">
           💬 Send via Text
-        </button>
+        </a>
         <button class="btn btn-ghost btn-sm" onclick="copyMessage()" style="flex:0 0 auto;">
           📋 Copy
         </button>
