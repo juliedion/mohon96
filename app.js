@@ -381,19 +381,18 @@ function openLink(url) {
 }
 
 function forwardViaEmail() {
-  const name = currentForwardName;
-  const isMissing = currentForwardMissing;
-  const subject = isMissing
-    ? `Help find ${name} – Mohonasen Class of '96 Reunion`
-    : `${name} – Mohonasen Class of '96 Reunion Info`;
-  const body = buildForwardMessage(name, isMissing);
-  openLink(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  const href = document.getElementById('forwardEmailBtn').getAttribute('href');
+  if (href && href.startsWith('mailto:')) window.location.href = href;
   hideForwardModal();
 }
 
 function forwardViaSMS() {
-  const body = buildForwardMessage(currentForwardName, currentForwardMissing);
-  openLink(`sms:?&body=${encodeURIComponent(body)}`);
+  const href = document.getElementById('forwardSmsBtn').getAttribute('href');
+  if (href && href.startsWith('sms:')) window.location.href = href;
+  const body = document.getElementById('modalPreview').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(body).catch(() => {});
+  }
   hideForwardModal();
 }
 
@@ -514,7 +513,7 @@ function createClassmateCard(c) {
       emailHtml = `
         <div class="card-email" style="flex-direction:column;align-items:flex-start;gap:0.35rem;padding:0.6rem 0.75rem;">
           <a class="btn btn-primary btn-xs" style="font-size:0.75rem;text-decoration:none;"
-             href="mailto:${storedEmail}" data-email="${storedEmail}" onclick="handleEmailClick(this)">
+             href="mailto:${storedEmail}">
             📧 Email ${c.first}
           </a>
           <a href="#" class="card-edit-email-link" onclick="openEmailVerifyModal(${c.id}, '${c.full.replace(/'/g,"\\'")}');return false;">
@@ -815,14 +814,10 @@ function submitEmail() {
     sheetEmails[c.first + ' ' + c.last] = em;
     saveEmailToSheet(c.first, c.last, em);
   }
-  const name = c ? c.full : currentEmailName;
-  const subject = encodeURIComponent(`MHS '96 Email Submission — ${name}`);
-  const body    = encodeURIComponent(`Email submitted for classmate: ${name}\nEmail: ${em}\nSubmitted: ${new Date().toLocaleDateString()}`);
-  try { openLink(`mailto:juliedion1@gmail.com?subject=${subject}&body=${body}`); } catch(e) {}
 
   closeEmailModal();
   renderClassmates();
-  showToast('Email saved! Your card has been updated.');
+  showToast('✅ Email saved! Your card has been updated.');
 }
 
 function initEmailModal() {
@@ -837,20 +832,6 @@ function initEmailModal() {
   });
 }
 
-// ── EMAIL BUTTON CLICK ─────────────────────────────
-// Copies address to clipboard (fallback for users without a mail client)
-// while also letting the mailto: href fire naturally
-function handleEmailClick(el) {
-  const email = el.getAttribute('data-email');
-  if (!email) return;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(email)
-      .then(() => showToast('📋 ' + email + ' — copied to clipboard!'))
-      .catch(() => showToast('📧 ' + email));
-  } else {
-    showToast('📧 ' + email);
-  }
-}
 
 // ── EMAIL VERIFY MODAL ─────────────────────────────
 let verifyEmailId   = null;

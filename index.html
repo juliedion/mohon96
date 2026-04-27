@@ -451,10 +451,10 @@
       <div class="modal-desc" id="modalDesc"></div>
       <div class="modal-preview" id="modalPreview"></div>
       <div class="modal-actions">
-        <a id="forwardEmailBtn" class="btn btn-primary" href="mailto:" onclick="hideForwardModal()" style="text-decoration:none;">
+        <a id="forwardEmailBtn" class="btn btn-primary" href="mailto:" onclick="forwardViaEmail()" style="text-decoration:none;">
           📧 Send via Email
         </a>
-        <a id="forwardSmsBtn" class="btn btn-dark" href="sms:" onclick="hideForwardModal()" style="text-decoration:none;">
+        <a id="forwardSmsBtn" class="btn btn-dark" href="sms:" onclick="forwardViaSMS()" style="text-decoration:none;">
           💬 Send via Text
         </a>
         <button class="btn btn-ghost btn-sm" onclick="copyMessage()" style="flex:0 0 auto;">
@@ -476,7 +476,7 @@
     </div>
     <div class="modal-body">
       <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;">
-        Your email will be shared with the reunion committee to send updates and confirm your attendance.
+        Your email will appear on your card so classmates can reach you directly.
         It will not be published publicly.
       </p>
       <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.25rem;">
@@ -486,11 +486,11 @@
                autocomplete="email">
       </div>
       <div class="modal-actions">
-        <button class="btn btn-primary" onclick="submitEmail()">📧 Submit to Committee</button>
+        <button class="btn btn-primary" onclick="submitEmail()">💾 Save My Email</button>
         <button class="btn btn-ghost btn-sm" onclick="closeEmailModal()">Cancel</button>
       </div>
       <p style="font-size:0.74rem;color:var(--text-muted);margin-top:0.75rem;text-align:center;">
-        Shared only with the Mohonasen Class of 1996 reunion committee.
+        Your email will be saved and your card will update immediately.
       </p>
     </div>
   </div>
