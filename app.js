@@ -371,6 +371,11 @@ Forever a Warrior. 🧡🖤`;
   if (smsBtn)   { smsBtn.textContent   = '💬 Share via Text';          smsBtn.onclick   = () => { window.open(`sms:?&body=${encodeURIComponent(body)}`); hideForwardModal(); }; }
 }
 
+function revealEmail(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'block';
+}
+
 function openLink(url) {
   const a = document.createElement('a');
   a.href = url;
@@ -513,9 +518,10 @@ function createClassmateCard(c) {
       emailHtml = `
         <div class="card-email" style="flex-direction:column;align-items:flex-start;gap:0.35rem;padding:0.6rem 0.75rem;">
           <a class="btn btn-primary btn-xs" style="font-size:0.75rem;text-decoration:none;"
-             href="mailto:${storedEmail}">
+             href="mailto:${storedEmail}" onclick="revealEmail('er-${c.id}')">
             📧 Email ${c.first}
           </a>
+          <span id="er-${c.id}" style="display:none;font-size:0.72rem;color:var(--text-muted);word-break:break-all;">${storedEmail}</span>
           <a href="#" class="card-edit-email-link" onclick="openEmailVerifyModal(${c.id}, '${c.full.replace(/'/g,"\\'")}');return false;">
             Edit my email
           </a>
@@ -653,12 +659,10 @@ function updateStats() {
   const total    = CLASSMATES.length;
   const fallen   = CLASSMATES.filter(c => c.status === 'fallen').length;
   const missing  = CLASSMATES.filter(c => c.status === 'missing').length;
-  const portrait = CLASSMATES.filter(c => c.status === 'portrait').length;
 
-  document.getElementById('statTotal').textContent    = total;
-  document.getElementById('statPortrait').textContent = portrait;
-  document.getElementById('statMissing').textContent  = missing;
-  document.getElementById('statFallen').textContent   = fallen;
+  document.getElementById('statTotal').textContent   = total;
+  document.getElementById('statMissing').textContent = missing;
+  document.getElementById('statFallen').textContent  = fallen;
 
   // keep the missing-count notice in sync (excludes fallen)
   const mc = document.getElementById('missingCount');
