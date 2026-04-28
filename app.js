@@ -769,8 +769,11 @@ async function fetchSheetEmails() {
   try {
     const res = await fetch(APPS_SCRIPT_URL);
     if (res.ok) {
-      sheetEmails = await res.json();
-      renderClassmates();
+      const data = await res.json();
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
+        sheetEmails = data;
+        renderClassmates();
+      }
     }
   } catch(e) {}
 }
@@ -800,24 +803,28 @@ function closeEmailModal() {
 }
 
 function submitEmail() {
-  const em = document.getElementById('emailEntryInput').value.trim();
-  if (!em.includes('@') || !em.includes('.')) {
-    showToast('Please enter a valid email address.');
-    return;
-  }
-  const emails = getEmails();
-  emails[String(currentEmailId)] = em;
-  localStorage.setItem(EMAILS_KEY, JSON.stringify(emails));
+  try {
+    const em = document.getElementById('emailEntryInput').value.trim();
+    if (!em.includes('@') || !em.includes('.')) {
+      showToast('Please enter a valid email address.');
+      return;
+    }
+    const emails = getEmails();
+    emails[String(currentEmailId)] = em;
+    localStorage.setItem(EMAILS_KEY, JSON.stringify(emails));
 
-  const c = CLASSMATES.find(x => x.id === parseInt(currentEmailId));
-  if (c) {
-    sheetEmails[c.first + ' ' + c.last] = em;
-    saveEmailToSheet(c.first, c.last, em);
-  }
+    const c = CLASSMATES.find(x => x.id === parseInt(currentEmailId));
+    if (c) {
+      sheetEmails[c.first + ' ' + c.last] = em;
+      saveEmailToSheet(c.first, c.last, em);
+    }
 
-  closeEmailModal();
-  renderClassmates();
-  showToast('✅ Email saved! Your card has been updated.');
+    closeEmailModal();
+    renderClassmates();
+    showToast('✅ Email saved! Your card has been updated.');
+  } catch(err) {
+    showToast('Something went wrong. Please try again.');
+  }
 }
 
 function initEmailModal() {
