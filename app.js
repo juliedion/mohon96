@@ -4,7 +4,7 @@
 =================================================== */
 
 // ── REUNION INFO ───────────────────────────────────
-const REUNION_DATE = new Date('2026-07-31T18:00:00');
+const REUNION_DATE = new Date('2026-07-31T19:00:00');
 
 // ── GOOGLE SHEET INTEGRATION ───────────────────────
 // After deploying the Apps Script, paste the Web App URL here:
@@ -294,7 +294,7 @@ Do you know ${name} from Mohonasen High School Class of 1996?
 ${type}
 
 Our 30-YEAR REUNION is coming up:
-📅 Friday, July 31, 2026 at 6:00 PM
+📅 Friday, July 31, 2026 at 7:00 PM
 📍 Katie O'Byrnes Irish Pub
    121 Wall Street, State Street & Erie Blvd
    Schenectady, NY 12305
@@ -349,7 +349,7 @@ function showTributeModal(name) {
 
 We honor their memory at our 30-Year Reunion.
 
-📅 Friday, July 31, 2026 at 6:00 PM
+📅 Friday, July 31, 2026 at 7:00 PM
 📍 Katie O'Byrnes Irish Pub, Schenectady, NY
 
 If you have memories or photos of ${name} you'd like to share as a tribute, please reach out to Gina Marx Pereira or Sue Patka Lupia.
@@ -1122,7 +1122,7 @@ function buildTicketCard(attendeeName, conf, num, total) {
         <div class="ticket-school">Mohonasen High School — Class of 1996</div>
         <div class="ticket-title">30-Year Reunion</div>
         <div class="ticket-info">
-          <div>📅 Friday, July 31, 2026 &nbsp;·&nbsp; 6:00 PM</div>
+          <div>📅 Friday, July 31, 2026 &nbsp;·&nbsp; 7:00 PM</div>
           <div>📍 Katie O'Byrnes Irish Pub &nbsp;·&nbsp; Schenectady, NY</div>
           <div>👤 ${attendeeName || 'Guest'}</div>
         </div>
@@ -1151,7 +1151,7 @@ ATTENDEES:
 ${attendeeList}
 
 EVENT:
-Friday, July 31, 2026 at 6:00 PM
+Friday, July 31, 2026 at 7:00 PM
 Katie O'Byrnes Irish Pub
 121 Wall Street, State Street & Erie Blvd
 Schenectady, NY 12305
