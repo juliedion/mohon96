@@ -281,6 +281,76 @@ function sendEmail(b64) {
   if (em) window.open('mailto:' + em, '_self');
 }
 
+// ── ADD TO CALENDAR ────────────────────────────────
+function addToCalendar() {
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//MHS96//30-Year Reunion//EN',
+    'BEGIN:VEVENT',
+    'DTSTART:20260731T190000',
+    'DTEND:20260731T220000',
+    'SUMMARY:Mohonasen Class of 1996 — 30-Year Reunion',
+    "DESCRIPTION:Katie O'Byrnes Irish Pub\\n121 Wall Street\\, Schenectady\\, NY 12305\\nHeavy apps & small bites included. $30/person.\\nGet tickets: https://venmo.com/u/Suz-Lu",
+    "LOCATION:Katie O'Byrnes Irish Pub\\, 121 Wall Street\\, Schenectady\\, NY 12305",
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'MHS96-30Year-Reunion.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('📅 Calendar file downloaded — open it to add to your calendar!');
+}
+
+// ── CARD PHOTOS (localStorage) ─────────────────────
+const CARD_PHOTOS_KEY = 'mhs96_cardphotos';
+
+function getCardPhotos(id) {
+  try { return JSON.parse(localStorage.getItem(CARD_PHOTOS_KEY + '_' + id) || '[]'); }
+  catch(e) { return []; }
+}
+
+function handlePhotoUpload(event, id) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const img = new Image();
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    img.onload = () => {
+      const MAX = 240;
+      const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+      const canvas = document.createElement('canvas');
+      canvas.width  = Math.round(img.width  * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.78);
+      const photos = getCardPhotos(id);
+      if (photos.length >= 6) photos.shift();
+      photos.push(dataUrl);
+      localStorage.setItem(CARD_PHOTOS_KEY + '_' + id, JSON.stringify(photos));
+      renderClassmates();
+      showToast('📸 Photo added!');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function removeCardPhoto(id, index) {
+  if (!confirm('Remove this photo?')) return;
+  const photos = getCardPhotos(id);
+  photos.splice(index, 1);
+  localStorage.setItem(CARD_PHOTOS_KEY + '_' + id, JSON.stringify(photos));
+  renderClassmates();
+}
+
 // ── FORWARD MESSAGE ────────────────────────────────
 function buildForwardMessage(name, isMissing) {
   const type = isMissing
@@ -298,15 +368,13 @@ Our 30-YEAR REUNION is coming up:
 📍 Katie O'Byrnes Irish Pub
    121 Wall Street, State Street & Erie Blvd
    Schenectady, NY 12305
-💰 Just $20/person · Appetizers & Cash Bar
-🏨 Hotel: https://www.hilton.com/en/hotels/albsyhx-hampton-schenectady-downtown/
-
+ 💰 Just $30/person · Heavy Apps and small bites included. Tickets available at the door (cash or Venmo)
 If you have their contact info, please forward this to them or reply to me!
 
 Connect with us on Facebook:
 facebook.com/search/top?q=mohonasen%20hs%20class%20of%201996
 
-Contact Gina Marx Pereira or Sue Patka Lupia with any info.
+Contact the reunion committee at mohonclass96@gmail.com with any info.
 
 Go Warriors! 🧡🖤`;
 }
@@ -352,7 +420,7 @@ We honor their memory at our 30-Year Reunion.
 📅 Friday, July 31, 2026 at 7:00 PM
 📍 Katie O'Byrnes Irish Pub, Schenectady, NY
 
-If you have memories or photos of ${name} you'd like to share as a tribute, please reach out to Gina Marx Pereira or Sue Patka Lupia.
+If you have memories or photos of ${name} you'd like to share as a tribute, please reach out to the reunion committee at mohonclass96@gmail.com.
 
 Forever a Warrior. 🧡🖤`;
 
@@ -538,6 +606,26 @@ function createClassmateCard(c) {
 
   let noteHtml = c.note ? `<p class="card-note" style="font-size:0.75rem;color:#856404;background:#fff3cd;border-radius:4px;padding:4px 8px;margin-top:-4px;">💡 ${c.note}</p>` : '';
 
+  // Photos section (not for fallen warriors)
+  let photosHtml = '';
+  if (!isFallen) {
+    const cardPhotos = getCardPhotos(c.id);
+    const thumbsHtml = cardPhotos.map((src, i) =>
+      `<div class="card-photo-thumb" onclick="removeCardPhoto(${c.id}, ${i})" title="Click to remove">
+         <img src="${src}" alt="Photo ${i + 1}">
+       </div>`
+    ).join('');
+    photosHtml = `
+      <div class="card-photos-section">
+        ${thumbsHtml ? `<div class="card-photos-grid">${thumbsHtml}</div>` : ''}
+        <label class="btn-add-photo" for="pf-${c.id}" title="Upload a current photo of yourself, family, or pets">
+          📷 ${cardPhotos.length ? 'Add more' : 'Share a photo'}
+        </label>
+        <input type="file" id="pf-${c.id}" accept="image/*" style="display:none"
+          onchange="handlePhotoUpload(event, ${c.id})">
+      </div>`;
+  }
+
   let actionsHtml = '';
   if (isFallen) {
     actionsHtml = `
@@ -549,13 +637,17 @@ function createClassmateCard(c) {
       </div>`;
   } else {
     const fbUrl = `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
-    actionsHtml = `
-      <div class="card-actions">
-        <span class="card-know-text">Do you know ${c.first}?</span>
-        <button class="btn btn-forward btn-xs"
+    const hasEmail = !!getEffectiveEmail(c);
+    const forwardBtnHtml = !hasEmail
+      ? `<button class="btn btn-forward btn-xs"
           onclick="showForwardModal('${c.full.replace(/'/g,"\'")}', ${isMissing}, '${c.first.replace(/'/g,"\'")}')">
           📨 Forward them a notification
-        </button>
+        </button>`
+      : '';
+    actionsHtml = `
+      <div class="card-actions">
+        ${!hasEmail ? `<span class="card-know-text">Do you know ${c.first}?</span>` : ''}
+        ${forwardBtnHtml}
         <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener"
            style="font-size:0.72rem;text-decoration:none;">📘 Find on Facebook</a>
         ${profileBtnHtml}
@@ -575,6 +667,7 @@ function createClassmateCard(c) {
       ${noteHtml}
       ${profilePreviewHtml}
       ${emailHtml}
+      ${photosHtml}
       ${actionsHtml}
     </div>`;
 }
@@ -1088,7 +1181,7 @@ function getAttendeeNames(qty) {
 
 function updateTicketTotal() {
   const qty = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
-  document.getElementById('ticketTotal').textContent = (qty * 20).toFixed(2);
+  document.getElementById('ticketTotal').textContent = (qty * 30).toFixed(2);
   renderAttendeeFields(qty);
 }
 
@@ -1130,7 +1223,7 @@ function buildTicketCard(attendeeName, conf, num, total) {
       <div class="ticket-stub">
         <div class="stub-num">${num}<span>/ ${total}</span></div>
         <div class="stub-conf">${conf}</div>
-        <div class="stub-price">$20</div>
+        <div class="stub-price">$30</div>
       </div>
     </div>`;
 }
@@ -1145,7 +1238,7 @@ Your tickets for the Mohonasen High School Class of 1996 Reunion are confirmed!
 
 CONFIRMATION: ${conf}
 Purchased by: ${name}
-Tickets: ${qty} x $20 = $${total.toFixed(2)}
+Tickets: ${qty} x $30 = $${total.toFixed(2)}
 
 ATTENDEES:
 ${attendeeList}
@@ -1157,13 +1250,13 @@ Katie O'Byrnes Irish Pub
 Schenectady, NY 12305
 
 Please bring your confirmation number to the event.
-Questions? Contact Gina Marx Pereira, Sue Patka Lupia, or Julie Dion (juliedion1@gmail.com).
+Questions? Contact the reunion committee at mohonclass96@gmail.com or Julie Dion (juliedion1@gmail.com).
 
 Go Warriors! Orange and Black!`;
 }
 
 function showTicketModal(name, email, qty, conf, attendees) {
-  const total = qty * 20;
+  const total = qty * 30;
   attendees = attendees || [name];
   let ticketsHtml = '';
   for (let i = 0; i < qty; i++) ticketsHtml += buildTicketCard(attendees[i] || name, conf, i + 1, qty);
