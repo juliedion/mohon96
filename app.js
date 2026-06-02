@@ -663,16 +663,10 @@ function createClassmateCard(c) {
       </div>`;
   }
 
-  const initials = getInitials(c.first, c.last);
-  const avatarInner = `<img src="yearbook/${c.id}.jpg" alt="${c.first} ${c.last}"
-      style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;border-radius:50%;"
-      onerror="this.style.display='none';this.nextSibling.style.display='flex';">
-    <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${initials}</span>`;
-
   return `
     <div class="${cardClass}" data-id="${c.id}" data-name="${c.full.toLowerCase()}" data-status="${c.status}">
       <div class="card-header">
-        <div class="card-avatar" style="${avatarStyle}overflow:hidden;">${avatarInner}</div>
+        <div class="card-avatar" style="${avatarStyle}">${getInitials(c.first, c.last)}</div>
         <div class="card-name-block">
           <div class="card-name">${c.first} ${c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}
@@ -1148,13 +1142,10 @@ function openViewModal(id) {
   const displayName = `${c.first} ${c.last}${c.suf ? ' ' + c.suf : ''}`;
   const safeFullName = c.full.replace(/'/g, "\\'");
 
-  // Senior photo
+  // Avatar initials
   const photoHtml = `
-    <div class="vcm-photo-wrap">
-      <img src="yearbook/${id}.jpg" alt="${displayName}"
-        style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="vcm-initials" style="display:none;">${getInitials(c.first, c.last)}</div>
+    <div class="vcm-photo-wrap" style="background:${isFallen ? 'linear-gradient(135deg,#3A3A2A,#1A1A10)' : isMissing ? 'linear-gradient(135deg,#E53E3E,#C53030)' : 'var(--orange)'};">
+      <div class="vcm-initials" style="display:flex;">${getInitials(c.first, c.last)}</div>
     </div>`;
 
   // Badge
