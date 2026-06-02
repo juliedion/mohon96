@@ -290,12 +290,12 @@
 
 <script>
 const FALLEN = [
-  { id: 12,  first: 'Jason',  last: 'Bolton',     full: 'Jason P. Bolton'   },
-  { id: 22,  first: 'Renee',  last: 'Capeless',   full: 'Renee E. Capeless' },
-  { id: 38,  first: 'Sarah',  last: 'Dingley',    full: 'Sarah Dingley'     },
-  { id: 56,  first: 'Randy',  last: 'George',     full: 'Randy S. George'   },
-  { id: 127, first: 'Brian',  last: 'Minbiole',   full: 'Brian D. Minbiole' },
-  { id: 204, first: 'Karen',  last: 'Wainwright', full: 'Karen Wainwright'  }
+  { id: 12,  first: 'Jason',  last: 'Bolton',     full: 'Jason P. Bolton',   obit: 'https://www.demarcostonefuneralhome.com/obituaries/jason-bolton' },
+  { id: 22,  first: 'Renee',  last: 'Capeless',   full: 'Renee E. Capeless', obit: 'https://www.legacy.com/us/obituaries/dailygazette/name/renee-capeless-obituary?id=25689903' },
+  { id: 38,  first: 'Sarah',  last: 'Dingley',    full: 'Sarah Dingley',     obit: 'https://www.demarcostonefuneralhome.com/obituaries/sarah-dingley' },
+  { id: 56,  first: 'Randy',  last: 'George',     full: 'Randy S. George',   obit: 'https://www.legacy.com/obituaries/name/randy-george-obituary?pid=151250954' },
+  { id: 127, first: 'Brian',  last: 'Minbiole',   full: 'Brian D. Minbiole'  },
+  { id: 204, first: 'Karen',  last: 'Wainwright', full: 'Karen Wainwright',  obit: 'https://www.newcomeralbany.com/obituaries/karen-m-segretto' }
 ];
 
 const TRIBUTES_KEY = 'mhs96_tributes';
@@ -401,6 +401,13 @@ function renderWarriors() {
         '<img src="yellow-rose.png" class="rose-icon" style="height:1em;width:1em;" alt="🌹">' +
         '<span>In Memoriam &mdash; Forever a Warrior</span>' +
       '</div>' +
+      (w.obit ? '<div style="margin-bottom:1.25rem;">' +
+        '<a href="' + w.obit + '" target="_blank" rel="noopener" ' +
+           'style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:#C4A96A;border:1px solid rgba(196,169,106,0.4);border-radius:6px;padding:0.35rem 0.85rem;text-decoration:none;transition:background 0.2s;" ' +
+           'onmouseover="this.style.background=\'rgba(196,169,106,0.12)\'" onmouseout="this.style.background=\'\'">'+
+          '📰 Read ' + w.first + '\'s Obituary' +
+        '</a>' +
+      '</div>' : '') +
       '<label class="tribute-form-label" for="tribute-' + w.id + '">Leave a tribute or memory for ' + w.first + '</label>' +
       '<input type="text" class="tribute-author-field" id="author-' + w.id + '"' +
              ' placeholder="Your name (optional)" autocomplete="name">' +

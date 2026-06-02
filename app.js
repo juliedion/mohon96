@@ -11,6 +11,15 @@ const REUNION_DATE = new Date('2026-07-31T19:00:00');
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybR5cnvCOS8boW2BVC20Iwf9CE9AY1JfyqyGYBsJgEy4U6l8976b1KmZPYiQ5_qmSE/exec';
 let sheetEmails = {}; // "First Last" -> email, loaded from sheet on page load
 
+// ── OBITUARIES ────────────────────────────────────
+const OBITS = {
+  12:  'https://www.demarcostonefuneralhome.com/obituaries/jason-bolton',
+  22:  'https://www.legacy.com/us/obituaries/dailygazette/name/renee-capeless-obituary?id=25689903',
+  38:  'https://www.demarcostonefuneralhome.com/obituaries/sarah-dingley',
+  56:  'https://www.legacy.com/obituaries/name/randy-george-obituary?pid=151250954',
+  204: 'https://www.newcomeralbany.com/obituaries/karen-m-segretto',
+};
+
 // ── CLASSMATES (from 1996 Totem Yearbook + Full Class List) ───
 // status: "portrait" | "missing" = Warriors MIA | "fallen" = Fallen Warrior
 const CLASSMATES = [
@@ -628,12 +637,15 @@ function createClassmateCard(c) {
 
   let actionsHtml = '';
   if (isFallen) {
+    const obitUrl = OBITS[c.id] || null;
     actionsHtml = `
       <div class="card-actions">
+        <button class="btn btn-view-classmate btn-xs" onclick="openViewModal(${c.id})">👤 View Classmate</button>
         <a class="btn btn-fallen-share btn-xs"
           href="fallen.html#warrior-${c.id}" style="text-decoration:none;display:inline-block;">
           <img src="yellow-rose.png" class="rose-icon" alt="🌹"> Share a Tribute
         </a>
+        ${obitUrl ? `<a class="btn btn-ghost btn-xs" href="${obitUrl}" target="_blank" rel="noopener" style="text-decoration:none;">📰 Obituary</a>` : ''}
       </div>`;
   } else {
     const fbUrl = `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
@@ -1206,10 +1218,12 @@ function openViewModal(id) {
       ${email ? `<a class="btn btn-primary btn-sm" href="mailto:${email}">📧 Send Email</a>` : ''}
     </div>`;
   } else {
+    const obitUrl = OBITS[id] || null;
     actionsHtml = `<div class="vcm-actions">
       <a class="btn btn-fallen-share btn-sm" href="fallen.html#warrior-${id}" style="text-decoration:none;">
         <img src="yellow-rose.png" class="rose-icon" alt=""> Share a Tribute
       </a>
+      ${obitUrl ? `<a class="btn btn-ghost btn-sm" href="${obitUrl}" target="_blank" rel="noopener" style="text-decoration:none;">📰 Read Obituary</a>` : ''}
     </div>`;
   }
 
