@@ -1495,6 +1495,20 @@ footer .footer-note { margin-top: 0.5rem; }
   flex-wrap: wrap;
 }
 
+/* ── REPORT FALLEN LINK ─────────────────────────── */
+.report-fallen-link {
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: auto;
+  align-self: flex-end;
+  opacity: 0.6;
+  transition: opacity 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.report-fallen-link:hover { opacity: 1; color: #C4A96A; text-decoration: none; }
+
 /* ── CARD PHOTOS ────────────────────────────────── */
 .card-photos-section {
   padding: 0.5rem 0.75rem 0.4rem;

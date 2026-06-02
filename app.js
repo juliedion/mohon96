@@ -652,7 +652,7 @@ function createClassmateCard(c) {
         ${obitUrl ? `<a class="btn btn-ghost btn-xs" href="${obitUrl}" target="_blank" rel="noopener" style="text-decoration:none;">📰 Obituary</a>` : ''}
       </div>`;
   } else {
-    const fbUrl = c.facebook || `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
+    const fbUrl   = c.facebook || (isMissing ? null : `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`);
     const fbLabel = c.facebook ? '📘 Facebook Profile' : '📘 Find on Facebook';
     const hasEmail = !!getEffectiveEmail(c);
     const forwardBtnHtml = !hasEmail
@@ -674,15 +674,16 @@ function createClassmateCard(c) {
         </button>
         ${miaPrompt}
         ${forwardBtnHtml}
-        <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener"
-           style="font-size:0.72rem;text-decoration:none;">${fbLabel}</a>
+        ${fbUrl ? `<a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener" style="font-size:0.72rem;text-decoration:none;">${fbLabel}</a>` : ''}
         ${profileBtnHtml}
+        <a href="#" class="report-fallen-link"
+          onclick="openReportFallenModal(${c.id},'${c.full.replace(/'/g,"\\'")}');return false;">*Report Fallen</a>
       </div>`;
   }
 
   const initials = getInitials(c.first, c.last);
   const avatarContent = `<img src="yearbook/${c.id}.jpg" alt="${c.first}"
-      style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;border-radius:50%;"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 22%;border-radius:50%;"
       onerror="this.style.display='none';this.nextSibling.style.display='flex';">
     <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${initials}</span>`;
 
@@ -1164,6 +1165,57 @@ function initProfileModal() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeProfileModal(); });
 }
 
+// ── REPORT FALLEN MODAL ────────────────────────────
+let rfCurrentId   = null;
+let rfCurrentName = '';
+
+function openReportFallenModal(id, name) {
+  rfCurrentId   = id;
+  rfCurrentName = name;
+  document.getElementById('rfClassmateName').textContent = 'Classmate: ' + name;
+  document.getElementById('rfReporterName').value = '';
+  document.getElementById('rfObitUrl').value      = '';
+  document.getElementById('rfDetails').value      = '';
+  document.getElementById('reportFallenModal').classList.add('active');
+}
+
+function closeReportFallenModal() {
+  document.getElementById('reportFallenModal').classList.remove('active');
+  rfCurrentId = null;
+}
+
+async function submitReportFallen() {
+  const reporter = document.getElementById('rfReporterName').value.trim();
+  const obit     = document.getElementById('rfObitUrl').value.trim();
+  const details  = document.getElementById('rfDetails').value.trim();
+  const btn      = document.getElementById('rfSubmitBtn');
+
+  btn.disabled = true; btn.textContent = 'Sending…';
+
+  const params = new URLSearchParams({
+    action:   'reportfallen',
+    id:       String(rfCurrentId),
+    name:     rfCurrentName,
+    reporter,
+    obit,
+    details,
+  });
+  try {
+    await fetch(APPS_SCRIPT_URL + '?' + params.toString());
+  } catch(e) {}
+
+  closeReportFallenModal();
+  showToast('🌹 Thank you — the committee has been notified.');
+  btn.disabled = false; btn.textContent = '🌹 Send Report';
+}
+
+function initReportFallenModal() {
+  const overlay = document.getElementById('reportFallenModal');
+  if (!overlay) return;
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeReportFallenModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeReportFallenModal(); });
+}
+
 // ── CLASS WALL ─────────────────────────────────────
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1351,6 +1403,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEmailVerifyModal();
   initProfileModal();
   initViewModal();
+  initReportFallenModal();
   initTicketForm();
   loadWallPosts();
   setInterval(loadWallPosts, 45000);

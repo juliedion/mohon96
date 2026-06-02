@@ -29,6 +29,8 @@ function doGet(e) {
     result = handleGetComments();
   } else if (action === 'profile') {
     result = handleProfileUpdate(params);
+  } else if (action === 'reportfallen') {
+    result = handleReportFallen(params);
   } else {
     result = handleFetchEmails();
   }
@@ -82,6 +84,30 @@ function handleSaveEmail(params) {
 
     return { success: true };
   } catch (err) {
+    return { success: false, error: err.toString() };
+  }
+}
+
+// ── REPORT FALLEN ─────────────────────────────────────
+function handleReportFallen(params) {
+  var name     = params.name     || '';
+  var reporter = params.reporter || 'Anonymous';
+  var obit     = params.obit     || '';
+  var details  = params.details  || '';
+  var ts       = Utilities.formatDate(new Date(), 'America/New_York', 'M/d/yyyy h:mm a');
+  var subj     = '🌹 Fallen Warrior Report — ' + name;
+  var body     =
+    'A classmate has been reported as a Fallen Warrior on mohon96.com\n\n' +
+    'Classmate:  ' + name + '\n' +
+    'Reported by: ' + reporter + '\n' +
+    (obit    ? 'Obituary:   ' + obit    + '\n' : '') +
+    (details ? 'Details:\n'  + details  + '\n' : '') +
+    '\nSubmitted: ' + ts;
+  try {
+    GmailApp.sendEmail(COMMITTEE_EMAIL,       subj, body);
+    GmailApp.sendEmail('juliedion1@gmail.com', subj, body);
+    return { success: true };
+  } catch(err) {
     return { success: false, error: err.toString() };
   }
 }
