@@ -522,7 +522,7 @@
         </div>
 
         <div class="pf-field">
-          <label class="pf-label">Spouse / Significant Other</label>
+          <label class="pf-label">Spouse / Significant Other <span class="pf-hint">(optional)</span></label>
           <input type="text" id="pfSpouse" placeholder="e.g. John Smith" autocomplete="off">
         </div>
 
@@ -532,15 +532,26 @@
         </div>
 
         <div class="pf-field">
-          <label class="pf-label">Career / What You Do Now</label>
+          <label class="pf-label">Career / What You Do Now <span class="pf-hint">(optional)</span></label>
           <input type="text" id="pfCareer" placeholder="e.g. Nurse at Albany Med, 20 years" autocomplete="organization-title">
         </div>
 
         <div class="pf-field">
-          <label class="pf-label">Favorite High School Memory</label>
+          <label class="pf-label">Favorite High School Memory <span class="pf-hint">(optional)</span></label>
           <textarea id="pfMemory" placeholder="Share a favorite memory from Mohonasen..."></textarea>
         </div>
       </form>
+
+      <!-- Photos -->
+      <div style="margin-top:1.25rem;border-top:1px solid var(--border);padding-top:1.25rem;">
+        <div style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:0.75rem;">
+          📸 Your Photos <span style="font-weight:400;text-transform:none;color:var(--text-muted);font-size:0.78rem;">(optional — share a current photo of yourself, family, or pets)</span>
+        </div>
+        <div id="pfPhotosGrid" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.6rem;"></div>
+        <label class="btn-add-photo" for="pfPhotoUpload" style="display:inline-block;">📷 Add a photo</label>
+        <input type="file" id="pfPhotoUpload" accept="image/*" style="display:none"
+          onchange="handleProfilePhotoUpload(event)">
+      </div>
     </div>
     <div class="profile-modal-footer">
       <button class="btn btn-primary" onclick="saveProfile()">💾 Save &amp; Send to Committee</button>

@@ -564,7 +564,7 @@ function createClassmateCard(c) {
       if (profile.career)      bits.push(`<div class="pp-item"><span class="pp-label">Career:</span><span>${profile.career}</span></div>`);
       if (bits.length > 0) profilePreviewHtml = `<div class="card-profile-preview">${bits.join('')}</div>`;
     }
-    const btnLabel = profile ? '✏️ Edit My Info' : '＋ Add My Info';
+    const btnLabel = profile ? '✏️ Edit My Info' : `👋 Hey ${c.first}! Add your info!`;
     profileBtnHtml = `<button class="btn-profile${profile ? ' has-profile' : ''}"
       onclick="openProfileModal(${c.id}, '${c.full.replace(/'/g,"\'")}')">
       ${btnLabel}
@@ -900,7 +900,7 @@ async function fetchSheetEmails() {
 
 function saveEmailToSheet(firstName, lastName, email) {
   if (!APPS_SCRIPT_URL) return;
-  const url = `${APPS_SCRIPT_URL}?action=save&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&email=${encodeURIComponent(email)}`;
+  const url = `${APPS_SCRIPT_URL}?action=save&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&email=${encodeURIComponent(email)}&notify=true`;
   fetch(url).catch(() => {});
 }
 
@@ -1083,7 +1083,9 @@ let currentProfileName = '';
 function openProfileModal(id, name) {
   currentProfileId = id;
   currentProfileName = name;
-  document.getElementById('profileModalTitle').textContent = '✏️ ' + name + ' — Update Profile';
+  const c = CLASSMATES.find(x => x.id === id);
+  const firstName = c ? c.first : name.split(' ')[0];
+  document.getElementById('profileModalTitle').textContent = `Hey ${firstName}! Update Your Profile`;
   document.getElementById('profileClassmateId').value = id;
   const p = getProfile(id);
   document.getElementById('pfCurrentLast').value = p ? (p.currentLast || '') : '';
@@ -1091,7 +1093,26 @@ function openProfileModal(id, name) {
   document.getElementById('pfChildren').value     = p ? (p.children    || '') : '';
   document.getElementById('pfCareer').value       = p ? (p.career      || '') : '';
   document.getElementById('pfMemory').value       = p ? (p.memory      || '') : '';
+  renderProfilePhotos(id);
   document.getElementById('profileModal').classList.add('active');
+}
+
+function renderProfilePhotos(id) {
+  const grid = document.getElementById('pfPhotosGrid');
+  if (!grid) return;
+  const photos = getCardPhotos(id);
+  grid.innerHTML = photos.map((src, i) =>
+    `<div class="card-photo-thumb" onclick="removeCardPhoto(${id},${i});renderProfilePhotos(${id});" title="Click to remove">
+       <img src="${src}" alt="Photo ${i+1}">
+     </div>`
+  ).join('') || '<span style="font-size:0.8rem;color:var(--text-muted);">No photos yet.</span>';
+}
+
+function handleProfilePhotoUpload(event) {
+  const id = parseInt(document.getElementById('profileClassmateId').value);
+  if (!id) return;
+  handlePhotoUpload(event, id);
+  setTimeout(() => renderProfilePhotos(id), 350);
 }
 
 function closeProfileModal() {
@@ -1215,7 +1236,7 @@ function openViewModal(id) {
   if (!isFallen) {
     actionsHtml = `<div class="vcm-actions">
       <button class="btn btn-outline btn-sm" onclick="closeViewModal();openProfileModal(${id},'${safeFullName}')">
-        ✏️ ${profile ? 'Edit My Info' : 'Add My Info'}
+        ✏️ ${profile ? 'Edit My Info' : `Hey ${c.first}! Add your info!`}
       </button>
       ${email ? `<a class="btn btn-primary btn-sm" href="mailto:${email}">📧 Send Email</a>` : ''}
     </div>`;

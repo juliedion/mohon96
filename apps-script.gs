@@ -51,10 +51,29 @@ function handleFetchEmails() {
 
 // ── SAVE CLASSMATE EMAIL (existing feature) ───────────
 function handleSaveEmail(params) {
+  var firstName = params.firstName || '';
+  var lastName  = params.lastName  || '';
+  var email     = params.email     || '';
+  var notify    = params.notify === 'true';
+
   try {
     var ss    = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheets()[0];
-    sheet.appendRow([params.firstName || '', params.lastName || '', params.email || '', new Date()]);
+    sheet.appendRow([firstName, lastName, email, new Date()]);
+
+    if (notify && email) {
+      var name = (firstName + ' ' + lastName).trim();
+      var ts   = Utilities.formatDate(new Date(), 'America/New_York', 'M/d/yyyy h:mm a');
+      var subj = 'Classmate Email Submitted — ' + name;
+      var body = 'An email address was submitted on mohon96.com\n\n' +
+        'Classmate: ' + name + '\n' +
+        'Email:     ' + email + '\n' +
+        'Time:      ' + ts + '\n\n' +
+        'This was submitted by a visitor — please verify before using.';
+      GmailApp.sendEmail(COMMITTEE_EMAIL, subj, body);
+      GmailApp.sendEmail('juliedion1@gmail.com', subj, body);
+    }
+
     return { success: true };
   } catch (err) {
     return { success: false, error: err.toString() };
