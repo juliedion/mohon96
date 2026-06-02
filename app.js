@@ -40,6 +40,7 @@ const CLASSMATES = [
   { id:14,    first:'Keith',                     mid:'',          last:'Boscarino',               suf:'',      full:'Keith Boscarino',                           status:'missing',     page:1  },
   { id:15,    first:'Erin',                      mid:'',          last:'Brown',                   suf:'',      full:'Erin Brown',                                status:'portrait',    page:2  },
   { id:16,    first:'Jeremy',                    mid:'',          last:'Buechner',                suf:'',      full:'Jeremy Buechner',                           status:'portrait',    page:2,  email:'bG9jYWxhY3RvcnNndWlsZEBnbWFpbC5jb20='  },
+  { id:17,    first:'Andrew',                    mid:'',          last:'Burke',                   suf:'',      full:'Andrew Burke',                              status:'portrait',    page:2  },
   { id:18,    first:'Kelly',                     mid:'',          last:'Burke',                   suf:'',      full:'Kelly Burke',                               status:'portrait',    page:2,  married:'Friello'    },
   { id:19,    first:'Wendy',                     mid:'',          last:'Butterfield',             suf:'',      full:'Wendy Butterfield',                         status:'portrait',    page:2,  married:'Foshee'     },
   { id:20,    first:'Julie',                     mid:'C.',        last:'Buyea',                   suf:'',      full:'Julie C. Buyea',                            status:'portrait',    page:2  },
@@ -677,10 +678,16 @@ function createClassmateCard(c) {
       </div>`;
   }
 
+  const initials = getInitials(c.first, c.last);
+  const avatarContent = `<img src="yearbook/${c.id}.jpg" alt="${c.first}"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;border-radius:50%;"
+      onerror="this.style.display='none';this.nextSibling.style.display='flex';">
+    <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${initials}</span>`;
+
   return `
     <div class="${cardClass}" data-id="${c.id}" data-name="${c.full.toLowerCase()}" data-status="${c.status}">
       <div class="card-header">
-        <div class="card-avatar" style="${avatarStyle}">${getInitials(c.first, c.last)}</div>
+        <div class="card-avatar" style="${avatarStyle}overflow:hidden;">${avatarContent}</div>
         <div class="card-name-block">
           <div class="card-name">${c.first} ${c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}
@@ -1177,10 +1184,14 @@ function openViewModal(id) {
   const displayName = `${c.first} ${c.last}${c.suf ? ' ' + c.suf : ''}`;
   const safeFullName = c.full.replace(/'/g, "\\'");
 
-  // Avatar initials
+  // Yearbook photo with initials fallback
+  const vcmBg = isFallen ? 'linear-gradient(135deg,#3A3A2A,#1A1A10)' : isMissing ? 'linear-gradient(135deg,#E53E3E,#C53030)' : 'var(--orange)';
   const photoHtml = `
-    <div class="vcm-photo-wrap" style="background:${isFallen ? 'linear-gradient(135deg,#3A3A2A,#1A1A10)' : isMissing ? 'linear-gradient(135deg,#E53E3E,#C53030)' : 'var(--orange)'};">
-      <div class="vcm-initials" style="display:flex;">${getInitials(c.first, c.last)}</div>
+    <div class="vcm-photo-wrap" style="background:${vcmBg};">
+      <img src="yearbook/${id}.jpg" alt="${displayName}"
+        style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="vcm-initials" style="display:none;">${getInitials(c.first, c.last)}</div>
     </div>`;
 
   // Badge
