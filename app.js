@@ -1292,7 +1292,8 @@ function renderAttendeeFields(qty) {
   let html = `<div style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:0.25rem;">
     Who is attending? <span style="font-weight:400;text-transform:none;color:var(--text-muted);">(one name per ticket)</span></div>`;
   for (let i = 0; i < qty; i++) {
-    const placeholder = i === 0 ? (primaryName || 'Ticket 1 — your name') : `Ticket ${i + 1} — attendee name`;
+    const optLabel = i > 0 ? ' <span style="font-weight:400;font-size:0.75rem;color:var(--text-muted);">(optional)</span>' : '';
+    const placeholder = i === 0 ? (primaryName || 'Your name') : `Guest ${i} name (optional)`;
     const val = existing[i] || (i === 0 && primaryName ? primaryName : '');
     html += `<input type="text" data-attendee="${i}" placeholder="${placeholder}"
       value="${val.replace(/"/g, '&quot;')}"
@@ -1332,17 +1333,53 @@ function adjustTickets(delta) {
   updateTicketTotal();
 }
 
+function updatePayButton() {
+  const method = document.querySelector('input[name="payMethod"]:checked')?.value;
+  const btn = document.getElementById('rsvpSubmitBtn');
+  if (!btn) return;
+  if (method === 'venmo') {
+    btn.textContent = '🎟 Submit & Purchase Tickets';
+  } else {
+    btn.textContent = '✅ Submit RSVP';
+  }
+}
+
 function submitTicketForm(e) {
   e.preventDefault();
-  const name  = document.getElementById('ticketName').value.trim();
-  const email = document.getElementById('ticketEmail').value.trim();
-  const qty   = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
-  if (!name)                  { showToast('Please enter your name.'); return; }
-  if (!email.includes('@'))   { showToast('Please enter a valid email address.'); return; }
+  const name       = document.getElementById('ticketName').value.trim();
+  const email      = document.getElementById('ticketEmail').value.trim();
+  const guestEmail = (document.getElementById('guestEmail')?.value || '').trim();
+  const qty        = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
+  const payMethod  = document.querySelector('input[name="payMethod"]:checked')?.value;
+
+  if (!name)                { showToast('Please enter your name.'); return; }
+  if (!email.includes('@')) { showToast('Please enter a valid email address.'); return; }
+  if (!payMethod)           { showToast('Please select a payment method.'); return; }
+
   const attendees = getAttendeeNames(qty);
   if (attendees[0] === '') attendees[0] = name;
   const conf = generateConfCode();
-  showTicketModal(name, email, qty, conf, attendees);
+
+  // Submit to Apps Script (record + send emails)
+  const params = new URLSearchParams({
+    action:      'rsvp',
+    name,
+    email,
+    qty:         String(qty),
+    attendees:   attendees.filter(Boolean).join(', '),
+    guestEmail,
+    payMethod,
+    conf,
+  });
+  fetch(APPS_SCRIPT_URL + '?' + params.toString()).catch(() => {});
+
+  // Show confirmation modal
+  showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmail);
+
+  // If Venmo, open payment page in new tab after brief delay
+  if (payMethod === 'venmo') {
+    setTimeout(() => window.open('https://venmo.com/u/Suz-Lu', '_blank', 'noopener,noreferrer'), 600);
+  }
 }
 
 function buildTicketCard(attendeeName, conf, num, total) {
@@ -1368,20 +1405,24 @@ function buildTicketCard(attendeeName, conf, num, total) {
     </div>`;
 }
 
-function buildTicketEmailBody(name, qty, conf, total, attendees) {
+function buildTicketEmailBody(name, qty, conf, total, attendees, payMethod, guestEmail) {
   const attendeeList = attendees && attendees.length
-    ? attendees.map((n, i) => `  Ticket ${i+1}: ${n || 'Guest'}`).join('\n')
+    ? attendees.map((n, i) => `  ${i === 0 ? 'Primary' : 'Guest ' + i}: ${n || 'Guest'}`).join('\n')
     : `  ${name}`;
-  return `Hi ${name},
+  const payLine = payMethod === 'venmo'
+    ? `Payment: Venmo @Suz-Lu — please send $${total.toFixed(2)} with note "${conf}"`
+    : `Payment: $${total.toFixed(2)} cash or Venmo at the door`;
+  return `Hi ${name.split(' ')[0]},
 
-Your tickets for the Mohonasen High School Class of 1996 Reunion are confirmed!
+Your RSVP for the Mohonasen High School Class of 1996 Reunion is confirmed!
 
 CONFIRMATION: ${conf}
-Purchased by: ${name}
-Tickets: ${qty} x $30 = $${total.toFixed(2)}
+Name: ${name}
+Tickets: ${qty} × $30 = $${total.toFixed(2)}
+${payLine}
 
-ATTENDEES:
-${attendeeList}
+ATTENDING:
+${attendeeList}${guestEmail ? '\nGuest email: ' + guestEmail : ''}
 
 EVENT:
 Friday, July 31, 2026 at 7:00 PM
@@ -1389,15 +1430,19 @@ Katie O'Byrnes Irish Pub
 121 Wall Street, State Street & Erie Blvd
 Schenectady, NY 12305
 
+Heavy apps & small bites included.
 Please bring your confirmation number to the event.
-Questions? Contact the reunion committee at mohonclass96@gmail.com or Julie Dion (juliedion1@gmail.com).
 
-Go Warriors! Orange and Black!`;
+Questions? mohonclass96@gmail.com | mohon96.com
+Go Warriors! 🧡🖤`;
 }
 
-function showTicketModal(name, email, qty, conf, attendees) {
+function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmail) {
   const total = qty * 30;
   attendees = attendees || [name];
+  payMethod = payMethod || 'cash';
+  const payLabel = payMethod === 'venmo' ? '📱 Venmo (@Suz-Lu)' : '💵 Cash / Venmo at the door';
+
   let ticketsHtml = '';
   for (let i = 0; i < qty; i++) ticketsHtml += buildTicketCard(attendees[i] || name, conf, i + 1, qty);
   document.getElementById('ticketCardsContainer').innerHTML = ticketsHtml;
@@ -1407,10 +1452,31 @@ function showTicketModal(name, email, qty, conf, attendees) {
   document.getElementById('tModalQty').textContent   = qty + ' ticket' + (qty > 1 ? 's' : '');
   document.getElementById('tModalTotal').textContent = '$' + total.toFixed(2);
 
-  const subject = `Mohonasen Class of '96 Reunion — ${qty} Ticket${qty > 1 ? 's' : ''} · ${conf}`;
-  const body = buildTicketEmailBody(name, qty, conf, total, attendees);
+  // Show/update payment row
+  let payRow = document.getElementById('tModalPayRow');
+  if (!payRow) {
+    const totalRow = document.querySelector('.ts-row:last-child');
+    payRow = document.createElement('div');
+    payRow.id = 'tModalPayRow';
+    payRow.className = 'ts-row';
+    totalRow?.after(payRow);
+  }
+  payRow.innerHTML = `<span>Payment</span><strong style="color:${payMethod === 'venmo' ? 'var(--orange)' : 'var(--dark)'};">${payLabel}</strong>`;
+
+  if (payMethod === 'venmo') {
+    payRow.insertAdjacentHTML('afterend',
+      `<div style="background:#fff8f0;border:1px solid var(--orange);border-radius:8px;padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.85rem;">
+        <strong>Next step:</strong> Venmo <strong>@Suz-Lu</strong> $${total.toFixed(2)} and include your confirmation code <strong>${conf}</strong>.
+        <a href="https://venmo.com/u/Suz-Lu" target="_blank" rel="noopener" style="display:block;margin-top:0.4rem;color:var(--orange);">Open Venmo →</a>
+      </div>`
+    );
+  }
+
+  const subject = `RSVP Confirmed — Mohonasen Class of '96 Reunion · ${conf}`;
+  const body = buildTicketEmailBody(name, qty, conf, total, attendees, payMethod, guestEmail);
   const emailBtn = document.getElementById('emailTicketsBtn');
   emailBtn.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  emailBtn.textContent = payMethod === 'venmo' ? '📧 Email My RSVP & Payment Info' : '📧 Email My RSVP Confirmation';
 
   document.getElementById('ticketModal').classList.add('active');
 }
@@ -1444,18 +1510,18 @@ function printTickets() {
 }
 
 function initTicketForm() {
-  const form = document.getElementById('ticketForm');
+  const form = document.getElementById('rsvpForm') || document.getElementById('ticketForm');
   if (form) form.addEventListener('submit', submitTicketForm);
   const qtyInput = document.getElementById('ticketQty');
   if (qtyInput) qtyInput.addEventListener('input', updateTicketTotal);
-  // Sync attendee field 0 with name field when user types their name
   const nameInput = document.getElementById('ticketName');
   if (nameInput) nameInput.addEventListener('input', () => {
     const first = document.querySelector('input[data-attendee="0"]');
-    if (first && first.value === '') first.placeholder = nameInput.value || 'Ticket 1 — your name';
+    if (first && first.value === '') first.placeholder = nameInput.value || 'Your name';
   });
+  // Payment radio → update button label
+  document.querySelectorAll('input[name="payMethod"]').forEach(r => r.addEventListener('change', updatePayButton));
   const tModal = document.getElementById('ticketModal');
   if (tModal) tModal.addEventListener('click', e => { if (e.target === tModal) closeTicketModal(); });
-  // Render initial attendee field
   renderAttendeeFields(1);
 }

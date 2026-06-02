@@ -26,7 +26,7 @@
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
     <li><a href="#reunion">Reunion</a></li>
-    <li><a href="#tickets">Tickets</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
     <li><a href="#classmates">Classmates</a></li>
     <li><a href="fallen.html">Fallen Warriors</a></li>
     <li><a href="#bestof96">Best of '96</a></li>
@@ -79,7 +79,7 @@
     </div>
 
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <a href="https://venmo.com/u/Suz-Lu" target="_blank" rel="noopener" class="btn btn-primary">🎟 Get Tickets &mdash; $30</a>
+      <a href="#rsvp" class="btn btn-primary">🎟 RSVP &mdash; $30</a>
       <a href="#reunion" class="btn btn-outline">🎉 Reunion Details</a>
       <button onclick="addToCalendar()" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">📅 Add to Calendar</button>
       <a href="https://mohon96.com" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">🌐 Visit the Website</a>
@@ -126,24 +126,24 @@
 
         <!-- Action buttons -->
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
-      <a href="https://venmo.com/u/Suz-Lu" target="_blank" rel="noopener" class="btn btn-primary">🎟 Get Tickets &mdash; $30</a>
+      <a href="#rsvp" class="btn btn-primary">🎟 RSVP &mdash; $30</a>
       <a href="flyer.png" download="MHS96-Reunion-Flyer.png" class="btn btn-outline" style="color:var(--orange);border-color:var(--orange);">⬇ Download &amp; Print Flyer</a>
       <a href="mailto:mohonclass96@gmail.com" class="btn btn-outline" style="color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.3);">📞 Contact Organizers</a>
     </div>
   </div>
 </section>
 
-<!-- ═══ TICKETS ══════════════════════════════════ -->
-<section id="tickets">
+<!-- ═══ RSVP ═══════════════════════════════════════ -->
+<section id="rsvp">
   <div class="container">
     <div class="section-header">
-      <h2>Buy <span class="accent">Tickets</span></h2>
+      <h2><span class="accent">RSVP</span> for the Reunion</h2>
       <div class="divider"></div>
-      <p>$30 per person &mdash; Significant others welcome.<br>Purchase as many tickets as you need!</p>
+      <p>$30 per person &mdash; Significant others welcome.<br>RSVP by Sunday, July 19. Tickets also available at the door.</p>
     </div>
 
     <div class="ticket-purchase-wrap">
-      <form id="ticketForm" class="ticket-form" novalidate>
+      <form id="rsvpForm" class="ticket-form" novalidate>
         <div class="ticket-form-grid">
 
           <div class="tf-field">
@@ -152,8 +152,13 @@
           </div>
 
           <div class="tf-field">
-            <label for="ticketEmail">Email Address <span class="tf-note">(tickets will be sent here)</span></label>
+            <label for="ticketEmail">Your Email <span class="tf-note">(confirmation will be sent here)</span></label>
             <input type="email" id="ticketEmail" placeholder="you@example.com" required autocomplete="email">
+          </div>
+
+          <div class="tf-field">
+            <label for="guestEmail">Guest Email <span class="tf-note">(optional &mdash; they&rsquo;ll get a confirmation too)</span></label>
+            <input type="email" id="guestEmail" placeholder="guest@example.com" autocomplete="email">
           </div>
 
           <div class="tf-field">
@@ -178,8 +183,33 @@
           <!-- populated by JS -->
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:100%;padding:0.9rem;font-size:1rem;margin-top:1.25rem;justify-content:center;">
-          🎟 Purchase Tickets
+        <!-- Payment method -->
+        <div class="pay-method-group">
+          <div class="pay-method-label">How will you pay?</div>
+          <label class="pay-option">
+            <input type="radio" name="payMethod" value="cash" id="payCash">
+            <span class="pay-option-inner">
+              <span class="pay-icon">💵</span>
+              <span>
+                <strong>Pay at the door</strong>
+                <span class="pay-desc">Cash or Venmo at the event</span>
+              </span>
+            </span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="payMethod" value="venmo" id="payVenmo">
+            <span class="pay-option-inner">
+              <span class="pay-icon">📱</span>
+              <span>
+                <strong>Pay now via Venmo</strong>
+                <span class="pay-desc">You&rsquo;ll be taken to Venmo after submitting</span>
+              </span>
+            </span>
+          </label>
+        </div>
+
+        <button type="submit" id="rsvpSubmitBtn" class="btn btn-primary" style="width:100%;padding:0.9rem;font-size:1rem;margin-top:1.25rem;justify-content:center;">
+          ✅ Submit RSVP
         </button>
       </form>
     </div>
