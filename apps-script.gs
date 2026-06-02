@@ -23,6 +23,12 @@ function doGet(e) {
     result = handleRSVP(params);
   } else if (action === 'save') {
     result = handleSaveEmail(params);
+  } else if (action === 'comment') {
+    result = handleComment(params);
+  } else if (action === 'getcomments') {
+    result = handleGetComments();
+  } else if (action === 'profile') {
+    result = handleProfileUpdate(params);
   } else {
     result = handleFetchEmails();
   }
@@ -76,6 +82,66 @@ function handleSaveEmail(params) {
 
     return { success: true };
   } catch (err) {
+    return { success: false, error: err.toString() };
+  }
+}
+
+// ── CLASS WALL COMMENTS ───────────────────────────────
+function handleComment(params) {
+  var name    = (params.name    || '').trim();
+  var message = (params.message || '').trim();
+  if (!name || !message) return { success: false, error: 'Missing fields' };
+  try {
+    var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
+    var sheet = ss.getSheetByName('Comments');
+    if (!sheet) {
+      sheet = ss.insertSheet('Comments');
+      sheet.appendRow(['Timestamp', 'Name', 'Message']);
+    }
+    var ts = Utilities.formatDate(new Date(), 'America/New_York', 'M/d/yyyy h:mm a');
+    sheet.appendRow([ts, name, message]);
+    return { success: true };
+  } catch(err) {
+    return { success: false, error: err.toString() };
+  }
+}
+
+function handleGetComments() {
+  try {
+    var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
+    var sheet = ss.getSheetByName('Comments');
+    if (!sheet) return { comments: [] };
+    var data = sheet.getDataRange().getValues();
+    var out  = [];
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][1] && data[i][2]) {
+        out.push({ ts: String(data[i][0]), name: String(data[i][1]), message: String(data[i][2]) });
+      }
+    }
+    out.reverse(); // newest first
+    return { comments: out };
+  } catch(err) {
+    return { comments: [] };
+  }
+}
+
+// ── PROFILE UPDATE ────────────────────────────────────
+function handleProfileUpdate(params) {
+  var name = params.name || '';
+  var id   = params.id   || '';
+  try {
+    var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
+    var sheet = ss.getSheetByName('Profiles');
+    if (!sheet) {
+      sheet = ss.insertSheet('Profiles');
+      sheet.appendRow(['Timestamp','ID','Name','Nickname','Current Last','Spouse','Children','Career','Memory']);
+    }
+    var ts = Utilities.formatDate(new Date(), 'America/New_York', 'M/d/yyyy h:mm a');
+    sheet.appendRow([ts, id, name,
+      params.nickname || '', params.currentLast || '', params.spouse || '',
+      params.children || '', params.career || '', params.memory || '']);
+    return { success: true };
+  } catch(err) {
     return { success: false, error: err.toString() };
   }
 }

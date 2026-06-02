@@ -30,6 +30,7 @@
     <li><a href="#classmates">Classmates</a></li>
     <li><a href="fallen.html">Fallen Warriors</a></li>
     <li><a href="#bestof96">Best of '96</a></li>
+    <li><a href="#classwall">Wall</a></li>
     <li><a href="#connect">Connect</a></li>
   </ul>
   <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
@@ -321,6 +322,30 @@
   </div>
 </section>
 
+<!-- ═══ CLASS WALL ═══════════════════════════════ -->
+<section id="classwall" style="background:var(--black);padding:5rem 0;">
+  <div class="container">
+    <div class="section-header">
+      <h2 style="color:var(--white);">Class <span class="accent">Wall</span></h2>
+      <div class="divider"></div>
+      <p style="color:rgba(255,255,255,0.65);">Leave a message for your fellow Warriors — everyone can see it!</p>
+    </div>
+
+    <div class="wall-form">
+      <div class="wall-form-row">
+        <input type="text" id="wallName" placeholder="Your name" class="wall-input" maxlength="60" autocomplete="name">
+        <button class="btn btn-primary" onclick="submitWallPost()" id="wallSubmitBtn">Post</button>
+      </div>
+      <textarea id="wallMessage" class="wall-textarea" placeholder="Share a memory, say hi, or leave a message for your classmates…" maxlength="500"></textarea>
+      <div id="wallError" style="color:var(--missing-red);font-size:0.8rem;min-height:1rem;"></div>
+    </div>
+
+    <div id="wallFeed" class="wall-feed">
+      <div class="wall-loading">Loading messages…</div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ CONNECT ═══════════════════════════════════ -->
 <section id="connect">
   <div class="container">
@@ -517,6 +542,11 @@
         <div class="pf-field">
           <label class="pf-label">Current / Married Last Name <span class="pf-hint">(if different from yearbook)</span></label>
           <input type="text" id="pfCurrentLast" placeholder="e.g. Smith (leave blank if unchanged)" autocomplete="family-name">
+        </div>
+
+        <div class="pf-field">
+          <label class="pf-label">Nickname <span class="pf-hint">(optional — how people know you)</span></label>
+          <input type="text" id="pfNickname" placeholder="e.g. Mike, Lizzie, J-Bird..." autocomplete="off">
         </div>
 
         <div class="pf-field">

@@ -17,6 +17,7 @@ const OBITS = {
   22:  'https://www.legacy.com/us/obituaries/dailygazette/name/renee-capeless-obituary?id=25689903',
   38:  'https://www.demarcostonefuneralhome.com/obituaries/sarah-dingley',
   56:  'https://www.legacy.com/obituaries/name/randy-george-obituary?pid=151250954',
+  112: 'https://www.legacy.com/us/obituaries/dailygazette/name/jason-marx-obituary?id=33344633',
   204: 'https://www.newcomeralbany.com/obituaries/karen-m-segretto',
   215: 'https://www.courant.com/1994/12/05/vannie-vicki-marie-vannie/',
 };
@@ -33,7 +34,7 @@ const CLASSMATES = [
   { id:7,     first:'Douglas',                   mid:'L.',        last:'Bartling',                suf:'',      full:'Douglas L. Bartling',                       status:'portrait',    page:1  },
   { id:8,     first:'Bethany',                   mid:'K.',        last:'Beckett',                 suf:'',      full:'Bethany K. Beckett',                        status:'portrait',    page:1  },
   { id:9,     first:'Mark',                      mid:'M.',        last:'Belschwinder',            suf:'',      full:'Mark M. Belschwinder',                      status:'portrait',    page:1  },
-  { id:10,    first:'Obed',                      mid:'David',     last:'Bhan',                    suf:'',      full:'Obed David Bhan',                           status:'missing',     page:1  },
+  { id:10,    first:'Obed',                      mid:'David',     last:'Bhan',                    suf:'',      full:'Obed David Bhan',                           status:'portrait',    page:1,  facebook:'https://www.facebook.com/profile.php?id=100001779880828'  },
   { id:11,    first:'Russ',                      mid:'E.',        last:'Bolle',                   suf:'',      full:'Russ E. Bolle',                             status:'portrait',    page:1  },
   { id:12,    first:'Jason',                     mid:'P.',        last:'Bolton',                  suf:'',      full:'Jason P. Bolton',                           status:'fallen',      page:16  },
   { id:13,    first:'Ross',                      mid:'',          last:'Boniecki',                suf:'',      full:'Ross Boniecki',                             status:'missing',     page:16  },
@@ -133,7 +134,7 @@ const CLASSMATES = [
   { id:109,   first:'Gerardo',                   mid:'',          last:'Marino',                  suf:'',      full:'Gerardo Marino',                            status:'missing',     page:9  },
   { id:110,   first:'Jennifer',                  mid:'L.',        last:'Marion',                  suf:'',      full:'Jennifer L. Marion',                        status:'portrait',    page:9  },
   { id:111,   first:'Gina',                      mid:'M.',        last:'Marks',                   suf:'',      full:'Gina M. Marks',                             status:'portrait',    page:9,  married:'Pereira'    },
-  { id:112,   first:'Jason',                     mid:'N.',        last:'Marx',                    suf:'',      full:'Jason N. Marx',                             status:'portrait',    page:9  },
+  { id:112,   first:'Jason',                     mid:'N.',        last:'Marx',                    suf:'',      full:'Jason N. Marx',                             status:'fallen',      page:9  },
   { id:113,   first:'Travis',                    mid:'L.',        last:'Maré',                    suf:'',      full:'Travis L. Maré',                            status:'missing',     page:8  },
   { id:114,   first:'Michael',                   mid:'F.',        last:'Mazzarella',              suf:'',      full:'Michael F. Mazzarella',                     status:'missing',     page:9  },
   { id:115,   first:'Timothy',                   mid:'G.',        last:'McCormack',               suf:'',      full:'Timothy G. McCormack',                      status:'missing',     page:9  },
@@ -575,9 +576,9 @@ function createClassmateCard(c) {
   // Display current/married name — profile data takes precedence over hardcoded married field
   let nameSubHtml = '';
   const currentLast = (profile && profile.currentLast) || c.married || null;
-  if (currentLast) {
-    nameSubHtml = `<div class="card-maiden">Now: ${c.first} ${currentLast}</div>`;
-  }
+  const nickname    = profile && profile.nickname ? profile.nickname : null;
+  if (nickname)    nameSubHtml += `<div class="card-maiden" style="color:var(--orange);font-style:italic;">"${nickname}"</div>`;
+  if (currentLast) nameSubHtml += `<div class="card-maiden">Now: ${c.first} ${currentLast}</div>`;
 
   let emailHtml = '';
   if (isFallen) {
@@ -651,7 +652,8 @@ function createClassmateCard(c) {
         ${obitUrl ? `<a class="btn btn-ghost btn-xs" href="${obitUrl}" target="_blank" rel="noopener" style="text-decoration:none;">📰 Obituary</a>` : ''}
       </div>`;
   } else {
-    const fbUrl = `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
+    const fbUrl = c.facebook || `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
+    const fbLabel = c.facebook ? '📘 Facebook Profile' : '📘 Find on Facebook';
     const hasEmail = !!getEffectiveEmail(c);
     const forwardBtnHtml = !hasEmail
       ? `<button class="btn btn-forward btn-xs"
@@ -673,7 +675,7 @@ function createClassmateCard(c) {
         ${miaPrompt}
         ${forwardBtnHtml}
         <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener"
-           style="font-size:0.72rem;text-decoration:none;">📘 Find on Facebook</a>
+           style="font-size:0.72rem;text-decoration:none;">${fbLabel}</a>
         ${profileBtnHtml}
       </div>`;
   }
@@ -1096,6 +1098,7 @@ function openProfileModal(id, name) {
   document.getElementById('profileClassmateId').value = id;
   const p = getProfile(id);
   document.getElementById('pfCurrentLast').value = p ? (p.currentLast || '') : '';
+  document.getElementById('pfNickname').value     = p ? (p.nickname    || '') : '';
   document.getElementById('pfSpouse').value       = p ? (p.spouse      || '') : '';
   document.getElementById('pfChildren').value     = p ? (p.children    || '') : '';
   document.getElementById('pfCareer').value       = p ? (p.career      || '') : '';
@@ -1132,6 +1135,7 @@ function saveProfile() {
   if (!id) return;
   const data = {
     currentLast: document.getElementById('pfCurrentLast').value.trim(),
+    nickname:    document.getElementById('pfNickname').value.trim(),
     spouse:      document.getElementById('pfSpouse').value.trim(),
     children:    document.getElementById('pfChildren').value.trim(),
     career:      document.getElementById('pfCareer').value.trim(),
@@ -1140,27 +1144,17 @@ function saveProfile() {
   };
   saveProfileData(id, data);
 
+  // Send silently to Apps Script — no mail popup needed
   const c = CLASSMATES.find(x => x.id === id);
-  const name = c ? c.full : currentProfileName;
-  const lines = [
-    `Profile update submitted for: ${name} (ID: ${id})`,
-    '',
-    data.currentLast ? `Current/Married Name: ${(c ? c.first : '') + ' ' + data.currentLast}` : null,
-    data.spouse      ? `Spouse/Partner: ${data.spouse}` : null,
-    data.children    ? `Children: ${data.children}` : null,
-    data.career      ? `Career: ${data.career}` : null,
-    data.memory      ? `Favorite Memory:\n${data.memory}` : null,
-    '',
-    `Submitted: ${new Date().toLocaleDateString()}`
-  ].filter(l => l !== null);
-
-  const subject = encodeURIComponent(`MHS '96 Profile Update — ${name}`);
-  const body    = encodeURIComponent(lines.join('\n'));
-  window.open(`mailto:juliedion1@gmail.com?subject=${subject}&body=${body}`, '_self');
+  if (APPS_SCRIPT_URL) {
+    const params = new URLSearchParams({ action: 'profile', id: String(id), name: c ? c.full : currentProfileName });
+    Object.entries(data).forEach(([k,v]) => { if (v && k !== 'updated') params.set(k, v); });
+    fetch(APPS_SCRIPT_URL + '?' + params.toString()).catch(() => {});
+  }
 
   closeProfileModal();
   renderClassmates();
-  showToast('Profile saved! Check your mail app to send it to the committee.');
+  showToast('✅ Profile saved and updated!');
 }
 
 function initProfileModal() {
@@ -1168,6 +1162,60 @@ function initProfileModal() {
   if (!overlay) return;
   overlay.addEventListener('click', e => { if (e.target === overlay) closeProfileModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeProfileModal(); });
+}
+
+// ── CLASS WALL ─────────────────────────────────────
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function loadWallPosts() {
+  const feed = document.getElementById('wallFeed');
+  if (!feed || !APPS_SCRIPT_URL) return;
+  try {
+    const res  = await fetch(APPS_SCRIPT_URL + '?action=getcomments');
+    const data = await res.json();
+    const posts = data.comments || [];
+    if (posts.length === 0) {
+      feed.innerHTML = '<div class="wall-empty">No messages yet — be the first to say hi! 👋</div>';
+      return;
+    }
+    feed.innerHTML = posts.map(p => `
+      <div class="wall-post">
+        <div class="wall-post-header">
+          <span class="wall-post-name">${escHtml(p.name)}</span>
+          <span class="wall-post-ts">${escHtml(p.ts)}</span>
+        </div>
+        <div class="wall-post-body">${escHtml(p.message)}</div>
+      </div>`).join('');
+  } catch(e) {
+    feed.innerHTML = '<div class="wall-empty">Could not load messages right now.</div>';
+  }
+}
+
+async function submitWallPost() {
+  const nameEl = document.getElementById('wallName');
+  const msgEl  = document.getElementById('wallMessage');
+  const errEl  = document.getElementById('wallError');
+  const name   = nameEl.value.trim();
+  const msg    = msgEl.value.trim();
+  errEl.textContent = '';
+  if (!name) { errEl.textContent = 'Please enter your name.'; return; }
+  if (!msg)  { errEl.textContent = 'Please write a message.'; return; }
+
+  const btn = document.getElementById('wallSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Posting…';
+
+  try {
+    const params = new URLSearchParams({ action: 'comment', name, message: msg });
+    await fetch(APPS_SCRIPT_URL + '?' + params.toString());
+    nameEl.value = ''; msgEl.value = '';
+    await loadWallPosts();
+    showToast('🎉 Message posted!');
+  } catch(e) {
+    errEl.textContent = 'Could not post. Please try again.';
+  }
+  btn.disabled = false; btn.textContent = 'Post';
 }
 
 // ── VIEW CLASSMATE MODAL ───────────────────────────
@@ -1304,6 +1352,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initProfileModal();
   initViewModal();
   initTicketForm();
+  loadWallPosts();
+  setInterval(loadWallPosts, 45000);
 });
 
 // ── TICKET SYSTEM ──────────────────────────────────
