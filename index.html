@@ -22,7 +22,7 @@
 
 <!-- ═══ NAVIGATION ═══════════════════════════════ -->
 <nav class="navbar">
-  <div class="nav-brand"><span class="brand-m">M</span>ohonasen &rsquo;96</div>
+  <a href="https://mohon96.com" class="nav-brand" style="text-decoration:none;"><span class="brand-m">M</span>ohonasen &rsquo;96</a>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
     <li><a href="#reunion">Reunion</a></li>
@@ -82,6 +82,7 @@
       <a href="https://venmo.com/u/Suz-Lu" target="_blank" rel="noopener" class="btn btn-primary">🎟 Get Tickets &mdash; $30</a>
       <a href="#reunion" class="btn btn-outline">🎉 Reunion Details</a>
       <button onclick="addToCalendar()" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">📅 Add to Calendar</button>
+      <a href="https://mohon96.com" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">🌐 Visit the Website</a>
       <a href="#classmates" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">👥 Classmates</a>
     </div>
 
@@ -591,6 +592,17 @@
   </div>
 </div>
 
-<script src="app.js?v=20260427c"></script>
+<!-- ═══ VIEW CLASSMATE MODAL ══════════════════════ -->
+<div class="modal-overlay" id="viewClassmateModal" role="dialog" aria-modal="true">
+  <div class="modal view-classmate-modal">
+    <div class="modal-header">
+      <h3 id="vcmTitle">Mohonasen Class of &rsquo;96</h3>
+      <button class="modal-close" onclick="closeViewModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body" id="vcmBody" style="padding:0;"></div>
+  </div>
+</div>
+
+<script src="app.js?v=20260601"></script>
 </body>
 </html>

@@ -644,9 +644,18 @@ function createClassmateCard(c) {
           📨 Forward them a notification
         </button>`
       : '';
+    const miaPrompt = isMissing && !hasEmail
+      ? `<span class="card-know-text">Do you have ${c.first}'s email?</span>`
+      : !hasEmail
+        ? `<span class="card-know-text">Do you know ${c.first}?</span>`
+        : '';
     actionsHtml = `
       <div class="card-actions">
-        ${!hasEmail ? `<span class="card-know-text">Do you know ${c.first}?</span>` : ''}
+        <button class="btn btn-view-classmate btn-xs"
+          onclick="openViewModal(${c.id})">
+          👤 View Classmate
+        </button>
+        ${miaPrompt}
         ${forwardBtnHtml}
         <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener"
            style="font-size:0.72rem;text-decoration:none;">📘 Find on Facebook</a>
@@ -656,7 +665,7 @@ function createClassmateCard(c) {
 
   const initials = getInitials(c.first, c.last);
   const avatarInner = `<img src="yearbook/${c.id}.jpg" alt="${c.first} ${c.last}"
-      style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;border-radius:50%;"
       onerror="this.style.display='none';this.nextSibling.style.display='flex';">
     <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${initials}</span>`;
 
@@ -1125,6 +1134,123 @@ function initProfileModal() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeProfileModal(); });
 }
 
+// ── VIEW CLASSMATE MODAL ───────────────────────────
+function openViewModal(id) {
+  const c = CLASSMATES.find(x => x.id === id);
+  if (!c) return;
+
+  const isFallen  = c.status === 'fallen';
+  const isMissing = c.status === 'missing';
+  const profile   = getProfile(id);
+  const photos    = getCardPhotos(id);
+  const email     = getEffectiveEmail(c);
+  const currentLast = (profile && profile.currentLast) || c.married || null;
+  const displayName = `${c.first} ${c.last}${c.suf ? ' ' + c.suf : ''}`;
+  const safeFullName = c.full.replace(/'/g, "\\'");
+
+  // Senior photo
+  const photoHtml = `
+    <div class="vcm-photo-wrap">
+      <img src="yearbook/${id}.jpg" alt="${displayName}"
+        style="width:100%;height:100%;object-fit:cover;object-position:50% 18%;"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="vcm-initials" style="display:none;">${getInitials(c.first, c.last)}</div>
+    </div>`;
+
+  // Badge
+  let badge = '';
+  if (isFallen)  badge = `<span class="status-badge badge-fallen" style="margin-top:4px;"><img src="yellow-rose.png" class="rose-icon" alt=""> Fallen Warrior</span>`;
+  if (isMissing) badge = `<span class="status-badge badge-missing" style="margin-top:4px;">⚠ Warrior MIA</span>`;
+
+  // Contact
+  let contactRows = '';
+  if (!isFallen) {
+    if (email) {
+      contactRows += `<div class="vcm-row"><span class="vcm-label">Email</span><a href="mailto:${email}" class="vcm-value" style="color:var(--orange);word-break:break-all;">${email}</a></div>`;
+    } else if (isMissing) {
+      contactRows += `<div class="vcm-row"><span class="vcm-label">Email</span>
+        <button class="btn btn-primary btn-xs" onclick="closeViewModal();openEmailModal(${id},'${safeFullName}')">
+          📧 Submit their email
+        </button></div>`;
+    } else {
+      contactRows += `<div class="vcm-row"><span class="vcm-label">Email</span>
+        <button class="btn btn-primary btn-xs" onclick="closeViewModal();openEmailModal(${id},'${safeFullName}')">
+          📧 Submit your email
+        </button></div>`;
+    }
+  }
+
+  // Profile info
+  let profileRows = '';
+  if (profile) {
+    if (profile.currentLast) profileRows += `<div class="vcm-row"><span class="vcm-label">Now</span><span class="vcm-value">${c.first} ${profile.currentLast}</span></div>`;
+    if (profile.spouse)      profileRows += `<div class="vcm-row"><span class="vcm-label">Partner</span><span class="vcm-value">${profile.spouse}</span></div>`;
+    if (profile.children)    profileRows += `<div class="vcm-row"><span class="vcm-label">Children</span><span class="vcm-value">${profile.children}</span></div>`;
+    if (profile.career)      profileRows += `<div class="vcm-row"><span class="vcm-label">Career</span><span class="vcm-value">${profile.career}</span></div>`;
+    if (profile.memory)      profileRows += `<div class="vcm-row vcm-row-block"><span class="vcm-label">Fav memory</span><p class="vcm-value vcm-memory">${profile.memory}</p></div>`;
+  }
+
+  // Uploaded current photos
+  let photosHtml = '';
+  if (photos.length) {
+    const thumbs = photos.map((src, i) =>
+      `<img src="${src}" class="vcm-thumb" onclick="removeCardPhoto(${id},${i});openViewModal(${id});" title="Click to remove">`
+    ).join('');
+    photosHtml = `<div class="vcm-section-label">📸 Current Photos</div><div class="vcm-photos-row">${thumbs}</div>`;
+  }
+
+  // Upload more photos button
+  const uploadHtml = isFallen ? '' : `
+    <label class="btn-add-photo" for="vcm-pf-${id}" style="margin-top:0.5rem;display:inline-block;">📷 Add a photo</label>
+    <input type="file" id="vcm-pf-${id}" accept="image/*" style="display:none"
+      onchange="handlePhotoUpload(event,${id});setTimeout(()=>openViewModal(${id}),300);">`;
+
+  // Bottom actions
+  let actionsHtml = '';
+  if (!isFallen) {
+    actionsHtml = `<div class="vcm-actions">
+      <button class="btn btn-outline btn-sm" onclick="closeViewModal();openProfileModal(${id},'${safeFullName}')">
+        ✏️ ${profile ? 'Edit My Info' : 'Add My Info'}
+      </button>
+      ${email ? `<a class="btn btn-primary btn-sm" href="mailto:${email}">📧 Send Email</a>` : ''}
+    </div>`;
+  } else {
+    actionsHtml = `<div class="vcm-actions">
+      <a class="btn btn-fallen-share btn-sm" href="fallen.html#warrior-${id}" style="text-decoration:none;">
+        <img src="yellow-rose.png" class="rose-icon" alt=""> Share a Tribute
+      </a>
+    </div>`;
+  }
+
+  document.getElementById('vcmTitle').textContent = displayName;
+  document.getElementById('vcmBody').innerHTML = `
+    <div class="vcm-top">
+      ${photoHtml}
+      <div class="vcm-name-block">
+        <div class="vcm-name">${displayName}</div>
+        ${currentLast && !profile?.currentLast ? `<div class="vcm-sub">Now: ${c.first} ${currentLast}</div>` : ''}
+        ${badge}
+      </div>
+    </div>
+    ${contactRows || profileRows ? `<div class="vcm-section">${contactRows}${profileRows}</div>` : ''}
+    ${photosHtml || uploadHtml ? `<div class="vcm-section">${photosHtml}${uploadHtml}</div>` : ''}
+    ${actionsHtml}
+  `;
+
+  document.getElementById('viewClassmateModal').classList.add('active');
+}
+
+function closeViewModal() {
+  document.getElementById('viewClassmateModal').classList.remove('active');
+}
+
+function initViewModal() {
+  const overlay = document.getElementById('viewClassmateModal');
+  if (!overlay) return;
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeViewModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeViewModal(); });
+}
+
 // ── INIT ───────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initCountdown();
@@ -1137,6 +1263,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEmailModal();
   initEmailVerifyModal();
   initProfileModal();
+  initViewModal();
   initTicketForm();
 });
 
