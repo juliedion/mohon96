@@ -412,6 +412,13 @@ section { padding: 5rem 0; }
   font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px;
   color: rgba(255,255,255,0.5); margin-top: 2px;
 }
+a.stat-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  display: block;
+}
+a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration: none; }
 
 /* ── CLASSMATES SECTION ─────────────────────────── */
 #classmates { background: var(--light-bg); }

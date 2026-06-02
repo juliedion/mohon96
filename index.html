@@ -82,8 +82,6 @@
       <a href="#rsvp" class="btn btn-primary"><span style="filter:brightness(0) invert(1);">🎟</span> RSVP</a>
       <a href="#reunion" class="btn btn-outline">🎉 Reunion Details</a>
       <button onclick="addToCalendar()" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">📅 Add to Calendar</button>
-      <a href="https://mohon96.com" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">🌐 Visit the Website</a>
-      <a href="#classmates" class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.75);">👥 Classmates</a>
     </div>
 
   </div>
@@ -93,18 +91,18 @@
 <div class="stats-bar">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat-item">
+      <a href="#classmates" class="stat-item stat-link">
         <div class="stat-num" id="statTotal">210</div>
         <div class="stat-label">Classmates Tracked</div>
-      </div>
-      <div class="stat-item" style="color:var(--missing-red);">
+      </a>
+      <a href="#classmates" class="stat-item stat-link" style="color:var(--missing-red);" onclick="setTimeout(()=>{document.querySelector('.filter-btn[data-filter=missing]')?.click()},300)">
         <div class="stat-num" id="statMissing" style="color:var(--missing-red);">70</div>
         <div class="stat-label">Warriors MIA</div>
-      </div>
-      <div class="stat-item" style="color:#C4A96A;">
+      </a>
+      <a href="fallen.html" class="stat-item stat-link" style="color:#C4A96A;">
         <div class="stat-num" id="statFallen" style="color:#C4A96A;">5</div>
         <div class="stat-label">Fallen Warriors</div>
-      </div>
+      </a>
     </div>
   </div>
 </div>
@@ -154,11 +152,6 @@
           <div class="tf-field">
             <label for="ticketEmail">Your Email <span class="tf-note">(confirmation will be sent here)</span></label>
             <input type="email" id="ticketEmail" placeholder="you@example.com" required autocomplete="email">
-          </div>
-
-          <div class="tf-field">
-            <label for="guestEmail">Guest Email <span class="tf-note">(optional &mdash; they&rsquo;ll get a confirmation too)</span></label>
-            <input type="email" id="guestEmail" placeholder="guest@example.com" autocomplete="email">
           </div>
 
           <div class="tf-field">
@@ -218,6 +211,7 @@
 </section>
 
 <!-- ═══ CLASSMATES ════════════════════════════════ -->
+<div style="height:4px;background:linear-gradient(90deg,var(--orange),#FFC107,var(--orange));opacity:0.6;"></div>
 <section id="classmates">
   <div class="container">
     <div class="section-header">
@@ -352,23 +346,6 @@
         </a>
         <p style="font-size:0.78rem;color:#999;text-align:center;">
           Search: <em>"Mohonasen HS Class of 1996"</em>
-        </p>
-      </div>
-
-      <!-- Spirit Wear -->
-      <div class="connect-card">
-        <div class="connect-icon" style="background:var(--orange);color:#fff;font-size:1.5rem;">👕</div>
-        <h3>Spirit Wear Store</h3>
-        <p>
-          Rep the orange and black! Shop official Mohonasen Warriors spirit wear —
-          perfect for the reunion and beyond.
-        </p>
-        <a href="https://sideline.bsnsports.com/schools/new_york/schenectady/mohonasen-high-school"
-           target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;">
-          🛒 Shop Spirit Wear
-        </a>
-        <p style="font-size:0.78rem;color:#999;text-align:center;">
-          Official Mohonasen Warriors gear via BSN Sports
         </p>
       </div>
 

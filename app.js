@@ -1289,17 +1289,23 @@ function renderAttendeeFields(qty) {
   const existing = [];
   container.querySelectorAll('input[data-attendee]').forEach(el => existing.push(el.value));
 
-  let html = `<div style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:0.25rem;">
-    Who is attending? <span style="font-weight:400;text-transform:none;color:var(--text-muted);">(one name per ticket)</span></div>`;
-  for (let i = 0; i < qty; i++) {
-    const optLabel = i > 0 ? ' <span style="font-weight:400;font-size:0.75rem;color:var(--text-muted);">(optional)</span>' : '';
-    const placeholder = i === 0 ? (primaryName || 'Your name') : `Guest ${i} name (optional)`;
-    const val = existing[i] || (i === 0 && primaryName ? primaryName : '');
-    html += `<input type="text" data-attendee="${i}" placeholder="${placeholder}"
-      value="${val.replace(/"/g, '&quot;')}"
-      style="padding:0.55rem 0.9rem;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;width:100%;transition:border 0.2s;"
-      oninput="syncPrimaryName(this, ${i})"
-      onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">`;
+  if (qty <= 1) { container.innerHTML = ''; return; }
+
+  const inputStyle = `padding:0.55rem 0.9rem;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;width:100%;transition:border 0.2s;box-sizing:border-box;`;
+  let html = `<div style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:0.5rem;">
+    Guest Info <span style="font-weight:400;text-transform:none;color:var(--text-muted);">(optional)</span></div>`;
+  for (let i = 1; i < qty; i++) {
+    const val = existing[i] || '';
+    html += `<div style="border:1px solid var(--border);border-radius:10px;padding:0.85rem;display:flex;flex-direction:column;gap:0.5rem;background:#fafafa;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;">Guest ${i}</div>
+      <input type="text" data-attendee="${i}" placeholder="Guest ${i} full name (optional)"
+        value="${val.replace(/"/g, '&quot;')}"
+        style="${inputStyle}"
+        onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+      <input type="email" data-guest-email="${i}" placeholder="Guest ${i} email (optional)"
+        style="${inputStyle}"
+        onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+    </div>`;
   }
   container.innerHTML = html;
 }
@@ -1346,9 +1352,10 @@ function updatePayButton() {
 
 function submitTicketForm(e) {
   e.preventDefault();
-  const name       = document.getElementById('ticketName').value.trim();
-  const email      = document.getElementById('ticketEmail').value.trim();
-  const guestEmail = (document.getElementById('guestEmail')?.value || '').trim();
+  const name  = document.getElementById('ticketName').value.trim();
+  const email = document.getElementById('ticketEmail').value.trim();
+  const guestEmailInputs = document.querySelectorAll('input[data-guest-email]');
+  const guestEmail = Array.from(guestEmailInputs).map(el => el.value.trim()).filter(Boolean).join(', ');
   const qty        = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
   const payMethod  = document.querySelector('input[name="payMethod"]:checked')?.value;
 
