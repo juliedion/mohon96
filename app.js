@@ -18,6 +18,7 @@ const OBITS = {
   38:  'https://www.demarcostonefuneralhome.com/obituaries/sarah-dingley',
   56:  'https://www.legacy.com/obituaries/name/randy-george-obituary?pid=151250954',
   204: 'https://www.newcomeralbany.com/obituaries/karen-m-segretto',
+  215: 'https://www.courant.com/1994/12/05/vannie-vicki-marie-vannie/',
 };
 
 // ── CLASSMATES (from 1996 Totem Yearbook + Full Class List) ───
@@ -231,6 +232,7 @@ const CLASSMATES = [
   { id:211,   first:'Ronald',                    mid:'',          last:'Wood',                    suf:'Jr.',   full:'Ronald Wood Jr.',                           status:'missing',     page:16  },
   { id:212,   first:'Michael',                   mid:'T.',        last:'Wright',                  suf:'',      full:'Michael T. Wright',                         status:'portrait',    page:16  },
   { id:213,   first:'Amy',                       mid:'',          last:'Yeung',                   suf:'',      full:'Amy Yeung',                                 status:'missing',     page:16  },
+  { id:215,   first:'Vicki',                     mid:'M.',        last:'Vannie',                  suf:'',      full:'Vicki Marie Vannie',                        status:'fallen',      page:16  },
 ];
 
 

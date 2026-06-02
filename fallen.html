@@ -248,38 +248,6 @@
 <main>
   <div class="fallen-warriors-list" id="warriorList"></div>
 
-  <!-- ─── VICKI VANNIE ─────────────────────────── -->
-  <div class="vicki-section">
-    <div class="vicki-card" id="vicki-vannie">
-      <div class="vicki-rose"><img src="yellow-rose.png" class="rose-icon" style="height:1.4rem;width:1.4rem;" alt="🌹"></div>
-      <div class="vicki-title">Vicki Vannie</div>
-      <div class="vicki-years">1978 &ndash; 1994</div>
-      <div class="vicki-divider">— Always Remembered —</div>
-      <div class="vicki-lyrics">
-        ♪ &nbsp;&ldquo;And even though I know how very<br>
-        Far apart we are<br>
-        It helps to think we might be wishing<br>
-        On the same bright star&rdquo; &nbsp; ♪
-      </div>
-
-      <!-- Tribute form for Vicki -->
-      <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(139,115,85,0.25);text-align:left;">
-        <label class="tribute-form-label" style="color:#8B7355;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;display:block;margin-bottom:0.6rem;"
-               for="tribute-vicki">Share a memory or tribute for Vicki</label>
-        <input type="text" class="tribute-author-field" id="author-vicki"
-               placeholder="Your name (optional)" autocomplete="name"
-               style="width:100%;padding:0.55rem 0.85rem;background:rgba(255,255,255,0.04);border:1px solid rgba(139,115,85,0.4);border-radius:6px;color:#F0E6C8;font-size:0.88rem;margin-bottom:0.55rem;box-sizing:border-box;font-family:'Roboto',sans-serif;">
-        <textarea class="tribute-textarea" id="tribute-vicki"
-                  placeholder="Share a memory or a few words for Vicki…"
-                  style="width:100%;padding:0.75rem 0.9rem;background:rgba(255,255,255,0.04);border:1px solid rgba(139,115,85,0.4);border-radius:6px;color:#F0E6C8;font-size:0.9rem;resize:vertical;min-height:90px;font-family:'Roboto',sans-serif;line-height:1.65;box-sizing:border-box;"></textarea>
-        <button class="btn-tribute-submit" onclick="submitVickiTribute()" style="margin-top:0.65rem;background:rgba(200,169,106,0.1);border:1px solid #8B7355;color:#C4A96A;font-size:0.82rem;font-weight:600;border-radius:6px;padding:0.5rem 1.25rem;cursor:pointer;font-family:'Roboto',sans-serif;">
-          <img src="yellow-rose.png" class="rose-icon" style="height:1em;width:1em;" alt="🌹"> Submit Tribute
-        </button>
-        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#5A5040;margin-bottom:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(139,115,85,0.2);">Tributes from Classmates</div>
-        <div id="tributes-vicki" class="tributes-list" style="text-align:left;"></div>
-      </div>
-    </div>
-  </div>
 </main>
 
 <div class="back-link-bar">
@@ -290,12 +258,14 @@
 
 <script>
 const FALLEN = [
-  { id: 12,  first: 'Jason',  last: 'Bolton',     full: 'Jason P. Bolton',   obit: 'https://www.demarcostonefuneralhome.com/obituaries/jason-bolton' },
-  { id: 22,  first: 'Renee',  last: 'Capeless',   full: 'Renee E. Capeless', obit: 'https://www.legacy.com/us/obituaries/dailygazette/name/renee-capeless-obituary?id=25689903' },
-  { id: 38,  first: 'Sarah',  last: 'Dingley',    full: 'Sarah Dingley',     obit: 'https://www.demarcostonefuneralhome.com/obituaries/sarah-dingley' },
-  { id: 56,  first: 'Randy',  last: 'George',     full: 'Randy S. George',   obit: 'https://www.legacy.com/obituaries/name/randy-george-obituary?pid=151250954' },
-  { id: 127, first: 'Brian',  last: 'Minbiole',   full: 'Brian D. Minbiole'  },
-  { id: 204, first: 'Karen',  last: 'Wainwright', full: 'Karen Wainwright',  obit: 'https://www.newcomeralbany.com/obituaries/karen-m-segretto' }
+  { id: 12,  first: 'Jason',  last: 'Bolton',     full: 'Jason P. Bolton',      obit: 'https://www.demarcostonefuneralhome.com/obituaries/jason-bolton' },
+  { id: 22,  first: 'Renee',  last: 'Capeless',   full: 'Renee E. Capeless',    obit: 'https://www.legacy.com/us/obituaries/dailygazette/name/renee-capeless-obituary?id=25689903' },
+  { id: 38,  first: 'Sarah',  last: 'Dingley',    full: 'Sarah Dingley',         obit: 'https://www.demarcostonefuneralhome.com/obituaries/sarah-dingley' },
+  { id: 56,  first: 'Randy',  last: 'George',     full: 'Randy S. George',       obit: 'https://www.legacy.com/obituaries/name/randy-george-obituary?pid=151250954' },
+  { id: 127, first: 'Brian',  last: 'Minbiole',   full: 'Brian D. Minbiole'     },
+  { id: 204, first: 'Karen',  last: 'Wainwright', full: 'Karen Wainwright',      obit: 'https://www.newcomeralbany.com/obituaries/karen-m-segretto' },
+  { id: 215, first: 'Vicki',  last: 'Vannie',     full: 'Vicki Marie Vannie',    obit: 'https://www.courant.com/1994/12/05/vannie-vicki-marie-vannie/', years: '1978–1994',
+    lyrics: '♪  “And even though I know how very far apart we are, ”  ♪<br>♪  “It helps to think we might be wishing on the same bright star.”  ♪' }
 ];
 
 const TRIBUTES_KEY = 'mhs96_tributes';
@@ -306,7 +276,13 @@ function getTributes() {
 }
 
 function getWarriorTributes(id) {
-  return getTributes()[String(id)] || [];
+  var all = getTributes();
+  var entries = all[String(id)] || [];
+  // Migrate legacy 'vicki_vannie' tributes to id 215
+  if (id === 215 && all['vicki_vannie'] && all['vicki_vannie'].length) {
+    entries = all['vicki_vannie'].concat(entries);
+  }
+  return entries;
 }
 
 function saveTribute(id, author, text) {
@@ -359,32 +335,6 @@ function submitTribute(id) {
   showToast('Your tribute has been saved. Thank you.');
 }
 
-function renderVickiTributes() {
-  var list = getWarriorTributes('vicki_vannie');
-  var container = document.getElementById('tributes-vicki');
-  if (!container) return;
-  if (list.length === 0) {
-    container.innerHTML = '<div class="tribute-empty">No tributes yet — be the first to share a memory of Vicki.</div>';
-  } else {
-    container.innerHTML = list.map(function(t) {
-      return '<div class="tribute-entry">' +
-        '<div class="tribute-text">"' + escHtml(t.text) + '"</div>' +
-        '<div class="tribute-meta">— ' + escHtml(t.author) + ' &nbsp;&middot;&nbsp; ' + escHtml(t.date) + '</div>' +
-        '</div>';
-    }).join('');
-  }
-}
-
-function submitVickiTribute() {
-  var author = document.getElementById('author-vicki').value.trim();
-  var text   = document.getElementById('tribute-vicki').value.trim();
-  if (!text) { showToast('Please write something before submitting.'); return; }
-  saveTribute('vicki_vannie', author, text);
-  document.getElementById('author-vicki').value  = '';
-  document.getElementById('tribute-vicki').value = '';
-  renderVickiTributes();
-  showToast('Your tribute has been saved. Thank you.');
-}
 
 function renderWarriors() {
   var list = document.getElementById('warriorList');
@@ -399,8 +349,9 @@ function renderWarriors() {
       '</div>' +
       '<div class="warrior-in-memoriam">' +
         '<img src="yellow-rose.png" class="rose-icon" style="height:1em;width:1em;" alt="🌹">' +
-        '<span>In Memoriam &mdash; Forever a Warrior</span>' +
+        '<span>In Memoriam' + (w.years ? ' &nbsp;&middot;&nbsp; ' + w.years : '') + ' &mdash; Forever a Warrior</span>' +
       '</div>' +
+      (w.lyrics ? '<div style="text-align:center;font-style:italic;color:#C4A96A;font-size:0.88rem;line-height:2;margin-bottom:1.25rem;padding:0.75rem 1rem;background:rgba(196,169,106,0.07);border-radius:6px;">' + w.lyrics + '</div>' : '') +
       (w.obit ? '<div style="margin-bottom:1.25rem;">' +
         '<a href="' + w.obit + '" target="_blank" rel="noopener" ' +
            'style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:#C4A96A;border:1px solid rgba(196,169,106,0.4);border-radius:6px;padding:0.35rem 0.85rem;text-decoration:none;transition:background 0.2s;" ' +
@@ -447,7 +398,6 @@ function initNav() {
 
 document.addEventListener('DOMContentLoaded', function() {
   renderWarriors();
-  renderVickiTributes();
   initNav();
   var hash = window.location.hash;
   if (hash) {
