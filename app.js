@@ -653,7 +653,7 @@ function createClassmateCard(c) {
       </div>`;
   } else {
     const fbUrl   = c.facebook || (isMissing ? null : `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`);
-    const fbLabel = c.facebook ? '📘 Facebook Profile' : '📘 Find on Facebook';
+    const fbLabel = c.facebook ? `📘 Connect with ${c.first} on Facebook` : '📘 Find on Facebook';
     const hasEmail = !!getEffectiveEmail(c);
     const forwardBtnHtml = !hasEmail
       ? `<button class="btn btn-forward btn-xs"
