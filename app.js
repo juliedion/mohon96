@@ -8,7 +8,7 @@ const REUNION_DATE = new Date('2026-07-31T19:00:00');
 
 // ── GOOGLE SHEET INTEGRATION ───────────────────────
 // After deploying the Apps Script, paste the Web App URL here:
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzUqDg-zDRQHDXkh9Npir6OapDAmisPBqkJP3xlO1_tjlY7cAIeu7ABFS9tGyJSJbj/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyezMpSgljqnH6licBxqpomcfQQXIZNYukrDOC6VnS1w1k7w5mGwpaC5WGK9sBrA3Y/exec';
 let sheetEmails = {}; // "First Last" -> email, loaded from sheet on page load
 
 // ── OBITUARIES ────────────────────────────────────
