@@ -721,6 +721,7 @@ function createClassmateCard(c) {
       if (profile.currentLast) bits.push(`<div class="pp-item"><span class="pp-label">Now:</span><span>${c.first} ${profile.currentLast}</span></div>`);
       if (profile.spouse)      bits.push(`<div class="pp-item"><span class="pp-label">Partner:</span><span>${profile.spouse}</span></div>`);
       if (profile.career)      bits.push(`<div class="pp-item"><span class="pp-label">Career:</span><span>${profile.career}</span></div>`);
+      if (profile.memory)      bits.push(`<div class="pp-item pp-memory"><span class="pp-label">Memory:</span><span class="pp-memory-text">&ldquo;${profile.memory}&rdquo;</span></div>`);
       if (bits.length > 0) profilePreviewHtml = `<div class="card-profile-preview">${bits.join('')}</div>`;
     }
     if (!profile) {
