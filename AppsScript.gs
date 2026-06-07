@@ -55,6 +55,31 @@ function handleRsvp(p) {
     notAttending ? 'Not Attending' : 'Going'
   ]);
 
+  // Email purchaser confirmation
+  if (!notAttending && p.email) {
+    var payNote = p.payMethod === 'venmo'
+      ? 'Payment: Venmo @Suz-Lu — please send $' + (qty * 30).toFixed(2) + ' with your confirmation code in the memo.'
+      : 'Payment: Cash or Venmo at the door.';
+    var confirmBody = 'Hi ' + (p.name || '') + ',\n\n'
+      + 'Your RSVP for the Mohonasen Class of \'96 30-Year Reunion is confirmed!\n\n'
+      + '📅 Friday, July 31, 2026  ·  7:00 PM\n'
+      + '📍 Katie O\'Byrnes Irish Pub — Schenectady, NY\n\n'
+      + '─────────────────────────\n'
+      + 'Confirmation: ' + (p.conf || '') + '\n'
+      + 'Tickets: '      + qty + '\n'
+      + 'Total: '        + total + '\n'
+      + payNote + '\n'
+      + (p.attendees ? 'Attendees: ' + p.attendees + '\n' : '')
+      + '─────────────────────────\n\n'
+      + 'Questions? Reply to this email or contact mohonclass96@gmail.com\n\n'
+      + 'Go Warriors! 🧡🖤\n'
+      + 'Mohonasen Class of \'96 Reunion Committee';
+    try { MailApp.sendEmail(p.email, 'RSVP Confirmed — Mohonasen Class of \'96 · ' + (p.conf || ''), confirmBody); } catch(e) {}
+    if (p.guestEmail) {
+      try { MailApp.sendEmail(p.guestEmail, 'RSVP Confirmed — Mohonasen Class of \'96 · ' + (p.conf || ''), confirmBody); } catch(e) {}
+    }
+  }
+
   // Notify committee
   if (!notAttending) {
     var subject = 'New RSVP — ' + (p.name || '') + ' (' + (p.conf || '') + ')';

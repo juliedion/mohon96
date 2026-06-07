@@ -840,6 +840,11 @@ function createClassmateCard(c) {
           <div class="card-name">${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}
           ${rsvpBadge}
+          ${!isFallen && rsvp && rsvp.status === 'going'
+            ? `<button class="btn-rsvp-view btn-rsvp-tickets" onclick="openRsvpViewModal(${c.id})">🎟 View My Tickets</button>`
+            : !isFallen
+              ? `<button class="btn-rsvp-view" onclick="openRsvpViewModal(${c.id})">📋 View/Edit My RSVP</button>`
+              : ''}
           ${!isFallen ? profileBtnHtml : ''}
         </div>
         ${badgeHtml}
@@ -1223,9 +1228,9 @@ function getRsvpData() {
   catch(e) { return {}; }
 }
 function getRsvp(id) { return getRsvpData()[id] || null; }
-function saveRsvp(id, status, qty) {
+function saveRsvp(id, status, qty, extras) {
   const data = getRsvpData();
-  data[id] = { status, qty: qty || 1, ts: Date.now() };
+  data[id] = Object.assign({ status, qty: qty || 1, ts: Date.now() }, extras || {});
   localStorage.setItem(RSVP_KEY, JSON.stringify(data));
 }
 
@@ -1241,12 +1246,57 @@ function matchClassmateByName(name) {
   }) || null;
 }
 
-function recordRsvpFromForm(name, status, qty) {
+function recordRsvpFromForm(name, status, qty, extras) {
   const c = matchClassmateByName(name);
   if (c) {
-    saveRsvp(c.id, status, qty);
+    saveRsvp(c.id, status, qty, extras);
     renderClassmates();
   }
+}
+
+// ── VIEW/EDIT RSVP MODAL ────────────────────────────
+function openRsvpViewModal(id) {
+  const c    = CLASSMATES.find(x => x.id === id);
+  const rsvp = getRsvp(id);
+  const el   = document.getElementById('rsvpViewModal');
+
+  const firstName = c ? (c.nick || c.first) : '';
+  document.getElementById('rsvpViewTitle').textContent = firstName ? `${firstName}'s RSVP` : 'Your RSVP';
+
+  const body = document.getElementById('rsvpViewBody');
+  if (!rsvp) {
+    body.innerHTML = `
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">
+        We don't have an RSVP on file from this device for ${firstName || 'this classmate'}.
+      </p>
+      <a href="#rsvp" class="btn btn-primary" onclick="closeRsvpViewModal()">🎟 RSVP Now</a>`;
+  } else {
+    const going      = rsvp.status === 'going';
+    const date       = rsvp.ts ? new Date(rsvp.ts).toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'}) : '';
+    const refundSubj = encodeURIComponent(`Refund Request — ${rsvp.name || (c ? c.full : '')} · ${rsvp.conf || ''}`);
+    const refundBody = encodeURIComponent(`Hi,\n\nI need to request a refund for my reunion ticket.\n\nName: ${rsvp.name || ''}\nConfirmation: ${rsvp.conf || ''}\nTickets: ${rsvp.qty}\nTotal: $${(rsvp.qty * 30).toFixed(2)}\n\nThank you.`);
+    const refundHref = `mailto:juliedion1@gmail.com,mohonclass96@gmail.com?subject=${refundSubj}&body=${refundBody}`;
+
+    body.innerHTML = `
+      <div class="rsvp-view-rows">
+        <div class="rsvp-view-row"><span>Status</span><strong style="color:${going ? '#065F46' : 'var(--text-muted)'};">${going ? '🎟 Going!' : '😢 Can\'t Make It'}</strong></div>
+        ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Tickets</span><strong>${rsvp.qty}</strong></div>` : ''}
+        ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Total</span><strong>$${(rsvp.qty * 30).toFixed(2)}</strong></div>` : ''}
+        ${rsvp.conf   ? `<div class="rsvp-view-row"><span>Confirmation</span><strong style="font-family:monospace;color:var(--orange);">${rsvp.conf}</strong></div>` : ''}
+        ${rsvp.payMethod && rsvp.payMethod !== 'none' ? `<div class="rsvp-view-row"><span>Payment</span><strong>${rsvp.payMethod === 'venmo' ? '📱 Venmo' : '💵 At the door'}</strong></div>` : ''}
+        ${date ? `<div class="rsvp-view-row"><span>Submitted</span><span style="color:var(--text-muted);">${date}</span></div>` : ''}
+      </div>
+      ${going ? `<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center;">
+        <a href="${refundHref}" class="btn btn-ghost btn-sm" style="font-size:0.78rem;color:var(--text-muted);">↩ Can't make it anymore? Request a refund</a>
+      </div>` : `<div style="margin-top:1rem;text-align:center;">
+        <a href="#rsvp" class="btn btn-primary btn-sm" onclick="closeRsvpViewModal()">🎟 Update My RSVP</a>
+      </div>`}`;
+  }
+  el.classList.add('active');
+}
+
+function closeRsvpViewModal() {
+  document.getElementById('rsvpViewModal').classList.remove('active');
 }
 
 function submitCantMakeIt() {
@@ -1617,6 +1667,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTicketForm();
   loadWallPosts();
   setInterval(loadWallPosts, 45000);
+  const rvm = document.getElementById('rsvpViewModal');
+  if (rvm) rvm.addEventListener('click', e => { if (e.target === rvm) closeRsvpViewModal(); });
 });
 
 // ── TICKET SYSTEM ──────────────────────────────────
@@ -1726,7 +1778,7 @@ function submitTicketForm(e) {
   fetch(APPS_SCRIPT_URL + '?' + params.toString()).catch(() => {});
 
   // Mark RSVP status on classmate card
-  recordRsvpFromForm(name, 'going', qty);
+  recordRsvpFromForm(name, 'going', qty, { conf, email, payMethod, name });
 
   // Show confirmation modal
   showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmail);

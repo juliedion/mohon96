@@ -1694,3 +1694,28 @@ footer .footer-note { margin-top: 0.5rem; }
     print-color-adjust: exact;
   }
 }
+
+/* ── RSVP VIEW BUTTON & MODAL ───────────────────── */
+.btn-rsvp-view {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.btn-rsvp-view:hover { border-color: var(--orange); color: var(--orange); }
+.btn-rsvp-tickets { border-color: #059669; color: #059669; }
+.btn-rsvp-tickets:hover { background: #059669; color: #fff; }
+.rsvp-view-rows { display: flex; flex-direction: column; gap: 0.5rem; }
+.rsvp-view-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.88rem; padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.rsvp-view-row:last-child { border-bottom: none; }
+.rsvp-view-row span:first-child { color: var(--text-muted); }
