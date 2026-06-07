@@ -801,7 +801,7 @@ function createClassmateCard(c) {
             onclick="openAddContactModal(${c.id}, '${c.full.replace(/'/g,"\\'")}', '${c.first.replace(/'/g,"\\'")}')">
             📋 Add ${c.first}'s contact info
           </button>` : ''}
-          <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener" style="font-size:0.72rem;text-decoration:none;">${c.facebook ? `📘 Connect with ${c.first} on Facebook` : `📘 Help us find ${c.first} on Facebook`}</a>
+          <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener" style="text-decoration:none;">${c.facebook ? `📘 Connect with ${c.first} on Facebook` : `📘 Help us find ${c.first} on Facebook`}</a>
           ${!hasEmail ? `<button class="btn btn-forward btn-xs"
             onclick="showForwardModal('${c.full.replace(/'/g,"\\'")}', ${isMissing}, '${c.first.replace(/'/g,"\\'")}')">
             📨 Forward a notification to ${c.first}
