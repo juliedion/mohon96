@@ -319,6 +319,35 @@
       <div class="best96-card"><div class="best96-icon">💵</div><div class="best96-category">Minimum Wage</div><div class="best96-title">$4.75 / Hour</div><div class="best96-detail">The federal minimum when we were flipping burgers after school.</div></div>
       <div class="best96-card"><div class="best96-icon">🎟</div><div class="best96-category">Movie Ticket</div><div class="best96-title">$4.42 Average</div><div class="best96-detail">A weekend at the movies for two cost less than a coffee today.</div></div>
     </div>
+
+    <!-- Senior Superlatives -->
+    <div style="margin-top:3.5rem;">
+      <div class="section-header" style="margin-bottom:1.75rem;">
+        <h3 style="font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:800;color:var(--dark);">🏆 Senior <span class="accent">Superlatives</span></h3>
+        <div class="divider"></div>
+        <p style="color:var(--text-muted);font-size:0.9rem;">Class of &rsquo;96 as voted by the student body &mdash; straight from the yearbook.</p>
+      </div>
+      <div class="superlatives-grid">
+        <div class="sup-card"><div class="sup-award">🌟 Friendliest</div><div class="sup-name">Jason Marx</div></div>
+        <div class="sup-card"><div class="sup-award">😄 Nicest Smile</div><div class="sup-name">Tim Goard</div></div>
+        <div class="sup-card"><div class="sup-award">💃 Class Flirts</div><div class="sup-name">Noelle Ferraro &amp; Nick Marano</div></div>
+        <div class="sup-card"><div class="sup-award">🦋 Most Unique</div><div class="sup-name">Renee Capeless</div></div>
+        <div class="sup-card"><div class="sup-award">🌿 Most Environmentally Conscious</div><div class="sup-name">Danae Handy</div></div>
+        <div class="sup-card"><div class="sup-award">🏃 Most Athletic</div><div class="sup-name">Shawn Urban</div></div>
+        <div class="sup-card"><div class="sup-award">🤡 Class Clown</div><div class="sup-name">Josh Sabatini</div></div>
+        <div class="sup-card"><div class="sup-award">🚀 Most Likely to Succeed</div><div class="sup-name">Justine Pierce</div></div>
+        <div class="sup-card"><div class="sup-award">🍎 Teacher&rsquo;s Pet</div><div class="sup-name">Charleen Tuchovsky</div></div>
+        <div class="sup-card"><div class="sup-award">🎉 Most Outgoing</div><div class="sup-name">Kelly Burke</div></div>
+        <div class="sup-card"><div class="sup-award">💇 Coolest Hair</div><div class="sup-name">Mike Fronk</div></div>
+        <div class="sup-card"><div class="sup-award">💑 Class Couple</div><div class="sup-name">Heather Coffenberg &amp; Jason Truelove</div></div>
+        <div class="sup-card"><div class="sup-award">🎨 Most Artistic</div><div class="sup-name">Sarah Jackett</div></div>
+        <div class="sup-card"><div class="sup-award">🎒 Most School Spirit</div><div class="sup-name">Paula Turpin</div></div>
+        <div class="sup-card"><div class="sup-award">🧠 Most Intelligent</div><div class="sup-name">Roland Gau</div></div>
+        <div class="sup-card"><div class="sup-award">🗳️ Most Politically Correct</div><div class="sup-name">Joe Villano</div></div>
+        <div class="sup-card"><div class="sup-award">🏅 Contributes Most to the Class of &rsquo;96</div><div class="sup-name">Gina Marks</div></div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -570,16 +599,6 @@
         </div>
       </form>
 
-      <!-- Photos -->
-      <div style="margin-top:1.25rem;border-top:1px solid var(--border);padding-top:1.25rem;">
-        <div style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:0.75rem;">
-          📸 Your Photos <span style="font-weight:400;text-transform:none;color:var(--text-muted);font-size:0.78rem;">(optional — share a current photo of yourself, family, or pets)</span>
-        </div>
-        <div id="pfPhotosGrid" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.6rem;"></div>
-        <label class="btn-add-photo" for="pfPhotoUpload" style="display:inline-block;">📷 Add a photo</label>
-        <input type="file" id="pfPhotoUpload" accept="image/*" style="display:none"
-          onchange="handleProfilePhotoUpload(event)">
-      </div>
     </div>
     <div class="profile-modal-footer">
       <button class="btn btn-primary" onclick="saveProfile()">💾 Save &amp; Send to Committee</button>
@@ -688,6 +707,24 @@
   </div>
 </div>
 
-<script src="app.js?v=20260601"></script>
+<!-- Add Contact Info Modal -->
+<div class="modal-overlay" id="addContactModal" role="dialog" aria-modal="true">
+  <div class="modal-box" style="max-width:420px;">
+    <div class="modal-header">
+      <h3 id="addContactTitle">Add Contact Info</h3>
+      <button class="modal-close" onclick="closeAddContactModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">Share anything that might help us reach them — email, phone, town, workplace, or who might know them.</p>
+      <textarea id="addContactText" rows="4" style="width:100%;padding:0.6rem;border:1px solid var(--border);border-radius:6px;font-size:0.88rem;resize:vertical;" placeholder="e.g. I think they live in Albany and work at..."></textarea>
+    </div>
+    <div class="modal-footer" style="display:flex;gap:0.5rem;justify-content:flex-end;padding:1rem;">
+      <button class="btn btn-primary" onclick="submitContactInfo()">Send to Committee</button>
+      <button class="btn btn-ghost" onclick="closeAddContactModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=20260614"></script>
 </body>
 </html>

@@ -494,10 +494,10 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
   box-shadow: var(--shadow-md);
 }
 .classmate-card.missing {
-  border-color: #FCA5A5;
-  background: var(--missing-bg);
+  border-color: var(--border);
+  background: var(--white);
 }
-.classmate-card.missing:hover { box-shadow: 0 4px 16px rgba(229,62,62,0.15); }
+.classmate-card.missing:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 
 .classmate-card.fallen {
   background: linear-gradient(135deg, #1A1A14 0%, #252510 100%);
@@ -540,7 +540,7 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
   flex-shrink: 0;
   text-transform: uppercase;
 }
-.missing .card-avatar { background: linear-gradient(135deg, var(--missing-red), #C53030); }
+/* missing classmates use same orange avatar as portrait classmates */
 .connected-avatar { background: linear-gradient(135deg, var(--connected-green), #276749); }
 
 .card-name-block { flex: 1; }
@@ -564,7 +564,7 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
   align-self: flex-start;
 }
 .badge-portrait { background: var(--portrait-bg); color: var(--portrait-blue); }
-.badge-missing { background: #FEE2E2; color: var(--missing-red); }
+.badge-missing { background: var(--light-bg); color: var(--text-muted); }
 .badge-connected { background: var(--connected-bg); color: var(--connected-green); }
 .badge-surveyed { background: #F0E6FF; color: #6B46C1; }
 
@@ -582,6 +582,46 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
 .no-email-text.urgent { color: var(--missing-red); font-style: normal; font-weight: 600; }
 
 .card-actions { display: flex; flex-direction: column; gap: 0.3rem; }
+.contact-info-box {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  background: var(--light-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.contact-box-label {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.contact-box-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.btn-contact-add {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.btn-contact-add:hover { border-color: var(--orange); color: var(--orange); }
+.btn-profile {
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  line-height: 1.4;
+  display: inline-block;
+}
+.btn-profile:hover { border-color: var(--orange); color: var(--orange); }
 .card-know-text {
   font-size: 0.78rem;
   color: var(--text-muted);
@@ -800,17 +840,17 @@ footer .footer-note { margin-top: 0.5rem; }
 
 /* ── MISSING NOTICE ─────────────────────────────── */
 .missing-notice {
-  background: linear-gradient(90deg, #FEF2F2, #FFFBEB);
-  border: 1px solid #FCA5A5;
-  border-left: 4px solid var(--missing-red);
+  background: var(--light-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
   border-radius: var(--radius);
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
   display: flex; align-items: flex-start; gap: 0.75rem;
 }
 .missing-notice .notice-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
-.missing-notice p { font-size: 0.88rem; color: #7F1D1D; line-height: 1.6; }
-.missing-notice strong { color: var(--missing-red); }
+.missing-notice p { font-size: 0.88rem; color: var(--text); line-height: 1.6; }
+.missing-notice strong { color: var(--orange); }
 
 /* ── ALMA MATER OVERLAY ─────────────────────────── */
 .alma-mater-overlay {
@@ -851,8 +891,6 @@ footer .footer-note { margin-top: 0.5rem; }
   line-height: 1.3;
 }
 .btn-forward:hover { border-color: var(--orange); color: var(--orange); }
-.missing .btn-forward { border-color: #FCA5A5; color: var(--missing-red); }
-.missing .btn-forward:hover { background: var(--missing-red); color: #fff; }
 
 /* ── TICKET PURCHASE SECTION ────────────────────── */
 .ticket-purchase-wrap {
@@ -1191,6 +1229,42 @@ footer .footer-note { margin-top: 0.5rem; }
 .best96-title { font-size: 1rem; font-weight: 800; color: var(--white); line-height: 1.2; }
 .best96-detail { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.4; }
 
+/* ── SENIOR SUPERLATIVES ────────────────────────── */
+.superlatives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.85rem;
+}
+.sup-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.sup-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(244,123,32,0.12);
+  border-color: var(--orange);
+}
+.sup-award {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--orange);
+  line-height: 1.3;
+}
+.sup-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.2;
+}
+
 /* ── PHOTOS / CLASS MEMORIES ────────────────────── */
 #photos { background: var(--light-bg); }
 
@@ -1397,14 +1471,14 @@ footer .footer-note { margin-top: 0.5rem; }
 
 /* ── VIEW CLASSMATE BUTTON ──────────────────────── */
 .btn-view-classmate {
-  background: var(--dark);
+  background: #0284c7;
   color: var(--white);
-  border: 1px solid #444;
+  border: 1px solid #0369a1;
   font-size: 0.72rem;
 }
 .btn-view-classmate:hover {
-  background: var(--orange);
-  border-color: var(--orange);
+  background: #0369a1;
+  border-color: #075985;
   color: var(--white);
   text-decoration: none;
 }
