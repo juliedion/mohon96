@@ -1662,3 +1662,33 @@ footer .footer-note { margin-top: 0.5rem; }
   .hero-event-bar .heb-sep { display: none; }
   .photos-gallery-placeholder { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── PRINT (ticket page) ────────────────────────── */
+@media print {
+  body > *:not(#ticketPrintArea) { display: none !important; }
+  #ticketPrintArea {
+    display: block !important;
+    padding: 24px;
+  }
+  .ticket-card {
+    display: flex;
+    border: 2px solid #F47B20;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    max-width: 580px;
+    page-break-inside: avoid;
+  }
+  .ticket-band {
+    background: #F47B20 !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .ticket-stub {
+    background: #1a1a1a !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

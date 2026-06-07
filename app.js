@@ -1829,8 +1829,17 @@ function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmai
   const subject = `RSVP Confirmed — Mohonasen Class of '96 Reunion · ${conf}`;
   const body = buildTicketEmailBody(name, qty, conf, total, attendees, payMethod, guestEmail);
   const emailBtn = document.getElementById('emailTicketsBtn');
-  emailBtn.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  emailBtn.textContent = payMethod === 'venmo' ? '📧 Email My RSVP & Payment Info' : '📧 Email My RSVP Confirmation';
+  const ccPart = guestEmail ? `cc=${encodeURIComponent(guestEmail)}&` : '';
+  emailBtn.href = `mailto:${encodeURIComponent(email)}?${ccPart}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  emailBtn.textContent = payMethod === 'venmo' ? '📧 Email My RSVP & Payment Info' : '📧 Email My Tickets';
+
+  // Refund request button
+  const refundBtn = document.getElementById('refundRequestBtn');
+  if (refundBtn) {
+    const refundSubject = `Refund Request — ${name} · ${conf}`;
+    const refundBody = `Hi,\n\nI need to request a refund for my reunion ticket.\n\nName: ${name}\nConfirmation: ${conf}\nTickets: ${qty}\nTotal: $${total.toFixed(2)}\n\nThank you.`;
+    refundBtn.href = `mailto:juliedion1@gmail.com,mohonclass96@gmail.com?subject=${encodeURIComponent(refundSubject)}&body=${encodeURIComponent(refundBody)}`;
+  }
 
   document.getElementById('ticketModal').classList.add('active');
 }
@@ -1840,27 +1849,17 @@ function closeTicketModal() {
 }
 
 function printTickets() {
-  const content = document.getElementById('ticketCardsContainer').innerHTML;
-  const win = window.open('', '_blank', 'width=700,height=600');
-  win.document.write(`<!DOCTYPE html><html><head><title>Reunion Tickets</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&display=swap" rel="stylesheet">
-  <style>
-    body{margin:0;padding:24px;background:#fff;font-family:system-ui}
-    .ticket-card{display:flex;border:2px solid #F47B20;border-radius:10px;overflow:hidden;margin-bottom:20px;max-width:580px;page-break-inside:avoid}
-    .ticket-band{background:#F47B20;color:#fff;width:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .ticket-band span{font-family:'Oswald',sans-serif;font-weight:700;font-size:7px;letter-spacing:1px;writing-mode:vertical-rl;transform:rotate(180deg);text-transform:uppercase;white-space:nowrap}
-    .ticket-body{flex:1;padding:14px 18px}
-    .ticket-school{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#888}
-    .ticket-title{font-family:'Oswald',sans-serif;font-size:20px;font-weight:900;color:#1a1a1a;margin:2px 0 8px}
-    .ticket-info{font-size:11px;color:#555;display:flex;flex-direction:column;gap:3px}
-    .ticket-stub{background:#1a1a1a;color:#fff;width:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;flex-shrink:0;text-align:center;gap:4px}
-    .stub-num{font-family:'Oswald',sans-serif;font-size:26px;font-weight:900;color:#F47B20;line-height:1}
-    .stub-num span{font-size:11px;display:block;color:rgba(255,255,255,.5)}
-    .stub-conf{font-size:7px;color:rgba(255,255,255,.55);letter-spacing:.5px;word-break:break-all}
-    .stub-price{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:#F47B20}
-    @media print{body{padding:0}}
-  </style></head><body>${content}<script>window.onload=()=>window.print()<\/script></body></html>`);
-  win.document.close();
+  const container = document.getElementById('ticketCardsContainer');
+  const printArea  = document.getElementById('ticketPrintArea');
+  if (printArea) {
+    printArea.innerHTML = container.innerHTML;
+  } else {
+    const div = document.createElement('div');
+    div.id = 'ticketPrintArea';
+    div.innerHTML = container.innerHTML;
+    document.body.appendChild(div);
+  }
+  window.print();
 }
 
 function initTicketForm() {
