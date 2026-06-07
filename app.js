@@ -703,6 +703,14 @@ function createClassmateCard(c) {
   let avatarStyle = '';
   if (isFallen) avatarStyle = 'background:linear-gradient(135deg,#3A3A2A,#1A1A10);border:2px solid #8B7355;';
 
+  // RSVP status
+  const rsvp = getRsvp(c.id);
+  const rsvpBadge = rsvp
+    ? rsvp.status === 'going'
+      ? `<span class="rsvp-badge rsvp-going">🎟 Going${rsvp.qty > 1 ? ' ×' + rsvp.qty : ''}!</span>`
+      : `<span class="rsvp-badge rsvp-notgoing">😢 Can't Make It</span>`
+    : '';
+
   // Profile data
   const profile = getProfile(c.id);
   let profilePreviewHtml = '';
@@ -830,6 +838,7 @@ function createClassmateCard(c) {
         <div class="card-name-block">
           <div class="card-name">${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}
+          ${rsvpBadge}
           ${!isFallen ? profileBtnHtml : ''}
         </div>
         ${badgeHtml}
@@ -1205,6 +1214,53 @@ function initEmailVerifyModal() {
 }
 
 // ── PROFILES (localStorage) ────────────────────────
+// ── RSVP STATUS (localStorage) ─────────────────────
+const RSVP_KEY = 'mhs96_rsvp';
+
+function getRsvpData() {
+  try { return JSON.parse(localStorage.getItem(RSVP_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+function getRsvp(id) { return getRsvpData()[id] || null; }
+function saveRsvp(id, status, qty) {
+  const data = getRsvpData();
+  data[id] = { status, qty: qty || 1, ts: Date.now() };
+  localStorage.setItem(RSVP_KEY, JSON.stringify(data));
+}
+
+function matchClassmateByName(name) {
+  if (!name) return null;
+  const n = name.toLowerCase().replace(/[^a-z ]/g, '').trim();
+  return CLASSMATES.find(c => {
+    const full    = c.full.toLowerCase().replace(/[^a-z ]/g, '');
+    const simple  = (c.first + ' ' + c.last).toLowerCase().replace(/[^a-z ]/g, '');
+    const married = c.married ? (c.first + ' ' + c.married).toLowerCase().replace(/[^a-z ]/g, '') : '';
+    const nicked  = c.nick ? (c.nick + ' ' + c.last).toLowerCase().replace(/[^a-z ]/g, '') : '';
+    return full === n || simple === n || married === n || nicked === n;
+  }) || null;
+}
+
+function recordRsvpFromForm(name, status, qty) {
+  const c = matchClassmateByName(name);
+  if (c) {
+    saveRsvp(c.id, status, qty);
+    renderClassmates();
+  }
+}
+
+function submitCantMakeIt() {
+  const name  = document.getElementById('cantMakeName').value.trim();
+  const email = document.getElementById('cantMakeEmail').value.trim();
+  if (!name) { showToast('Please enter your name.'); return; }
+  if (APPS_SCRIPT_URL) {
+    const params = new URLSearchParams({ action: 'rsvp', name, email, qty: '0', payMethod: 'none', conf: 'NOT_ATTENDING' });
+    fetch(APPS_SCRIPT_URL + '?' + params.toString()).catch(() => {});
+  }
+  recordRsvpFromForm(name, 'not_going', 0);
+  document.getElementById('cantMakeForm').style.display = 'none';
+  document.getElementById('cantMakeConfirm').style.display = 'block';
+}
+
 const PROFILES_KEY = 'mhs96_profiles';
 
 function getProfiles() {
@@ -1667,6 +1723,9 @@ function submitTicketForm(e) {
     conf,
   });
   fetch(APPS_SCRIPT_URL + '?' + params.toString()).catch(() => {});
+
+  // Mark RSVP status on classmate card
+  recordRsvpFromForm(name, 'going', qty);
 
   // Show confirmation modal
   showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmail);
