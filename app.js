@@ -811,6 +811,7 @@ function createClassmateCard(c) {
             📋 Add ${c.first}'s contact info
           </button>` : ''}
           <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener" style="text-decoration:none;">${c.facebook ? `📘 Connect with ${c.first} on Facebook` : `📘 Help us find ${c.first} on Facebook`}</a>
+          ${c.linkedin ? `<a class="btn btn-ghost btn-xs" href="${c.linkedin}" target="_blank" rel="noopener" style="text-decoration:none;">💼 Connect with ${c.first} on LinkedIn</a>` : ''}
           ${!hasEmail ? `<button class="btn btn-forward btn-xs"
             onclick="showForwardModal('${c.full.replace(/'/g,"\\'")}', ${isMissing}, '${c.first.replace(/'/g,"\\'")}')">
             📨 Forward a notification to ${c.first}
