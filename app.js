@@ -183,14 +183,14 @@ const CLASSMATES = [
   { id:4,     first:'Jeremy',                    mid:'',          last:'Barnes',                  suf:'',      full:'Jeremy Barnes',                             status:'missing',     page:1  },
   { id:5,     first:'Christina',                 mid:'M.',        last:'Barone',                  suf:'',      full:'Christina M. Barone',                       status:'portrait',    page:1,   facebook:'https://www.facebook.com/chrissy.barone88'  },
   { id:6,     first:'Ida-Jo',                    mid:'M.',        last:'Barone',                  suf:'',      full:'Ida-Jo M. Barone',                          status:'portrait',    page:1,  email:'aWRham9zdWRhbm9AeWFob28uY29t',   married:'Sudano',   facebook:'https://www.facebook.com/idajo.sudano'  },
-  { id:7,     first:'Douglas',                   mid:'L.',        last:'Bartling',                suf:'',      full:'Douglas L. Bartling',                       status:'portrait',    page:1  },
+  { id:7,     first:'Douglas',                   mid:'L.',        last:'Bartling',                suf:'',      nick:'Doug',  full:'Douglas L. Bartling',                       status:'portrait',    page:1,   facebook:'https://www.facebook.com/doug.bartling'  },
   { id:8,     first:'Bethany',                   mid:'K.',        last:'Beckett',                 suf:'',      full:'Bethany K. Beckett',                        status:'portrait',    page:1,   facebook:'https://www.facebook.com/bethanybeckett8'  },
   { id:9,     first:'Mark',                      mid:'M.',        last:'Belschwinder',            suf:'',      full:'Mark M. Belschwinder',                      status:'portrait',    page:1,   facebook:'https://www.facebook.com/william.belschwinder'  },
   { id:10,    first:'Obed',                      mid:'David',     last:'Bhan',                    suf:'',      full:'Obed David Bhan',                           status:'portrait',    page:1,   facebook:'https://www.facebook.com/profile.php?id=100001779880828'  },
   { id:11,    first:'Russ',                      mid:'E.',        last:'Bolle',                   suf:'',      full:'Russ E. Bolle',                             status:'portrait',    page:1,   facebook:'https://www.facebook.com/russ.bolle'  },
   { id:12,    first:'Jason',                     mid:'P.',        last:'Bolton',                  suf:'',      full:'Jason P. Bolton',                           status:'fallen',      page:16  },
   { id:13,    first:'Ross',                      mid:'',          last:'Boniecki',                suf:'',      full:'Ross Boniecki',                             status:'missing',     page:16,   facebook:'https://www.facebook.com/ross.boniecki'  },
-  { id:14,    first:'Keith',                     mid:'',          last:'Boscarino',               suf:'',      full:'Keith Boscarino',                           status:'missing',     page:1  },
+  { id:14,    first:'Keith',                     mid:'',          last:'Boscarino',               suf:'',      full:'Keith Boscarino',                           status:'missing',     page:1,   linkedin:'https://www.linkedin.com/in/keith-boscarino-733635152'  },
   { id:15,    first:'Erin',                      mid:'',          last:'Brown',                   suf:'',      full:'Erin Brown',                                status:'portrait',    page:2,   facebook:'https://www.facebook.com/erin.brown.9081'  },
   { id:16,    first:'Jeremy',                    mid:'',          last:'Buechner',                suf:'',      nick:'JJ',      full:'Jeremy Buechner',                           status:'portrait',    page:2,  email:'bG9jYWxhY3RvcnNndWlsZEBnbWFpbC5jb20=',   facebook:'https://www.facebook.com/jeremy.buechner'  },
   { id:17,    first:'Andrew',                    mid:'',          last:'Burke',                   suf:'',      full:'Andrew Burke',                              status:'portrait',    page:2  },
@@ -199,35 +199,35 @@ const CLASSMATES = [
   { id:20,    first:'Julie',                     mid:'C.',        last:'Buyea',                   suf:'',      full:'Julie C. Buyea',                            status:'portrait',    page:2,   facebook:'https://www.facebook.com/julie.fox.7505'  },
   { id:21,    first:'Lawrence',                  mid:'J.',        last:'Caban',                   suf:'',      nick:'Larry',      full:'Lawrence J. Caban',                         status:'missing',     page:2,   facebook:'https://www.facebook.com/larry.caban.439030'  },
   { id:22,    first:'Renee',                     mid:'E.',        last:'Capeless',                suf:'',      full:'Renee E. Capeless',                         status:'fallen',      page:2  },
-  { id:23,    first:'John',                      mid:'C.',        last:'Carey',                   suf:'',      full:'John C. Carey',                             status:'missing',     page:3  },
+  { id:23,    first:'John',                      mid:'C.',        last:'Carey',                   suf:'',      full:'John C. Carey',                             status:'portrait',    page:3  },
   { id:24,    first:'Carrie',                    mid:'',          last:'Carlow',                  suf:'',      full:'Carrie Carlow',                             status:'portrait',    page:2,  email:'Y3Jhc2hmb3JkMDEwNEBnbWFpbC5jb20=',  married:'Rashford',   facebook:'https://www.facebook.com/carrie.rashford.3'   },
   { id:25,    first:'Cheryl',                    mid:'',          last:'Carmichael',              suf:'',      full:'Cheryl Carmichael',                         status:'portrait',    page:2,   facebook:'https://www.facebook.com/cheryl.l.carmichael'  },
   { id:26,    first:'David',                     mid:'M.',        last:'Clay',                    suf:'',      full:'David M. Clay',                             status:'portrait',    page:2,   facebook:'https://www.facebook.com/davidmichaelclay'  },
   { id:27,    first:'Heather',                   mid:'',          last:'Coffenberg',              suf:'',      full:'Heather Coffenberg',                        status:'portrait',    page:2,  email:'aGVhdGhlcmNvZmZlbmJlcmdAZ21haWwuY29t',   facebook:'https://www.facebook.com/heather.coffenberg'  },
-  { id:28,    first:'Heather',                   mid:'',          last:'D\'Arcy',                 suf:'',      full:'Heather D\'Arcy',                           status:'portrait',    page:3,   facebook:'https://www.facebook.com/shannon.dambrosio.52'  },
-  { id:29,    first:'Nichole',                   mid:'L.',        last:'Davis',                   suf:'',      full:'Nichole L. Davis',                          status:'missing',     page:3,   facebook:'https://www.facebook.com/heather.darcy.52'  },
+  { id:28,    first:'Heather',                   mid:'',          last:'D\'Arcy',                 suf:'',      full:'Heather D\'Arcy',                           status:'portrait',    page:3,   facebook:'https://www.facebook.com/heather.darcy.52'  },
+  { id:29,    first:'Nichole',                   mid:'L.',        last:'Davis',                   suf:'',      full:'Nichole L. Davis',                          status:'active',      page:3,   married:'Heine',  facebook:'https://www.facebook.com/groups/211453525127/user/1596045949/'  },
   { id:30,    first:'Stephanie',                 mid:'A.',        last:'DeCatur',                 suf:'',      full:'Stephanie A. DeCatur',                      status:'missing',     page:16,   facebook:'https://www.facebook.com/stephanie.decatur'  },
   { id:31,    first:'Erika',                     mid:'',          last:'DeLorenzo',               suf:'',      full:'Erika DeLorenzo',                           status:'portrait',    page:3,  email:'ZWxwZWF0QG91dGxvb2suY29t',   married:'Peat',   facebook:'https://www.facebook.com/erika.delorenzopeat'       },
   { id:32,    first:'Jill',                      mid:'',          last:'DeMarco',                 suf:'',      full:'Jill De Marco',                             status:'missing',     page:3  },
   { id:33,    first:'Paul',                      mid:'M.',        last:'Demkowski',               suf:'',      full:'Paul M. Demkowski',                         status:'portrait',    page:16,   facebook:'https://www.facebook.com/paul.demkowski'  },
   { id:34,    first:'Kathleen',                  mid:'M.',        last:'Dennis',                  suf:'',      full:'Kathleen M. Dennis',                        status:'portrait',    page:3,  email:'a21kNzgzNEBtc24uY29t',   married:'Vest',   facebook:'https://www.facebook.com/kathleen.vest'  },
-  { id:35,    first:'Mark',                      mid:'J.',        last:'Denolfo',                 suf:'Jr.',   full:'Mark J. Denolfo Jr.',                       status:'portrait',    page:3  },
+  { id:35,    first:'Mark',                      mid:'J.',        last:'Dinolfo',                 suf:'Jr.',   full:'Mark J. Dinolfo Jr.',                       status:'portrait',    page:3,   facebook:'https://www.facebook.com/mark.dinolfo'  },
   { id:36,    first:'Daniel',                    mid:'P.',        last:'DiBlasio',                suf:'',      full:'Daniel P. DiBlasio',                        status:'missing',     page:3,   facebook:'https://www.facebook.com/dan.diblasio.16'  },
   { id:37,    first:'John',                      mid:'J.',        last:'Dillenbeck',              suf:'',      full:'John J. Dillenbeck',                        status:'missing',     page:3  },
   { id:38,    first:'Sarah',                     mid:'',          last:'Dingley',                 suf:'',      full:'Sarah Dingley',                             status:'fallen',      page:3  },
   { id:39,    first:'Cory',                      mid:'',          last:'Dinon',                   suf:'',      full:'Cory Dinon',                                status:'portrait',    page:4,   facebook:'https://www.facebook.com/cory.dinon'  },
-  { id:41,    first:'David',                     mid:'W.',        last:'Dussault',                suf:'',      full:'David W. Dussault',                         status:'missing',     page:4  },
+  { id:41,    first:'David',                     mid:'W.',        last:'Dussault',                suf:'',      full:'David W. Dussault',                         status:'missing',     page:4,   linkedin:'https://www.linkedin.com/in/david-w-dussault-8ba2286'  },
   { id:42,    first:'Shannon',                   mid:'',          last:"D'Ambrosio",              suf:'',      full:"Shannon D'Ambrosio",                        status:'portrait',    page:16, facebook:'https://www.facebook.com/people/Shannon-DAmbrosio/100006795645696/'  },
   { id:43,    first:'Heather',                   mid:'M.',        last:'Eckert',                  suf:'',      full:'Heather M. Eckert',                         status:'portrait',    page:4,  email:'aGVhdGhlcmpvcmRhbjAxMDNAZ21haWwuY29t',  married:'Jordan-Tse',   facebook:'https://www.facebook.com/heather.jordan.12' },
   { id:44,    first:'Tracy',                     mid:'L.',        last:'Ellrott',                 suf:'',      full:'Tracy L. Ellrott',                          status:'portrait',    page:4,  married:'Sawyer',   facebook:'https://www.facebook.com/tracy.ellrottsawyer'     },
   { id:45,    first:'Rosanna',                   mid:'',          last:'Escobar',                 suf:'',      nick:'Rosie',   full:'Rosanna Escobar',                           status:'portrait',    page:4,  married:'Brown',   facebook:'https://www.facebook.com/rosie.escobarbrown'      },
-  { id:46,    first:'Lisa',                      mid:'M.',        last:'Evans',                   suf:'',      full:'Lisa M. Evans',                             status:'portrait',    page:4  },
+  { id:46,    first:'Lisa',                      mid:'M.',        last:'Evans',                   suf:'',      full:'Lisa M. Evans',                             status:'missing',     page:4  },
   { id:47,    first:'Ryan',                      mid:'P.',        last:'Fallon',                  suf:'',      full:'Ryan P. Fallon',                            status:'portrait',    page:4,  email:'ZnJlc2htbjEwMUBhb2wuY29t',   facebook:'https://www.facebook.com/RyanFallon'  },
   { id:48,    first:'Noelle',                    mid:'M.',        last:'Ferraro',                 suf:'',      full:'Noelle M. Ferraro',                         status:'portrait',    page:4,  married:'Angellozzi' },
   { id:49,    first:'Nichole',                   mid:'',          last:'Fogg',                    suf:'',      full:'Nichole Fogg',                              status:'missing',     page:4  },
   { id:50,    first:'Mark',                      mid:'V.',        last:'Frederick',               suf:'',      full:'Mark V. Frederick',                         status:'portrait',    page:4,   facebook:'https://www.facebook.com/mark.frederick.399'  },
   { id:51,    first:'Michael',                   mid:'',          last:'Friello',                 suf:'',      nick:'Mike',    full:'Michael Friello',                           status:'portrait',    page:4,   facebook:'https://www.facebook.com/michael.friello.9'  },
-  { id:52,    first:'Michael',                   mid:'J.',        last:'Fronk',                   suf:'',      full:'Michael J. Fronk',                          status:'missing',     page:4,   facebook:'https://www.facebook.com/michael.fronk.56'  },
+  { id:52,    first:'Michael',                   mid:'J.',        last:'Fronk',                   suf:'',      nick:'Mike',  full:'Michael J. Fronk',                          status:'missing',     page:4,   facebook:'https://www.facebook.com/michael.fronk.56'  },
   { id:53,    first:'Jaclyn',                    mid:'G.',        last:'Gallo',                   suf:'',      full:'Jaclyn G. Gallo',                           status:'portrait',    page:5,  married:'Paul',   facebook:'https://www.facebook.com/jaclyn.g.paul'       },
   { id:54,    first:'Paul',                      mid:'A.',        last:'Gannon',                  suf:'',      full:'Paul A. Gannon',                            status:'portrait',    page:5,   facebook:'https://www.facebook.com/paul.gannon.528'  },
   { id:55,    first:'Roland',                    mid:'',          last:'Gau',                     suf:'',      full:'Roland Gau',                                status:'portrait',    page:5,   facebook:'https://www.facebook.com/ParamRoland'  },
@@ -235,7 +235,7 @@ const CLASSMATES = [
   { id:57,    first:'Lori',                      mid:'',          last:'Giordano',                suf:'',      full:'Lori Giordano',                             status:'portrait',    page:16, married:'VanDuzer',   facebook:'https://www.facebook.com/lori.giardono'   },
   { id:58,    first:'David',                     mid:'',          last:'Girard',                  suf:'',      full:'David Girard',                              status:'portrait',    page:5,  email:'ZGdpcmFyZDRAZ21haWwuY29t',   facebook:'https://www.facebook.com/david.girard.7545'  },
   { id:59,    first:'Timothy',                   mid:'D.',        last:'Goard',                   suf:'',      nick:'Tim',      full:'Timothy D. Goard',                          status:'portrait',    page:5,   facebook:'https://www.facebook.com/tim.goard.2025'  },
-  { id:60,    first:'Sarah',                     mid:'E.',        last:'Godlewski',               suf:'',      full:'Sarah E. Godlewski',                        status:'missing',     page:16  },
+  { id:60,    first:'Sarah',                     mid:'E.',        last:'Godlewski',               suf:'',      full:'Sarah E. Godlewski',                        status:'missing',     page:16,  facebook:'https://www.facebook.com/profile.php?id=1089377902'  },
   { id:61,    first:'Keith',                     mid:'N.',        last:'Gregory',                 suf:'',      full:'Keith N. Gregory',                          status:'missing',     page:5  },
   { id:62,    first:'Biagio',                    mid:'',          last:'Guida',                   suf:'',      full:'Biagio Guida',                              status:'portrait',    page:5,   facebook:'https://www.facebook.com/Cucciolo0428'  },
   { id:63,    first:'Brian',                     mid:'',          last:'Gustavson',               suf:'',      full:'Brian Gustavson',                           status:'portrait',    page:5,   facebook:'https://www.facebook.com/brian.gustavson.9'  },
@@ -269,7 +269,7 @@ const CLASSMATES = [
   { id:92,    first:'Sarah',                     mid:'',          last:'Kowalski',                suf:'',      full:'Sarah Kowalski',                            status:'portrait',    page:7,  email:'c2FyYWhyb2JpbndyaWdodEBnbWFpbC5jb20=',  married:'Wright',   facebook:'https://www.facebook.com/sarah.k.wright.5'     },
   { id:93,    first:'Jason',                     mid:'',          last:'Kristel',                 suf:'',      full:'Jason Kristel',                             status:'missing',     page:7,   facebook:'https://www.facebook.com/jason.kristel.5'  },
   { id:94,    first:'Angelica',                  mid:'',          last:'LaMalfa',                 suf:'',      full:'Angelica LaMalfa',                          status:'portrait',    page:16,   facebook:'https://www.facebook.com/angelica.lamalfa'  },
-  { id:95,    first:'Shannon',                   mid:'',          last:'Lane',                    suf:'',      full:'Shannon Lane',                              status:'portrait',    page:8  },
+  { id:95,    first:'Shannon',                   mid:'',          last:'Lane',                    suf:'',      full:'Shannon Lane',                              status:'portrait',    page:8,   married:'Terry',  facebook:'https://www.facebook.com/shannon.terry.56'  },
   { id:96,    first:'Sean',                      mid:'W.',        last:'Lasher',                  suf:'',      full:'Sean W. Lasher',                            status:'portrait',    page:8,   facebook:'https://www.facebook.com/sean.lasher.3'  },
   { id:97,    first:'Timothy',                   mid:'',          last:'Lawrence',                suf:'',      nick:'Tim',      full:'Timothy Lawrence',                          status:'portrait',    page:8,   facebook:'https://www.facebook.com/tcl2500'  },
   { id:98,    first:'William',                   mid:'P.',        last:'Lederman',                suf:'',      nick:'Bill',      full:'William P. Lederman',                       status:'portrait',    page:8,   facebook:'https://www.facebook.com/william.lederman'  },
@@ -295,7 +295,7 @@ const CLASSMATES = [
   { id:119,   first:'Gregory',                   mid:'',          last:'McGrath',                 suf:'',      nick:'Greg',      full:'Gregory McGrath',                           status:'portrait',    page:9,   facebook:'https://www.facebook.com/gregory.mcgrath.3'  },
   { id:120,   first:'Stacia',                    mid:'C.',        last:'Messere',                 suf:'',      full:'Stacia C. Messere',                         status:'portrait',    page:9,  married:'Devine',   facebook:'https://www.facebook.com/stacia.devine'     },
   { id:121,   first:'John',                      mid:'W.',        last:'Messerle',                suf:'',      full:'John W. Messerle',                          status:'portrait',    page:9,   facebook:'https://www.facebook.com/jmesserle'  },
-  { id:122,   first:'Nicole',                    mid:'',          last:'DeMidio',                 suf:'',      full:'Nicole DeMidio',                        status:'portrait',    page:3  },
+  { id:122,   first:'Nicole',                    mid:'',          last:'DeMidio',                 suf:'',      full:'Nicole DeMidio',                        status:'portrait',    page:3,   facebook:'https://www.facebook.com/ndemidio'  },
   { id:123,   first:'Angela',                    mid:'',          last:'Millen',                  suf:'',      full:'Angela Millen',                             status:'portrait',    page:9,  email:'YW5nYnJvb2tzMjRAZ21haWwuY29t',   married:'Brooks',   facebook:'https://www.facebook.com/angela.brooks.792'     },
   { id:124,   first:'Daniel',                    mid:'W.',        last:'Miller',                  suf:'',      nick:'Dan',      full:'Daniel W. Miller',                          status:'missing',     page:16,   facebook:'https://www.facebook.com/daniel.miller.7543'  },
   { id:125,   first:'Dennis',                    mid:'J.',        last:'Miller',                  suf:'',      full:'Dennis J. Miller',                          status:'missing',     page:10  },
@@ -337,7 +337,7 @@ const CLASSMATES = [
   { id:161,   first:'Jason',                     mid:'',          last:'Reed',                    suf:'',      full:'Jason Reed',                                status:'missing',     page:16  },
   { id:162,   first:'Edward',                    mid:'M.',        last:'Reilly',                  suf:'',      full:'Edward M. Reilly',                          status:'missing',     page:16  },
   { id:163,   first:'Jennifer',                  mid:'D.',        last:'Relyea',                  suf:'',      full:'Jennifer D. Relyea',                        status:'portrait',    page:12, married:'Yager',   facebook:'https://www.facebook.com/jennifer.relyeayager'      },
-  { id:164,   first:'Richard',                   mid:'',          last:'Reohr',                   suf:'',      full:'Richard Reohr',                             status:'missing',     page:12  },
+  { id:164,   first:'Richard',                   mid:'',          last:'Reohr',                   suf:'',      nick:'Rich',  full:'Richard Reohr',                             status:'missing',     page:12,  facebook:'https://www.facebook.com/profile.php?id=61582712669639'  },
   { id:165,   first:'Jodi',                      mid:'E.',        last:'Rickard',                 suf:'',      full:'Jodi E. Rickard',                           status:'portrait',    page:13, married:'Vongsakoun',   facebook:'https://www.facebook.com/jodi.vongsakoun' },
   { id:166,   first:'Jason',                     mid:'',          last:'Rochek',                  suf:'',      full:'Jason Rochek',                              status:'portrait',    page:13,   facebook:'https://www.facebook.com/monkeytug'  },
   { id:167,   first:'Andrea',                    mid:'A.',        last:'Roman',                   suf:'',      full:'Andrea A. Roman',                           status:'portrait',    page:13, married:'Halbreiner',   facebook:'https://www.facebook.com/andrea.romanhalbreiner' },
@@ -368,11 +368,11 @@ const CLASSMATES = [
   { id:193,   first:'Benjamin',                  mid:'W.',        last:'Teriele',                 suf:'',      nick:'Ben',      full:'Benjamin W. Teriele',                       status:'missing',     page:15  },
   { id:194,   first:'Kevin',                     mid:'R.',        last:'Thomas',                  suf:'',      full:'Kevin R. Thomas',                           status:'portrait',    page:15,   facebook:'https://www.facebook.com/kevin.thomas.1610'  },
   { id:195,   first:'Amanda',                    mid:'L.',        last:'Tinning',                 suf:'',      full:'Amanda L. Tinning',                         status:'portrait',    page:15  },
-  { id:196,   first:'Jason',                     mid:'B.',        last:'Truelove',                suf:'',      full:'Jason B. Truelove',                         status:'missing',     page:15  },
+  { id:196,   first:'Jason',                     mid:'B.',        last:'Truelove',                suf:'',      nick:'Jay',   full:'Jason B. Truelove',                         status:'missing',     page:15,  facebook:'https://www.facebook.com/jay.may.368/photos'  },
   { id:197,   first:'Charleen',                  mid:'M.',        last:'Tuchovsky',               suf:'',      full:'Charleen M. Tuchovsky',                     status:'missing',     page:15  },
-  { id:198,   first:'Paula',                     mid:'L.',        last:'Turpin',                  suf:'',      full:'Paula L. Turpin',                           status:'portrait',    page:15  },
-  { id:199,   first:'Shawn',                     mid:'C.',        last:'Urban',                   suf:'',      full:'Shawn C. Urban',                            status:'missing',     page:15  },
-  { id:200,   first:'Tera',                      mid:'D.',        last:'Varrone',                 suf:'',      full:'Tera D. Varrone',                           status:'missing',     page:15  },
+  { id:198,   first:'Paula',                     mid:'L.',        last:'Turpin',                  suf:'',      full:'Paula L. Turpin',                           status:'portrait',    page:15,  married:'Lawrence',  facebook:'https://www.facebook.com/paula.lawrence.10'  },
+  { id:199,   first:'Shawn',                     mid:'C.',        last:'Urban',                   suf:'',      full:'Shawn C. Urban',                            status:'missing',     page:15,  facebook:'https://www.facebook.com/groups/211453525127/user/61579035476338'  },
+  { id:200,   first:'Tera',                      mid:'D.',        last:'Varrone',                 suf:'',      full:'Tera D. Varrone',                           status:'missing',     page:15,  facebook:'https://www.facebook.com/photo/?fbid=10227267308733094&set=a.1396807284799'  },
   { id:201,   first:'Amy',                       mid:'',          last:'Vaughan',                 suf:'',      full:'Amy Vaughan',                               status:'portrait',    page:15, married:'Struffolino',   facebook:'https://www.facebook.com/amy.vaughanstruffolino'},
   { id:202,   first:'Joseph',                    mid:'',          last:'Villano',                 suf:'',      nick:'Joe',      full:'Joseph Villano',                            status:'portrait',    page:15,   facebook:'https://www.facebook.com/joe.villano.737'  },
   { id:203,   first:'Matthew',                   mid:'',          last:'Visscher',                suf:'',      nick:'Matt',      full:'Matthew Visscher',                          status:'portrait',    page:15,   facebook:'https://www.facebook.com/matt.visscher.75'  },
@@ -456,7 +456,7 @@ function addToCalendar() {
     'DTSTART:20260731T190000',
     'DTEND:20260731T220000',
     'SUMMARY:Mohonasen Class of 1996 — 30-Year Reunion',
-    "DESCRIPTION:Katie O'Byrnes Irish Pub\\n121 Wall Street\\, Schenectady\\, NY 12305\\nHeavy apps & small bites included. $30/person.\\nGet tickets: https://venmo.com/u/Suz-Lu",
+    "DESCRIPTION:Katie O'Byrnes Irish Pub\\n121 Wall Street\\, Schenectady\\, NY 12305\\nHeavy appetizers included. $30/person.\\nGet tickets: https://venmo.com/u/Suz-Lu",
     "LOCATION:Katie O'Byrnes Irish Pub\\, 121 Wall Street\\, Schenectady\\, NY 12305",
     'END:VEVENT',
     'END:VCALENDAR'
@@ -533,7 +533,7 @@ Our 30-YEAR REUNION is coming up:
 📍 Katie O'Byrnes Irish Pub
    121 Wall Street, State Street & Erie Blvd
    Schenectady, NY 12305
- 💰 Just $30/person · Heavy Apps and small bites included. Tickets available at the door (cash or Venmo)
+ 💰 Just $30/person · Heavy appetizers included.
 If you have their contact info, please forward this to them or reply to me!
 
 Connect with us on Facebook:
@@ -1837,7 +1837,7 @@ Katie O'Byrnes Irish Pub
 121 Wall Street, State Street & Erie Blvd
 Schenectady, NY 12305
 
-Heavy apps & small bites included.
+Heavy appetizers included.
 Please bring your confirmation number to the event.
 
 Questions? mohonclass96@gmail.com | mohon96.com

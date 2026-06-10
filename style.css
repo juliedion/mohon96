@@ -99,7 +99,7 @@ button { cursor: pointer; font-family: inherit; }
 /* ── HERO ───────────────────────────────────────── */
 .hero {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--black) 0%, #2A1500 40%, var(--black) 100%);
+  background: linear-gradient(135deg, var(--black) 0%, #0A0A0A 40%, var(--black) 100%);
   display: flex; align-items: center; justify-content: center;
   text-align: center;
   padding: 80px 1.5rem 3rem;
@@ -110,8 +110,8 @@ button { cursor: pointer; font-family: inherit; }
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(circle at 20% 50%, rgba(244,123,32,0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 30%, rgba(244,123,32,0.10) 0%, transparent 40%);
+    radial-gradient(circle at 20% 50%, rgba(30,30,30,0.8) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(20,20,20,0.6) 0%, transparent 40%);
   pointer-events: none;
   z-index: 0;
 }
@@ -121,8 +121,8 @@ button { cursor: pointer; font-family: inherit; }
     -45deg,
     transparent,
     transparent 60px,
-    rgba(244,123,32,0.04) 60px,
-    rgba(244,123,32,0.04) 120px
+    rgba(255,255,255,0.01) 60px,
+    rgba(255,255,255,0.01) 120px
   );
   pointer-events: none;
   z-index: 0;
@@ -296,7 +296,7 @@ section { padding: 5rem 0; }
 #reunion .section-header p { color: rgba(255,255,255,0.65); }
 
 .reunion-card {
-  background: linear-gradient(135deg, #1E1E1E 0%, #2A1500 100%);
+  background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
   border: 1px solid rgba(244,123,32,0.3);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -983,7 +983,7 @@ footer .footer-note { margin-top: 0.5rem; }
   display: flex;
   align-items: baseline;
   gap: 0.75rem;
-  background: linear-gradient(90deg, var(--dark), #2A1500);
+  background: linear-gradient(90deg, var(--dark), #0A0A0A);
   border-radius: var(--radius);
   padding: 1rem 1.5rem;
   margin-top: 0.25rem;
