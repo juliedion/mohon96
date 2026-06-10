@@ -196,7 +196,7 @@ const CLASSMATES = [
   { id:17,    first:'Andrew',                    mid:'',          last:'Burke',                   suf:'',      full:'Andrew Burke',                              status:'portrait',    page:2  },
   { id:18,    first:'Kelly',                     mid:'',          last:'Burke',                   suf:'',      full:'Kelly Burke',                               status:'portrait',    page:2,  married:'Friello',   facebook:'https://www.facebook.com/kelly.friello'    },
   { id:19,    first:'Wendy',                     mid:'',          last:'Butterfield',             suf:'',      full:'Wendy Butterfield',                         status:'portrait',    page:2,  married:'Foshee',   facebook:'https://www.facebook.com/wendy.foshee.2025'     },
-  { id:20,    first:'Julie',                     mid:'C.',        last:'Buyea',                   suf:'',      full:'Julie C. Buyea',                            status:'portrait',    page:2,   facebook:'https://www.facebook.com/julie.fox.7505'  },
+  { id:20,    first:'Julie',                     mid:'C.',        last:'Buyea',                   suf:'',      full:'Julie C. Buyea',                            status:'portrait',    page:2,   married:'Fox',  facebook:'https://www.facebook.com/julie.fox.7505'  },
   { id:21,    first:'Lawrence',                  mid:'J.',        last:'Caban',                   suf:'',      nick:'Larry',      full:'Lawrence J. Caban',                         status:'missing',     page:2,   facebook:'https://www.facebook.com/larry.caban.439030'  },
   { id:22,    first:'Renee',                     mid:'E.',        last:'Capeless',                suf:'',      full:'Renee E. Capeless',                         status:'fallen',      page:2  },
   { id:23,    first:'John',                      mid:'C.',        last:'Carey',                   suf:'',      full:'John C. Carey',                             status:'portrait',    page:3  },
@@ -377,7 +377,7 @@ const CLASSMATES = [
   { id:202,   first:'Joseph',                    mid:'',          last:'Villano',                 suf:'',      nick:'Joe',      full:'Joseph Villano',                            status:'portrait',    page:15,   facebook:'https://www.facebook.com/joe.villano.737'  },
   { id:203,   first:'Matthew',                   mid:'',          last:'Visscher',                suf:'',      nick:'Matt',      full:'Matthew Visscher',                          status:'portrait',    page:15,   facebook:'https://www.facebook.com/matt.visscher.75'  },
   { id:204,   first:'Karen',                     mid:'',          last:'Wainwright',              suf:'',      full:'Karen Wainwright',                          status:'fallen',      page:16  },
-  { id:205,   first:'Kevin',                     mid:'',          last:'Welch',                   suf:'',      full:'Kevin Welch',                               status:'missing',     page:16  },
+  { id:205,   first:'Kevin',                     mid:'',          last:'Welch',                   suf:'',      full:'Kevin Welch',                               status:'missing',     page:16,  facebook:'https://www.facebook.com/kevin.welch.330'  },
   { id:206,   first:'Christina',                 mid:'L.',        last:'Welsch',                  suf:'',      full:'Christina L. Welsch',                       status:'portrait',    page:16  },
   { id:207,   first:'Nicholas',                  mid:'',          last:'Whipple',                 suf:'',      nick:'Nick',      full:'Nicholas Whipple',                          status:'portrait',    page:16,   facebook:'https://www.facebook.com/nicholas.whipple.9'  },
   { id:208,   first:'Ed',                        mid:'Ed',        last:'White',                   suf:'IV',      nick:'Eddie',    full:'Ed White IV',                               status:'portrait',    page:16,   facebook:'https://www.facebook.com/ewhite7'  },
@@ -737,7 +737,7 @@ function createClassmateCard(c) {
   const currentLast = (profile && profile.currentLast) || c.married || null;
   const nickname    = profile && profile.nickname ? profile.nickname : null;
   if (nickname)    nameSubHtml += `<div class="card-maiden" style="color:var(--orange);font-style:italic;">"${nickname}"</div>`;
-  if (currentLast) nameSubHtml += `<div class="card-maiden">Now: ${c.first} ${currentLast}</div>`;
+  if (currentLast) nameSubHtml += '';
 
   let emailHtml = '';
   if (isFallen) {
@@ -838,7 +838,7 @@ function createClassmateCard(c) {
       <div class="card-header">
         <div class="card-avatar" style="${avatarStyle}overflow:hidden;">${avatarContent}</div>
         <div class="card-name-block">
-          <div class="card-name">${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.last}${c.suf ? ' ' + c.suf : ''}</div>
+          <div class="card-name">${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.married ? '(' + c.last + ') ' + c.married : c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}
           ${rsvpBadge}
           ${!isFallen && rsvp && rsvp.status === 'going'
@@ -1552,7 +1552,7 @@ function openViewModal(id) {
   const photos    = getCardPhotos(id);
   const email     = getEffectiveEmail(c);
   const currentLast = (profile && profile.currentLast) || c.married || null;
-  const displayName = `${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.last}${c.suf ? ' ' + c.suf : ''}`;
+  const displayName = `${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.married ? '(' + c.last + ') ' + c.married : c.last}${c.suf ? ' ' + c.suf : ''}`;
   const safeFullName = c.full.replace(/'/g, "\\'");
 
   const photoHtml = '';
@@ -1626,7 +1626,7 @@ function openViewModal(id) {
       ${photoHtml}
       <div class="vcm-name-block">
         <div class="vcm-name">${displayName}</div>
-        ${currentLast && !profile?.currentLast ? `<div class="vcm-sub">Now: ${c.first} ${currentLast}</div>` : ''}
+        ${''}
         ${badge}
       </div>
     </div>
