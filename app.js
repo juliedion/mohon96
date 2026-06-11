@@ -791,13 +791,10 @@ function createClassmateCard(c) {
   if (isFallen) {
     const obitUrl = OBITS[c.id] || null;
     actionsHtml = `
-      <div class="card-actions">
-        <button class="btn btn-view-classmate btn-xs" onclick="openViewModal(${c.id})">🔭 View Classmate</button>
-        <a class="btn btn-fallen-share btn-xs"
-          href="fallen.html#warrior-${c.id}" style="text-decoration:none;display:inline-block;">
-          <img src="yellow-rose.png" class="rose-icon" alt="🌹"> Share a Tribute
-        </a>
-        ${obitUrl ? `<a class="btn btn-ghost btn-xs" href="${obitUrl}" target="_blank" rel="noopener" style="text-decoration:none;">📰 Obituary</a>` : ''}
+      <div class="card-actions card-actions-fallen">
+        <a class="fallen-action-link" href="#" onclick="openViewModal(${c.id});return false;"><i class="fas fa-binoculars"></i> View ${c.nick || c.first}</a>
+        <a class="fallen-action-link" href="fallen.html#warrior-${c.id}"><img src="yellow-rose.png" class="rose-icon" alt="🌹"> Share a Tribute</a>
+        ${obitUrl ? `<a class="fallen-action-link" href="${obitUrl}" target="_blank" rel="noopener">📰 Obituary</a>` : ''}
       </div>`;
   } else {
     const storedEmail = getEffectiveEmail(c);
@@ -830,15 +827,16 @@ function createClassmateCard(c) {
   }
 
   const initials = getInitials(c.first, c.last);
+  const avatarContent = `
+    <img src="yearbook/${c.id}.jpg" alt="${c.first}"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:50%;"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${initials}</span>`;
 
   return `
     <div class="${cardClass}" data-id="${c.id}" data-name="${c.full.toLowerCase()}" data-status="${c.status}">
-      <div class="card-banner" onclick="openViewModal(${c.id})" title="View ${c.first}" style="${avatarStyle}">
-        <img src="yearbook/${c.id}.jpg" alt="${c.first}" class="card-banner-img"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="card-banner-initials" style="display:none;">${initials}</div>
-      </div>
       <div class="card-header">
+        <div class="card-avatar" style="${avatarStyle}overflow:hidden;cursor:pointer;" onclick="openViewModal(${c.id})" title="View ${c.first}">${avatarContent}</div>
         <div class="card-name-block">
           <div class="card-name">${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.married ? '(' + c.last + ') ' + c.married : c.last}${c.suf ? ' ' + c.suf : ''}</div>
           ${nameSubHtml}

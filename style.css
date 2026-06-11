@@ -484,24 +484,10 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
   background: var(--card-bg);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  padding: 0;
-  display: flex; flex-direction: column; gap: 0;
+  padding: 1.2rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
   box-shadow: var(--shadow-sm);
   transition: transform 0.2s, box-shadow 0.2s;
-  overflow: hidden;
-}
-.classmate-card > *:not(.card-banner) {
-  padding-left: 1.2rem;
-  padding-right: 1.2rem;
-}
-.classmate-card > *:not(.card-banner):not(:last-child) {
-  margin-bottom: 0.75rem;
-}
-.classmate-card > .card-rsvp-bar {
-  padding-left: 0;
-  padding-right: 0;
-  margin-bottom: 0;
-  margin-top: auto;
 }
 .classmate-card:hover {
   transform: translateY(-2px);
@@ -542,44 +528,30 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
 .yellow-rose { display: inline-block; filter: hue-rotate(55deg) saturate(1.5); }
 .rose-icon { height: 1.6em; width: 1.6em; vertical-align: middle; display: inline-block; }
 
-.card-banner {
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-  flex-shrink: 0;
-}
-.card-banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 20%;
-  display: block;
-  transition: transform 0.3s ease;
-}
-.card-banner:hover .card-banner-img { transform: scale(1.04); }
-.card-banner-initials {
-  position: absolute;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 3.5rem;
-  color: var(--white);
-  text-transform: uppercase;
-  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-}
-.classmate-card.fallen .card-banner { background: linear-gradient(135deg, #1A1A14, #3a2e10); }
-.classmate-card.fallen .card-banner-initials { background: linear-gradient(135deg, #1A1A14, #3a2e10); }
-
-.card-header { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem; text-align: center; padding-top: 0.75rem; }
+.card-header { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem; text-align: center; }
 .card-edit-email-link { font-size: 0.72rem; color: var(--text-muted); text-decoration: underline; cursor: pointer; padding-left: 0.1rem; }
 .card-edit-email-link:hover { color: var(--orange); }
-/* legacy — keep for any remaining references */
-.card-avatar { display: none; }
+.card-avatar {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 2.2rem; color: var(--white);
+  flex-shrink: 0;
+  text-transform: uppercase;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.card-avatar:hover { opacity: 0.85; box-shadow: 0 0 0 3px var(--orange); }
 .connected-avatar { background: linear-gradient(135deg, var(--connected-green), #276749); }
+.card-actions-fallen { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+.fallen-action-link {
+  font-size: 0.8rem;
+  color: #C4A96A;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.fallen-action-link:hover { opacity: 1; text-decoration: underline; }
 
 .card-name-block { flex: 1; text-align: center; width: 100%; }
 .card-name {
