@@ -57,9 +57,10 @@ function handleRsvp(p) {
 
   // Email purchaser confirmation
   if (!notAttending && p.email) {
-    var payNote = p.payMethod === 'venmo'
-      ? 'Payment: Venmo @Suz-Lu — please send $' + (qty * 30).toFixed(2) + ' with your confirmation code in the memo.'
-      : 'Payment: Cash or Venmo at the door.';
+    var payNote = p.payMethod === 'venmo'  ? 'Payment: Venmo @Suz-Lu — please send $' + (qty * 30).toFixed(2) + ' with your confirmation code in the memo.'
+               : p.payMethod === 'zelle'  ? 'Payment: Zelle — please send $' + (qty * 30).toFixed(2) + ' with your confirmation code in the memo (use the QR code you scanned).'
+               : p.payMethod === 'paypal' ? 'Payment: PayPal — please send $' + (qty * 30).toFixed(2) + ' with your confirmation code in the memo (use the QR code you scanned).'
+               : 'Payment: Cash at the door.';
     var confirmBody = 'Hi ' + (p.name || '') + ',\n\n'
       + 'Your RSVP for the Mohonasen Class of \'96 30-Year Reunion is confirmed!\n\n'
       + '📅 Friday, July 31, 2026  ·  7:00 PM\n'

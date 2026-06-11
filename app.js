@@ -802,19 +802,21 @@ function createClassmateCard(c) {
   } else {
     const fbUrl    = c.facebook || `https://www.facebook.com/search/people/?q=${encodeURIComponent(c.first + ' ' + c.last)}`;
     const hasEmail = !!getEffectiveEmail(c);
-    const contactBox = `
+    const fn       = c.nick || c.first;
+    const fnEsc    = fn.replace(/'/g, "\\'");
+    const contactBox = (hasEmail && c.facebook) ? '' : `
       <div class="contact-info-box">
-        <span class="contact-box-label">Do you have ${c.first}'s contact info?</span>
+        <span class="contact-box-label">Do you have ${fn}'s contact info?</span>
         <div class="contact-box-btns">
           ${!hasEmail ? `<button class="btn btn-contact-add btn-xs"
-            onclick="openAddContactModal(${c.id}, '${c.full.replace(/'/g,"\\'")}', '${c.first.replace(/'/g,"\\'")}')">
-            📋 Add ${c.first}'s contact info
+            onclick="openAddContactModal(${c.id}, '${c.full.replace(/'/g,"\\'")}', '${fnEsc}')">
+            📋 Add ${fn}'s contact info
           </button>` : ''}
-          <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener" style="text-decoration:none;">${c.facebook ? `📘 Connect with ${c.first} on Facebook` : `📘 Help us find ${c.first} on Facebook`}</a>
-          ${c.linkedin ? `<a class="btn btn-ghost btn-xs" href="${c.linkedin}" target="_blank" rel="noopener" style="text-decoration:none;">💼 Connect with ${c.first} on LinkedIn</a>` : ''}
+          <a class="btn btn-ghost btn-xs" href="${fbUrl}" target="_blank" rel="noopener" style="text-decoration:none;">${c.facebook ? `📘 Connect with ${fn} on Facebook` : `📘 Help us find ${fn} on Facebook`}</a>
+          ${c.linkedin ? `<a class="btn btn-ghost btn-xs" href="${c.linkedin}" target="_blank" rel="noopener" style="text-decoration:none;">💼 Connect with ${fn} on LinkedIn</a>` : ''}
           ${!hasEmail ? `<button class="btn btn-forward btn-xs"
-            onclick="showForwardModal('${c.full.replace(/'/g,"\\'")}', ${isMissing}, '${c.first.replace(/'/g,"\\'")}')">
-            📨 Forward a notification to ${c.first}
+            onclick="showForwardModal('${c.full.replace(/'/g,"\\'")}', ${isMissing}, '${fnEsc}')">
+            📨 Forward a notification to ${fn}
           </button>` : ''}
         </div>
       </div>`;
@@ -1746,6 +1748,10 @@ function updatePayButton() {
   } else {
     btn.textContent = '✅ Submit RSVP';
   }
+  const qrZelle  = document.getElementById('qrZelle');
+  const qrPayPal = document.getElementById('qrPayPal');
+  if (qrZelle)  qrZelle.style.display  = method === 'zelle'  ? 'block' : 'none';
+  if (qrPayPal) qrPayPal.style.display = method === 'paypal' ? 'block' : 'none';
 }
 
 function submitTicketForm(e) {
@@ -1817,9 +1823,10 @@ function buildTicketEmailBody(name, qty, conf, total, attendees, payMethod, gues
   const attendeeList = attendees && attendees.length
     ? attendees.map((n, i) => `  ${i === 0 ? 'Primary' : 'Guest ' + i}: ${n || 'Guest'}`).join('\n')
     : `  ${name}`;
-  const payLine = payMethod === 'venmo'
-    ? `Payment: Venmo @Suz-Lu — please send $${total.toFixed(2)} with note "${conf}"`
-    : `Payment: $${total.toFixed(2)} cash or Venmo at the door`;
+  const payLine = payMethod === 'venmo'  ? `Payment: Venmo @Suz-Lu — please send $${total.toFixed(2)} with note "${conf}"`
+               : payMethod === 'zelle'  ? `Payment: Zelle — please send $${total.toFixed(2)} with note "${conf}" (use the QR code you scanned)`
+               : payMethod === 'paypal' ? `Payment: PayPal — please send $${total.toFixed(2)} with note "${conf}" (use the QR code you scanned)`
+               : `Payment: $${total.toFixed(2)} cash at the door`;
   return `Hi ${name.split(' ')[0]},
 
 Your RSVP for the Mohonasen High School Class of 1996 Reunion is confirmed!
@@ -1849,7 +1856,10 @@ function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmai
   const total = qty * 30;
   attendees = attendees || [name];
   payMethod = payMethod || 'cash';
-  const payLabel = payMethod === 'venmo' ? '📱 Venmo (@Suz-Lu)' : '💵 Cash / Venmo at the door';
+  const payLabel = payMethod === 'venmo'  ? '📱 Venmo (@Suz-Lu)'
+                 : payMethod === 'zelle'  ? '💜 Zelle (scan QR code)'
+                 : payMethod === 'paypal' ? '🅿️ PayPal (scan QR code)'
+                 : '💵 Cash at the door';
 
   let ticketsHtml = '';
   for (let i = 0; i < qty; i++) ticketsHtml += buildTicketCard(attendees[i] || name, conf, i + 1, qty);
@@ -1869,7 +1879,7 @@ function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmai
     payRow.className = 'ts-row';
     totalRow?.after(payRow);
   }
-  payRow.innerHTML = `<span>Payment</span><strong style="color:${payMethod === 'venmo' ? 'var(--orange)' : 'var(--dark)'};">${payLabel}</strong>`;
+  payRow.innerHTML = `<span>Payment</span><strong style="color:${['venmo','zelle','paypal'].includes(payMethod) ? 'var(--orange)' : 'var(--dark)'};">${payLabel}</strong>`;
 
   if (payMethod === 'venmo') {
     payRow.insertAdjacentHTML('afterend',

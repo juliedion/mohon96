@@ -200,6 +200,36 @@
               </span>
             </span>
           </label>
+          <label class="pay-option">
+            <input type="radio" name="payMethod" value="zelle" id="payZelle">
+            <span class="pay-option-inner">
+              <span class="pay-icon">💜</span>
+              <span>
+                <strong>Pay now via Zelle</strong>
+                <span class="pay-desc">Scan the QR code below to send payment</span>
+              </span>
+            </span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="payMethod" value="paypal" id="payPayPal">
+            <span class="pay-option-inner">
+              <span class="pay-icon">🅿️</span>
+              <span>
+                <strong>Pay now via PayPal</strong>
+                <span class="pay-desc">Scan the QR code below to send payment</span>
+              </span>
+            </span>
+          </label>
+        </div>
+
+        <!-- QR code display -->
+        <div id="qrZelle" style="display:none;text-align:center;margin-top:1rem;">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">Scan with your bank app to pay via Zelle</p>
+          <img src="qr-zelle.png" alt="Zelle QR Code" style="width:180px;height:auto;border-radius:8px;border:2px solid #eee;">
+        </div>
+        <div id="qrPayPal" style="display:none;text-align:center;margin-top:1rem;">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">Scan with your PayPal app to pay</p>
+          <img src="qr-paypal.png" alt="PayPal QR Code" style="width:180px;height:auto;border-radius:8px;border:2px solid #eee;">
         </div>
 
         <button type="submit" id="rsvpSubmitBtn" class="btn btn-primary" style="width:100%;padding:0.9rem;font-size:1rem;margin-top:1.25rem;justify-content:center;">
