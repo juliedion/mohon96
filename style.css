@@ -1777,6 +1777,30 @@ footer .footer-note { margin-top: 0.5rem; }
   gap: 0.35rem;
   flex-wrap: wrap;
 }
+.pf-photo-upload-btn {
+  display: inline-block;
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+  padding: 0.45rem 1rem;
+  background: var(--orange);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.pf-photo-upload-btn:hover { background: var(--orange-dark); }
+.pf-photos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.pf-photos-grid .card-photo-thumb {
+  width: 70px;
+  height: 70px;
+}
 .card-photo-thumb {
   width: 52px;
   height: 52px;

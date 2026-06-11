@@ -654,6 +654,15 @@
           <label class="pf-label">Favorite High School Memory <span class="pf-hint">(optional)</span></label>
           <textarea id="pfMemory" placeholder="Share a favorite memory from Mohonasen..."></textarea>
         </div>
+
+        <div class="pf-field">
+          <label class="pf-label">📸 Add Photos <span class="pf-hint">(current photos of you — optional)</span></label>
+          <label class="pf-photo-upload-btn">
+            <input type="file" accept="image/*" multiple onchange="handleProfilePhotoUpload(event)" style="display:none;">
+            + Add Photos
+          </label>
+          <div id="pfPhotosGrid" class="pf-photos-grid"></div>
+        </div>
       </form>
 
     </div>
