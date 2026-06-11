@@ -858,6 +858,7 @@ function createClassmateCard(c) {
       </div>
       ${noteHtml}
       ${profilePreviewHtml}
+      ${photosHtml}
       ${actionsHtml}
       ${!isFallen ? `<div class="card-rsvp-bar">
         ${rsvp ? `
@@ -1660,7 +1661,7 @@ function openViewModal(id) {
       </div>
     </div>
     ${contactRows || profileRows ? `<div class="vcm-section">${contactRows}${profileRows}</div>` : ''}
-
+    ${photosHtml}
     ${actionsHtml}
   `;
 
