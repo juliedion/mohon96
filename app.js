@@ -494,31 +494,41 @@ function getCardPhotos(id) {
   catch(e) { return []; }
 }
 
-function handlePhotoUpload(event, id) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const img = new Image();
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    img.onload = () => {
-      const MAX = 240;
-      const scale = Math.min(MAX / img.width, MAX / img.height, 1);
-      const canvas = document.createElement('canvas');
-      canvas.width  = Math.round(img.width  * scale);
-      canvas.height = Math.round(img.height * scale);
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.78);
-      const photos = getCardPhotos(id);
-      if (photos.length >= 6) photos.shift();
-      photos.push(dataUrl);
-      localStorage.setItem(CARD_PHOTOS_KEY + '_' + id, JSON.stringify(photos));
-      renderClassmates();
-      showToast('📸 Photo added!');
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+function handlePhotoUpload(event, id, onDone) {
+  const files = Array.from(event.target.files || []);
+  if (!files.length) return;
   event.target.value = '';
+  let remaining = files.length;
+  files.forEach(file => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.onload = () => {
+        const MAX = 600;
+        const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+        const canvas = document.createElement('canvas');
+        canvas.width  = Math.round(img.width  * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        const photos = getCardPhotos(id);
+        if (photos.length >= 6) photos.shift();
+        photos.push(dataUrl);
+        localStorage.setItem(CARD_PHOTOS_KEY + '_' + id, JSON.stringify(photos));
+        remaining--;
+        if (remaining === 0) {
+          renderClassmates();
+          renderProfilePhotos(id);
+          const vm = document.getElementById('viewClassmateModal');
+          if (vm && vm.classList.contains('active')) openViewModal(id);
+          if (onDone) onDone();
+          showToast('📸 Photo added!');
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function removeCardPhoto(id, index) {
@@ -1391,7 +1401,6 @@ function handleProfilePhotoUpload(event) {
   const id = parseInt(document.getElementById('profileClassmateId').value);
   if (!id) return;
   handlePhotoUpload(event, id);
-  setTimeout(() => renderProfilePhotos(id), 350);
 }
 
 function closeProfileModal() {
