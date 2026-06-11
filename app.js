@@ -813,8 +813,8 @@ function createClassmateCard(c) {
           <div class="card-connect-btns">
             <button class="btn btn-ghost btn-xs card-connect-item card-connect-view" onclick="openViewModal(${c.id})"><i class="fas fa-binoculars"></i> View ${fn}</button>
             ${storedEmail ? `<a class="btn btn-ghost btn-xs card-connect-item" href="mailto:${storedEmail}"><i class="fa fa-envelope"></i> Email</a>` : ''}
-            ${c.facebook ? `<a class="btn btn-ghost btn-xs card-connect-item card-connect-fb" href="${c.facebook}" target="_blank" rel="noopener"><i class="fab fa-facebook"></i> Facebook</a>` : ''}
-            ${c.linkedin ? `<a class="btn btn-ghost btn-xs card-connect-item card-connect-li" href="${c.linkedin}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>` : ''}
+            ${c.facebook ? `<a class="btn btn-ghost btn-xs card-connect-item card-connect-fb" href="${c.facebook}" target="_blank" rel="noopener"><i class="fab fa-facebook"></i> ${fn}'s Facebook Page</a>` : ''}
+            ${c.linkedin ? `<a class="btn btn-ghost btn-xs card-connect-item card-connect-li" href="${c.linkedin}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> ${fn}'s LinkedIn</a>` : ''}
             ${!storedEmail ? `<a class="btn btn-ghost btn-xs card-connect-item" href="${helpEmailHref}"><i class="fa fa-envelope"></i> Help us contact ${fn}</a>` : ''}
           </div>
         </div>
