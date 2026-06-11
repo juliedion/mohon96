@@ -830,11 +830,10 @@ function createClassmateCard(c) {
           </div>
         </div>
 
-        ${!profile ? `
         <div class="card-profile-prompt">
           <span class="card-profile-hey">Hey ${fn}!</span>
-          <button class="btn btn-profile-update btn-xs" onclick="openProfileModal(${c.id},'${c.full.replace(/'/g,"\\'")}')">Add / Update Your Info</button>
-        </div>` : ''}
+          <button class="btn btn-profile-update btn-xs" onclick="openProfileModal(${c.id},'${c.full.replace(/'/g,"\\'")}')">✏️ ${profile ? 'Edit My Info' : 'Add My Info'}</button>
+        </div>
 
         <a href="#" class="report-fallen-link" onclick="openReportFallenModal(${c.id},'${c.full.replace(/'/g,"\\'")}');return false;">Report as Fallen Warrior</a>
       </div>`;
