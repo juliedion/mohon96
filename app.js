@@ -162,6 +162,18 @@ const REUNION_DATE = new Date('2026-07-31T19:00:00');
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3kdQt51PjIftRj0FsdRPtH3wcO4qDsa1LkYM04QMx2ZR6EpOYEdY_mYsPnWsGbrpC/exec';
 let sheetEmails = {}; // "First Last" -> email, loaded from sheet on page load
 
+// ── FALLEN YEARS (birth – death) ──────────────────
+const FALLEN_YEARS = {
+  12:  '1977 – 2021',
+  22:  '1978 – 2012',
+  38:  '1978 – 2022',
+  56:  '1976 – 2011',
+  112: '1977 – 2021',
+  137: '1978 – 2009',
+  204: '1978 – 2012',
+  215: '1978 – 1994',
+};
+
 // ── OBITUARIES ────────────────────────────────────
 const OBITS = {
   12:  'https://www.demarcostonefuneralhome.com/obituaries/jason-bolton',
@@ -697,7 +709,8 @@ function createClassmateCard(c) {
   // Only show badge for fallen warriors
   let badgeHtml = '';
   if (isFallen) {
-    badgeHtml = `<span class="status-badge badge-fallen"><img src="yellow-rose.png" class="rose-icon" alt="🌹"> Fallen Warrior</span>`;
+    const fallenYears = FALLEN_YEARS[c.id] ? `<div class="badge-fallen-years">${FALLEN_YEARS[c.id]}</div>` : '';
+    badgeHtml = `<div class="badge-fallen-title"><img src="yellow-rose.png" class="rose-icon" alt="🌹"> Fallen Warrior <img src="yellow-rose.png" class="rose-icon" alt="🌹"></div>${fallenYears}`;
   }
 
   let avatarStyle = '';
@@ -792,9 +805,9 @@ function createClassmateCard(c) {
     const obitUrl = OBITS[c.id] || null;
     actionsHtml = `
       <div class="card-actions card-actions-fallen">
-        <a class="fallen-action-link" href="#" onclick="openViewModal(${c.id});return false;"><i class="fas fa-binoculars"></i> View ${c.nick || c.first}</a>
-        <a class="fallen-action-link" href="fallen.html#warrior-${c.id}"><img src="yellow-rose.png" class="rose-icon" alt="🌹"> Share a Tribute</a>
-        ${obitUrl ? `<a class="fallen-action-link" href="${obitUrl}" target="_blank" rel="noopener">📰 Obituary</a>` : ''}
+        <button class="btn btn-fallen-action btn-xs" onclick="openViewModal(${c.id})"><i class="fas fa-binoculars"></i> View ${c.nick || c.first}</button>
+        <a class="btn btn-fallen-action btn-xs" href="fallen.html#warrior-${c.id}" style="text-decoration:none;"><img src="yellow-rose.png" class="rose-icon" alt="🌹"> Share a Tribute</a>
+        ${obitUrl ? `<a class="btn btn-fallen-action btn-xs" href="${obitUrl}" target="_blank" rel="noopener" style="text-decoration:none;">📰 Obituary</a>` : ''}
       </div>`;
   } else {
     const storedEmail = getEffectiveEmail(c);

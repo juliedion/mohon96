@@ -509,10 +509,22 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
 .classmate-card.fallen .card-page  { color: #8B7355; }
 .classmate-card.fallen .card-email { background: rgba(200,169,106,0.08); border-color: #8B7355; }
 .fallen-memorial { display: flex; align-items: center; gap: 0.5rem; }
-.badge-fallen {
-  background: #1A1A14;
+.badge-fallen { display: none; }
+.badge-fallen-title {
+  font-size: 1rem;
+  font-weight: 700;
   color: #C4A96A;
-  border: 1px solid #8B7355;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.03em;
+}
+.badge-fallen-years {
+  font-size: 0.8rem;
+  color: #8B7355;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.08em;
+  margin-top: -0.1rem;
 }
 .btn-fallen-share {
   background: rgba(200,169,106,0.12);
@@ -543,15 +555,21 @@ a.stat-link:hover { opacity: 0.75; transform: translateY(-2px); text-decoration:
 }
 .card-avatar:hover { opacity: 0.85; box-shadow: 0 0 0 3px var(--orange); }
 .connected-avatar { background: linear-gradient(135deg, var(--connected-green), #276749); }
-.card-actions-fallen { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
-.fallen-action-link {
-  font-size: 0.8rem;
+.card-actions-fallen { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 100%; }
+.btn-fallen-action {
+  width: 100%;
+  background: rgba(200,169,106,0.12);
+  border: 1px solid #8B7355;
   color: #C4A96A;
-  text-decoration: none;
-  opacity: 0.8;
-  transition: opacity 0.2s;
+  font-size: 0.78rem;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: block;
 }
-.fallen-action-link:hover { opacity: 1; text-decoration: underline; }
+.btn-fallen-action:hover { background: rgba(200,169,106,0.25); }
 
 .card-name-block { flex: 1; text-align: center; width: 100%; }
 .card-name {
