@@ -1266,6 +1266,11 @@ function openRsvpViewModal(id) {
 
   const firstName = c ? (c.nick || c.first) : '';
   document.getElementById('rsvpViewTitle').textContent = firstName ? `${firstName}'s RSVP` : 'Your RSVP';
+  const rvAvatar = document.getElementById('rsvpViewAvatar');
+  if (rvAvatar && c) {
+    const ini = getInitials(c.first, c.last);
+    rvAvatar.innerHTML = `<img src="yearbook/${c.id}.jpg" alt="${c.first}" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:50%;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${ini}</span>`;
+  }
 
   const body = document.getElementById('rsvpViewBody');
   if (!rsvp) {
@@ -1343,6 +1348,11 @@ function openProfileModal(id, name) {
   const c = CLASSMATES.find(x => x.id === id);
   const firstName = c ? c.first : name.split(' ')[0];
   document.getElementById('profileModalTitle').textContent = `Hey ${firstName}! Update Your Profile`;
+  const pfAvatar = document.getElementById('profileModalAvatar');
+  if (pfAvatar && c) {
+    const ini = getInitials(c.first, c.last);
+    pfAvatar.innerHTML = `<img src="yearbook/${c.id}.jpg" alt="${c.first}" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:50%;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${ini}</span>`;
+  }
   document.getElementById('profileClassmateId').value = id;
   const p = getProfile(id);
   document.getElementById('pfCurrentLast').value = p ? (p.currentLast || '') : '';
@@ -1558,7 +1568,13 @@ function openViewModal(id) {
   const displayName = `${c.first}${c.nick ? ' (' + c.nick + ')' : ''} ${c.married ? '(' + c.last + ') ' + c.married : c.last}${c.suf ? ' ' + c.suf : ''}`;
   const safeFullName = c.full.replace(/'/g, "\\'");
 
-  const photoHtml = '';
+  const initials2 = getInitials(c.first, c.last);
+  const photoHtml = `<div class="vcm-avatar">
+    <img src="yearbook/${c.id}.jpg" alt="${c.first}"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:50%;"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${initials2}</span>
+  </div>`;
 
   // Badge
   let badge = '';
