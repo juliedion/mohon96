@@ -1313,7 +1313,7 @@ function openRsvpViewModal(id) {
         ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Tickets</span><strong>${rsvp.qty}</strong></div>` : ''}
         ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Total</span><strong>$${(rsvp.qty * 25).toFixed(2)}</strong></div>` : ''}
         ${rsvp.conf   ? `<div class="rsvp-view-row"><span>Confirmation</span><strong style="font-family:monospace;color:var(--orange);">${rsvp.conf}</strong></div>` : ''}
-        ${rsvp.payMethod && rsvp.payMethod !== 'none' ? `<div class="rsvp-view-row"><span>Payment</span><strong>${rsvp.payMethod === 'venmo' ? '📱 Venmo' : '💵 At the door'}</strong></div>` : ''}
+        ${rsvp.payMethod && rsvp.payMethod !== 'none' && rsvp.payMethod !== 'cash' ? `<div class="rsvp-view-row"><span>Payment</span><strong>${rsvp.payMethod === 'venmo' ? '📱 Venmo' : rsvp.payMethod === 'zelle' ? '💜 Zelle' : '🅿 PayPal'}</strong></div>` : ''}
         ${date ? `<div class="rsvp-view-row"><span>Submitted</span><span style="color:var(--text-muted);">${date}</span></div>` : ''}
       </div>
       ${going ? `<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center;">
@@ -1863,7 +1863,7 @@ function buildTicketEmailBody(name, qty, conf, total, attendees, payMethod, gues
   const payLine = payMethod === 'venmo'  ? `Payment: Venmo @Suz-Lu — please send $${total.toFixed(2)} with note "${conf}"`
                : payMethod === 'zelle'  ? `Payment: Zelle — please send $${total.toFixed(2)} with note "${conf}" (use the QR code you scanned)`
                : payMethod === 'paypal' ? `Payment: PayPal — please send $${total.toFixed(2)} with note "${conf}" (use the QR code you scanned)`
-               : `Payment: $${total.toFixed(2)} cash at the door`;
+               : `Payment: Please send $${total.toFixed(2)} via Venmo, Zelle, or PayPal.`;
   return `Hi ${name.split(' ')[0]},
 
 Your RSVP for the Mohonasen High School Class of 1996 Reunion is confirmed!
@@ -1892,11 +1892,10 @@ Go Warriors! 🧡🖤`;
 function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmail) {
   const total = qty * 25;
   attendees = attendees || [name];
-  payMethod = payMethod || 'cash';
+  payMethod = payMethod || 'venmo';
   const payLabel = payMethod === 'venmo'  ? '📱 Venmo (@Suz-Lu)'
                  : payMethod === 'zelle'  ? '💜 Zelle (scan QR code)'
-                 : payMethod === 'paypal' ? '🅿️ PayPal (scan QR code)'
-                 : '💵 Cash at the door';
+                 : '🅿️ PayPal (scan QR code)';
 
   let ticketsHtml = '';
   for (let i = 0; i < qty; i++) ticketsHtml += buildTicketCard(attendees[i] || name, conf, i + 1, qty);
