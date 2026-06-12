@@ -1304,14 +1304,14 @@ function openRsvpViewModal(id) {
     const going      = rsvp.status === 'going';
     const date       = rsvp.ts ? new Date(rsvp.ts).toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'}) : '';
     const refundSubj = encodeURIComponent(`Refund Request — ${rsvp.name || (c ? c.full : '')} · ${rsvp.conf || ''}`);
-    const refundBody = encodeURIComponent(`Hi,\n\nI need to request a refund for my reunion ticket.\n\nName: ${rsvp.name || ''}\nConfirmation: ${rsvp.conf || ''}\nTickets: ${rsvp.qty}\nTotal: $${(rsvp.qty * 30).toFixed(2)}\n\nThank you.`);
+    const refundBody = encodeURIComponent(`Hi,\n\nI need to request a refund for my reunion ticket.\n\nName: ${rsvp.name || ''}\nConfirmation: ${rsvp.conf || ''}\nTickets: ${rsvp.qty}\nTotal: $${(rsvp.qty * 25).toFixed(2)}\n\nThank you.`);
     const refundHref = `mailto:juliedion1@gmail.com,mohonclass96@gmail.com?subject=${refundSubj}&body=${refundBody}`;
 
     body.innerHTML = `
       <div class="rsvp-view-rows">
         <div class="rsvp-view-row"><span>Status</span><strong style="color:${going ? '#065F46' : 'var(--text-muted)'};">${going ? '🎟 Going!' : '😢 Can\'t Make It'}</strong></div>
         ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Tickets</span><strong>${rsvp.qty}</strong></div>` : ''}
-        ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Total</span><strong>$${(rsvp.qty * 30).toFixed(2)}</strong></div>` : ''}
+        ${rsvp.qty > 0 ? `<div class="rsvp-view-row"><span>Total</span><strong>$${(rsvp.qty * 25).toFixed(2)}</strong></div>` : ''}
         ${rsvp.conf   ? `<div class="rsvp-view-row"><span>Confirmation</span><strong style="font-family:monospace;color:var(--orange);">${rsvp.conf}</strong></div>` : ''}
         ${rsvp.payMethod && rsvp.payMethod !== 'none' ? `<div class="rsvp-view-row"><span>Payment</span><strong>${rsvp.payMethod === 'venmo' ? '📱 Venmo' : '💵 At the door'}</strong></div>` : ''}
         ${date ? `<div class="rsvp-view-row"><span>Submitted</span><span style="color:var(--text-muted);">${date}</span></div>` : ''}
@@ -1765,7 +1765,7 @@ function getAttendeeNames(qty) {
 
 function updateTicketTotal() {
   const qty = Math.max(1, parseInt(document.getElementById('ticketQty').value) || 1);
-  document.getElementById('ticketTotal').textContent = (qty * 30).toFixed(2);
+  document.getElementById('ticketTotal').textContent = (qty * 25).toFixed(2);
   renderAttendeeFields(qty);
 }
 
@@ -1890,7 +1890,7 @@ Go Warriors! 🧡🖤`;
 }
 
 function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmail) {
-  const total = qty * 30;
+  const total = qty * 25;
   attendees = attendees || [name];
   payMethod = payMethod || 'cash';
   const payLabel = payMethod === 'venmo'  ? '📱 Venmo (@Suz-Lu)'
