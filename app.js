@@ -962,9 +962,8 @@ function updateStats() {
   const fallen   = CLASSMATES.filter(c => c.status === 'fallen').length;
   const missing  = CLASSMATES.filter(c => c.status === 'missing').length;
 
-  document.getElementById('statTotal').textContent   = total;
-  document.getElementById('statMissing').textContent = missing;
-  document.getElementById('statFallen').textContent  = fallen;
+  document.getElementById('statTotal').textContent  = total;
+  document.getElementById('statFallen').textContent = fallen;
 
   // keep the missing-count notice in sync (excludes fallen)
   const mc = document.getElementById('missingCount');
