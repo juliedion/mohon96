@@ -531,7 +531,10 @@ function handlePhotoUpload(event, id, onDone) {
   });
 }
 
-function openPhotoLightbox(src) {
+function openPhotoLightbox(id, index) {
+  const photos = getCardPhotos(id);
+  const src = photos[index];
+  if (!src) return;
   let lb = document.getElementById('photoLightbox');
   if (!lb) {
     lb = document.createElement('div');
@@ -810,7 +813,7 @@ function createClassmateCard(c) {
   if (!isFallen) {
     const cardPhotos = getCardPhotos(c.id);
     const thumbsHtml = cardPhotos.map((src, i) =>
-      `<div class="card-photo-thumb" onclick="openPhotoLightbox('${src}')" title="View photo">
+      `<div class="card-photo-thumb" onclick="openPhotoLightbox(${c.id},${i})" title="View photo">
          <img src="${src}" alt="Photo ${i + 1}">
          <button class="photo-remove-btn" onclick="event.stopPropagation();removeCardPhoto(${c.id},${i})" title="Remove">✕</button>
        </div>`
@@ -1413,7 +1416,7 @@ function renderProfilePhotos(id) {
   if (!grid) return;
   const photos = getCardPhotos(id);
   grid.innerHTML = photos.map((src, i) =>
-    `<div class="card-photo-thumb" onclick="openPhotoLightbox('${src}')" title="View photo">
+    `<div class="card-photo-thumb" onclick="openPhotoLightbox(${id},${i})" title="View photo">
        <img src="${src}" alt="Photo ${i+1}">
        <button class="photo-remove-btn" onclick="event.stopPropagation();removeCardPhoto(${id},${i});renderProfilePhotos(${id});" title="Remove">✕</button>
      </div>`
