@@ -500,32 +500,22 @@ function handlePhotoUpload(event, id, onDone) {
   event.target.value = '';
   let remaining = files.length;
   files.forEach(file => {
-    const img = new Image();
     const reader = new FileReader();
     reader.onload = (e) => {
-      img.onload = () => {
-        const MAX = 1800;
-        const scale = Math.min(MAX / img.width, MAX / img.height, 1);
-        const canvas = document.createElement('canvas');
-        canvas.width  = Math.round(img.width  * scale);
-        canvas.height = Math.round(img.height * scale);
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
-        const photos = getCardPhotos(id);
-        if (photos.length >= 6) photos.shift();
-        photos.push(dataUrl);
-        localStorage.setItem(CARD_PHOTOS_KEY + '_' + id, JSON.stringify(photos));
-        remaining--;
-        if (remaining === 0) {
-          renderClassmates();
-          renderProfilePhotos(id);
-          const vm = document.getElementById('viewClassmateModal');
-          if (vm && vm.classList.contains('active')) openViewModal(id);
-          if (onDone) onDone();
-          showToast('📸 Photo added!');
-        }
-      };
-      img.src = e.target.result;
+      const dataUrl = e.target.result;
+      const photos = getCardPhotos(id);
+      if (photos.length >= 6) photos.shift();
+      photos.push(dataUrl);
+      localStorage.setItem(CARD_PHOTOS_KEY + '_' + id, JSON.stringify(photos));
+      remaining--;
+      if (remaining === 0) {
+        renderClassmates();
+        renderProfilePhotos(id);
+        const vm = document.getElementById('viewClassmateModal');
+        if (vm && vm.classList.contains('active')) openViewModal(id);
+        if (onDone) onDone();
+        showToast('📸 Photo added!');
+      }
     };
     reader.readAsDataURL(file);
   });
