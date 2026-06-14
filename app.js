@@ -537,7 +537,7 @@ function openPhotoLightbox(src) {
     lb = document.createElement('div');
     lb.id = 'photoLightbox';
     lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
-    lb.innerHTML = '<img style="max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6);">';
+    lb.innerHTML = '<img style="width:90vw;max-width:900px;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6);">';
     lb.addEventListener('click', () => lb.remove());
     document.body.appendChild(lb);
   }
