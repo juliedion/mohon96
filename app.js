@@ -1265,13 +1265,16 @@ function saveRsvp(id, status, qty, extras) {
 
 function matchClassmateByName(name) {
   if (!name) return null;
-  const n = name.toLowerCase().replace(/[^a-z ]/g, '').trim();
+  // Strip parenthetical maiden names like "Jackie (Sukala) Norris" → "Jackie Norris"
+  const cleaned = name.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+  const n = cleaned.toLowerCase().replace(/[^a-z ]/g, '').trim();
   return CLASSMATES.find(c => {
     const full    = c.full.toLowerCase().replace(/[^a-z ]/g, '');
     const simple  = (c.first + ' ' + c.last).toLowerCase().replace(/[^a-z ]/g, '');
     const married = c.married ? (c.first + ' ' + c.married).toLowerCase().replace(/[^a-z ]/g, '') : '';
     const nicked  = c.nick ? (c.nick + ' ' + c.last).toLowerCase().replace(/[^a-z ]/g, '') : '';
-    return full === n || simple === n || married === n || nicked === n;
+    const nickedMarried = (c.nick && c.married) ? (c.nick + ' ' + c.married).toLowerCase().replace(/[^a-z ]/g, '') : '';
+    return full === n || simple === n || married === n || nicked === n || nickedMarried === n;
   }) || null;
 }
 
