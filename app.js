@@ -1713,12 +1713,12 @@ async function fetchServerData() {
       localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
     }
 
-    // Merge RSVPs into localStorage
+    // Merge RSVPs into localStorage — server is authoritative
     if (rsvpRes.rsvps) {
       const localRsvps = getRsvpData();
       Object.values(rsvpRes.rsvps).forEach(rsvp => {
         const match = matchClassmateByName(rsvp.name);
-        if (match && !localRsvps[match.id]) {
+        if (match) {
           localRsvps[match.id] = { status: rsvp.status, qty: rsvp.qty, conf: rsvp.conf, payMethod: rsvp.payMethod };
         }
       });
