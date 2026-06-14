@@ -842,7 +842,7 @@ function createClassmateCard(c) {
 
         <div class="card-profile-prompt">
           <span class="card-profile-hey">Hey ${fn}!</span>
-          <button class="btn btn-profile-update btn-xs" onclick="openProfileModal(${c.id},'${c.full.replace(/'/g,"\\'")}')">✏️ ${profile ? 'Edit My Info' : 'Add My Info'}</button>
+          <button class="btn btn-profile-update btn-xs" onclick="openProfileModal(${c.id},'${c.full.replace(/'/g,"\\'")}')">✏️ ${profile ? 'Edit My Info' : 'ADD YOUR INFO'}</button>
         </div>
 
         <a href="#" class="report-fallen-link" onclick="openReportFallenModal(${c.id},'${c.full.replace(/'/g,"\\'")}');return false;">* Report as Fallen Warrior</a>
