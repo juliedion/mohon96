@@ -841,7 +841,7 @@ function createClassmateCard(c) {
         </div>
 
         <div class="card-profile-prompt">
-          <span class="card-profile-hey">Hey ${fn}!</span>
+          ${!profile ? `<span class="card-profile-hey">Hey ${fn}!</span>` : ''}
           <button class="btn btn-profile-update btn-xs" onclick="openProfileModal(${c.id},'${c.full.replace(/'/g,"\\'")}')">✏️ ${profile ? 'Edit My Info' : 'ADD YOUR INFO'}</button>
         </div>
 
