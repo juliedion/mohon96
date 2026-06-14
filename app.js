@@ -1692,12 +1692,52 @@ function initViewModal() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeViewModal(); });
 }
 
+// ── FETCH SERVER DATA (profiles + RSVPs) ───────────
+async function fetchServerData() {
+  try {
+    const [profRes, rsvpRes] = await Promise.all([
+      fetch(APPS_SCRIPT_URL + '?action=getprofiles').then(r => r.json()),
+      fetch(APPS_SCRIPT_URL + '?action=getrsvps').then(r => r.json())
+    ]);
+
+    // Merge profiles into localStorage
+    if (profRes.profiles) {
+      const profiles = getProfiles();
+      Object.entries(profRes.profiles).forEach(([id, data]) => {
+        const existing = profiles[id];
+        // Only overwrite if server data is newer or no local data
+        if (!existing || (data.updated && (!existing.updated || data.updated > existing.updated))) {
+          profiles[id] = data;
+        }
+      });
+      localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+    }
+
+    // Merge RSVPs into localStorage
+    if (rsvpRes.rsvps) {
+      const localRsvps = getRsvpData();
+      Object.values(rsvpRes.rsvps).forEach(rsvp => {
+        const match = matchClassmateByName(rsvp.name);
+        if (match && !localRsvps[match.id]) {
+          localRsvps[match.id] = { status: rsvp.status, qty: rsvp.qty, conf: rsvp.conf, payMethod: rsvp.payMethod };
+        }
+      });
+      localStorage.setItem(RSVP_KEY, JSON.stringify(localRsvps));
+    }
+
+    renderClassmates();
+  } catch(e) {
+    // silently fail — local data still shows
+  }
+}
+
 // ── INIT ───────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initCountdown();
   updateStats();
   renderClassmates();
   fetchSheetEmails(); // async: re-renders cards once sheet emails load
+  fetchServerData();  // async: syncs profiles + RSVPs from Google Sheets
   initFiltersAndSearch();
   initNav();
   initModal();

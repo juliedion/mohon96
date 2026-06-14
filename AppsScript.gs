@@ -21,6 +21,8 @@ function doGet(e) {
     else if (action === 'reportfallen')  result = handleReportFallen(p);
     else if (action === 'comment')       result = handleComment(p);
     else if (action === 'getcomments')   result = getComments();
+    else if (action === 'getprofiles')   result = getProfiles();
+    else if (action === 'getrsvps')      result = getRsvps();
     else                                 result = { ok: false, error: 'Unknown action: ' + action };
   } catch(err) {
     result = { ok: false, error: err.toString() };
@@ -195,6 +197,52 @@ function getComments() {
     if (comments.length >= 50) break;
   }
   return { comments: comments };
+}
+
+// ── GET ALL PROFILES ─────────────────────────────────────────
+function getProfiles() {
+  var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
+  var sheet = ss.getSheetByName('Profiles');
+  if (!sheet) return { profiles: {} };
+  var rows = sheet.getDataRange().getValues();
+  var profiles = {};
+  // headers: Timestamp, ID, Name, Current Last, Nickname, Spouse, Children, Career, Memory
+  for (var i = 1; i < rows.length; i++) {
+    var row = rows[i];
+    var id = parseInt(row[1]);
+    if (!id) continue;
+    profiles[id] = {
+      currentLast: row[3] || '',
+      nickname:    row[4] || '',
+      spouse:      row[5] || '',
+      children:    row[6] || '',
+      career:      row[7] || '',
+      memory:      row[8] || '',
+      updated:     row[0] ? new Date(row[0]).toISOString() : ''
+    };
+  }
+  return { profiles: profiles };
+}
+
+// ── GET ALL RSVPs ─────────────────────────────────────────────
+function getRsvps() {
+  var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
+  var sheet = ss.getSheetByName('RSVPs');
+  if (!sheet) return { rsvps: {} };
+  var rows = sheet.getDataRange().getValues();
+  var rsvps = {};
+  // headers: Timestamp, Confirmation, Name, Email, Qty, Total, Payment, Attendees, Guest Email, Status
+  for (var i = 1; i < rows.length; i++) {
+    var row = rows[i];
+    var name   = row[2] || '';
+    var status = (row[9] || '').toLowerCase() === 'going' ? 'going' : 'notgoing';
+    var qty    = parseInt(row[4]) || 0;
+    var conf   = row[1] || '';
+    var pay    = row[6] || '';
+    if (!name) continue;
+    rsvps[name.toLowerCase().trim()] = { status: status, qty: qty, conf: conf, payMethod: pay, name: name };
+  }
+  return { rsvps: rsvps };
 }
 
 // ── Helpers ──────────────────────────────────────────────────
