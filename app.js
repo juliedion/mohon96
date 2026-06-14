@@ -905,8 +905,13 @@ function renderClassmates() {
   // purely alphabetical by last name — status shown via card style/badge
   list = [...list].sort((a, b) => a.last.localeCompare(b.last));
 
-  grid.innerHTML = list.length > 0
-    ? list.map(createClassmateCard).join('')
+  const cards = [];
+  list.forEach(c => {
+    try { cards.push(createClassmateCard(c)); }
+    catch(e) { console.error('Card error id=' + c.id, e); }
+  });
+  grid.innerHTML = cards.length > 0
+    ? cards.join('')
     : `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">No classmates match your search.</div>`;
 
   const count = document.getElementById('resultsCount');
