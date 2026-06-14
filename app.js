@@ -531,6 +531,20 @@ function handlePhotoUpload(event, id, onDone) {
   });
 }
 
+function openPhotoLightbox(src) {
+  let lb = document.getElementById('photoLightbox');
+  if (!lb) {
+    lb = document.createElement('div');
+    lb.id = 'photoLightbox';
+    lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
+    lb.innerHTML = '<img style="max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6);">';
+    lb.addEventListener('click', () => lb.remove());
+    document.body.appendChild(lb);
+  }
+  lb.querySelector('img').src = src;
+  lb.style.display = 'flex';
+}
+
 function removeCardPhoto(id, index) {
   if (!confirm('Remove this photo?')) return;
   const photos = getCardPhotos(id);
@@ -796,8 +810,9 @@ function createClassmateCard(c) {
   if (!isFallen) {
     const cardPhotos = getCardPhotos(c.id);
     const thumbsHtml = cardPhotos.map((src, i) =>
-      `<div class="card-photo-thumb" onclick="removeCardPhoto(${c.id}, ${i})" title="Click to remove">
+      `<div class="card-photo-thumb" onclick="openPhotoLightbox('${src}')" title="View photo">
          <img src="${src}" alt="Photo ${i + 1}">
+         <button class="photo-remove-btn" onclick="event.stopPropagation();removeCardPhoto(${c.id},${i})" title="Remove">✕</button>
        </div>`
     ).join('');
     photosHtml = `
@@ -1398,8 +1413,9 @@ function renderProfilePhotos(id) {
   if (!grid) return;
   const photos = getCardPhotos(id);
   grid.innerHTML = photos.map((src, i) =>
-    `<div class="card-photo-thumb" onclick="removeCardPhoto(${id},${i});renderProfilePhotos(${id});" title="Click to remove">
+    `<div class="card-photo-thumb" onclick="openPhotoLightbox('${src}')" title="View photo">
        <img src="${src}" alt="Photo ${i+1}">
+       <button class="photo-remove-btn" onclick="event.stopPropagation();removeCardPhoto(${id},${i});renderProfilePhotos(${id});" title="Remove">✕</button>
      </div>`
   ).join('') || '<span style="font-size:0.8rem;color:var(--text-muted);">No photos yet.</span>';
 }
