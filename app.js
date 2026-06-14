@@ -504,13 +504,13 @@ function handlePhotoUpload(event, id, onDone) {
     const reader = new FileReader();
     reader.onload = (e) => {
       img.onload = () => {
-        const MAX = 600;
+        const MAX = 1800;
         const scale = Math.min(MAX / img.width, MAX / img.height, 1);
         const canvas = document.createElement('canvas');
         canvas.width  = Math.round(img.width  * scale);
         canvas.height = Math.round(img.height * scale);
         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
         const photos = getCardPhotos(id);
         if (photos.length >= 6) photos.shift();
         photos.push(dataUrl);
