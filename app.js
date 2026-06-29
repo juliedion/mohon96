@@ -1949,55 +1949,93 @@ function showTicketModal(name, email, qty, conf, attendees, payMethod, guestEmai
   const total = qty * 25;
   attendees = attendees || [name];
   payMethod = payMethod || 'venmo';
-  const payLabel = payMethod === 'venmo'  ? '📱 Venmo (@Suz-Lu)'
-                 : payMethod === 'zelle'  ? '💜 Zelle (scan QR code)'
-                 : '🅿️ PayPal (scan QR code)';
 
-  let ticketsHtml = '';
-  for (let i = 0; i < qty; i++) ticketsHtml += buildTicketCard(attendees[i] || name, conf, i + 1, qty);
-  document.getElementById('ticketCardsContainer').innerHTML = ticketsHtml;
   document.getElementById('tModalConf').textContent  = conf;
   document.getElementById('tModalName').textContent  = name;
   document.getElementById('tModalEmail').textContent = email;
   document.getElementById('tModalQty').textContent   = qty + ' ticket' + (qty > 1 ? 's' : '');
   document.getElementById('tModalTotal').textContent = '$' + total.toFixed(2);
 
-  // Show/update payment row
-  let payRow = document.getElementById('tModalPayRow');
-  if (!payRow) {
-    const totalRow = document.querySelector('.ts-row:last-child');
-    payRow = document.createElement('div');
-    payRow.id = 'tModalPayRow';
-    payRow.className = 'ts-row';
-    totalRow?.after(payRow);
-  }
-  payRow.innerHTML = `<span>Payment</span><strong style="color:${['venmo','zelle','paypal'].includes(payMethod) ? 'var(--orange)' : 'var(--dark)'};">${payLabel}</strong>`;
-
+  // Payment instructions
+  let payHtml = '';
   if (payMethod === 'venmo') {
-    payRow.insertAdjacentHTML('afterend',
-      `<div style="background:#fff8f0;border:1px solid var(--orange);border-radius:8px;padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.85rem;">
-        <strong>Next step:</strong> Venmo <strong>@Suz-Lu</strong> $${total.toFixed(2)} and include your confirmation code <strong>${conf}</strong>.
-        <a href="https://venmo.com/u/Suz-Lu" target="_blank" rel="noopener" style="display:block;margin-top:0.4rem;color:var(--orange);">Open Venmo →</a>
-      </div>`
-    );
+    payHtml = `<div style="background:#fff8f0;border:2px solid var(--orange);border-radius:10px;padding:1rem 1.2rem;font-size:0.9rem;text-align:center;">
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;">📱 Send Payment via Venmo</div>
+      <div style="margin-bottom:0.5rem;">Send <strong style="color:var(--orange);font-size:1.1rem;">$${total.toFixed(2)}</strong> to <strong>@Suz-Lu</strong></div>
+      <div style="margin-bottom:0.75rem;color:#666;">Include your confirmation code in the memo: <strong style="font-family:monospace;color:var(--orange);">${conf}</strong></div>
+      <a href="https://venmo.com/u/Suz-Lu" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-block;">Open Venmo →</a>
+    </div>`;
+  } else if (payMethod === 'zelle') {
+    payHtml = `<div style="background:#f5f0ff;border:2px solid #7c3aed;border-radius:10px;padding:1rem 1.2rem;font-size:0.9rem;text-align:center;">
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;">💜 Send Payment via Zelle</div>
+      <div style="margin-bottom:0.5rem;">Send <strong style="color:#7c3aed;font-size:1.1rem;">$${total.toFixed(2)}</strong> using the QR code below</div>
+      <div style="margin-bottom:0.75rem;color:#666;">Include your confirmation code in the memo: <strong style="font-family:monospace;color:#7c3aed;">${conf}</strong></div>
+      <img src="qr-zelle.png" alt="Zelle QR Code" style="width:140px;border-radius:8px;border:1px solid #ddd;">
+    </div>`;
+  } else if (payMethod === 'paypal') {
+    payHtml = `<div style="background:#e8f4ff;border:2px solid #0070ba;border-radius:10px;padding:1rem 1.2rem;font-size:0.9rem;text-align:center;">
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;">🅿️ Send Payment via PayPal</div>
+      <div style="margin-bottom:0.5rem;">Send <strong style="color:#0070ba;font-size:1.1rem;">$${total.toFixed(2)}</strong> using the QR code below</div>
+      <div style="margin-bottom:0.75rem;color:#666;">Include your confirmation code in the note: <strong style="font-family:monospace;color:#0070ba;">${conf}</strong></div>
+      <img src="qr-paypal.png" alt="PayPal QR Code" style="width:140px;border-radius:8px;border:1px solid #ddd;">
+    </div>`;
   }
+  document.getElementById('tModalPaymentInstructions').innerHTML = payHtml;
 
-  const subject = `RSVP Confirmed — Mohonasen Class of '96 Reunion · ${conf}`;
-  const body = buildTicketEmailBody(name, qty, conf, total, attendees, payMethod, guestEmail);
+  // Email button — reservation info, not tickets
+  const subject = `Reservation Held — Mohonasen Class of '96 Reunion · ${conf}`;
+  const body = buildReservationEmailBody(name, qty, conf, total, attendees, payMethod, guestEmail);
   const emailBtn = document.getElementById('emailTicketsBtn');
   const ccPart = guestEmail ? `cc=${encodeURIComponent(guestEmail)}&` : '';
   emailBtn.href = `mailto:${encodeURIComponent(email)}?${ccPart}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  emailBtn.textContent = payMethod === 'venmo' ? '📧 Email My RSVP & Payment Info' : '📧 Email My Tickets';
+  emailBtn.textContent = '📧 Email My Reservation Info';
 
   // Refund request button
   const refundBtn = document.getElementById('refundRequestBtn');
   if (refundBtn) {
-    const refundSubject = `Refund Request — ${name} · ${conf}`;
-    const refundBody = `Hi,\n\nI need to request a refund for my reunion ticket.\n\nName: ${name}\nConfirmation: ${conf}\nTickets: ${qty}\nTotal: $${total.toFixed(2)}\n\nThank you.`;
+    const refundSubject = `Cancellation Request — ${name} · ${conf}`;
+    const refundBody = `Hi,\n\nI need to cancel my reunion reservation.\n\nName: ${name}\nConfirmation: ${conf}\nTickets: ${qty}\nTotal: $${total.toFixed(2)}\n\nThank you.`;
     refundBtn.href = `mailto:juliedion1@gmail.com,mohonclass96@gmail.com?subject=${encodeURIComponent(refundSubject)}&body=${encodeURIComponent(refundBody)}`;
   }
 
   document.getElementById('ticketModal').classList.add('active');
+}
+
+function buildReservationEmailBody(name, qty, conf, total, attendees, payMethod, guestEmail) {
+  const firstName = name.split(' ')[0];
+  const attendeeList = attendees && attendees.length
+    ? attendees.map((n, i) => `  ${i === 0 ? 'Primary' : 'Guest ' + i}: ${n || 'Guest'}`).join('\n')
+    : `  ${name}`;
+  const payLine = payMethod === 'venmo'
+    ? `Venmo @Suz-Lu — send $${total.toFixed(2)} with memo: ${conf}`
+    : payMethod === 'zelle'
+    ? `Zelle — scan the QR code and send $${total.toFixed(2)} with memo: ${conf}`
+    : `PayPal — scan the QR code and send $${total.toFixed(2)} with note: ${conf}`;
+  return `Hi ${firstName},
+
+Your spot at the Mohonasen Class of '96 Reunion is RESERVED!
+
+To complete your registration, please send payment:
+${payLine}
+
+RESERVATION DETAILS:
+Confirmation: ${conf}
+Name: ${name}
+Tickets: ${qty} × $25 = $${total.toFixed(2)}
+
+ATTENDING:
+${attendeeList}${guestEmail ? '\nGuest email: ' + guestEmail : ''}
+
+Once we confirm your payment, we'll email your tickets within 24 hours.
+
+EVENT:
+Friday, July 31, 2026 at 7:00 PM
+Katie O'Byrnes Irish Pub
+121 Wall Street, State Street & Erie Blvd
+Schenectady, NY 12305
+
+Questions? mohonclass96@gmail.com | mohon96.com
+Go Warriors! 🧡🖤`;
 }
 
 function closeTicketModal() {

@@ -493,7 +493,7 @@
 <div class="modal-overlay" id="ticketModal" role="dialog" aria-modal="true" aria-label="Your Tickets">
   <div class="modal" style="max-width:620px;">
     <div class="modal-header" style="background:var(--dark);">
-      <h3>🎟 Your Tickets Are Ready!</h3>
+      <h3 id="ticketModalTitle">⏳ Complete Your Payment</h3>
       <button class="modal-close" onclick="closeTicketModal()" aria-label="Close">&times;</button>
     </div>
     <div class="modal-body">
@@ -502,26 +502,23 @@
         <div class="ts-row"><span>Name</span><strong id="tModalName"></strong></div>
         <div class="ts-row"><span>Email</span><span id="tModalEmail" style="color:var(--text-muted);"></span></div>
         <div class="ts-row"><span>Tickets</span><strong id="tModalQty"></strong></div>
-        <div class="ts-row"><span>Total Paid</span><strong id="tModalTotal" style="color:var(--orange);font-size:1.1rem;"></strong></div>
+        <div class="ts-row"><span>Total Due</span><strong id="tModalTotal" style="color:var(--orange);font-size:1.1rem;"></strong></div>
       </div>
-      <div id="ticketCardsContainer" style="margin:1.2rem 0;display:flex;flex-direction:column;gap:0.75rem;"></div>
+      <div id="tModalPaymentInstructions" style="margin:1.2rem 0;"></div>
       <div class="modal-actions" style="flex-wrap:wrap;">
         <a id="emailTicketsBtn" href="#" class="btn btn-primary" style="flex:1;">
-          📧 Email My Tickets
+          📧 Email My Reservation Info
         </a>
-        <button class="btn btn-dark" onclick="printTickets()" style="flex:1;">
-          🖨 Print Tickets
-        </button>
         <button class="btn btn-ghost btn-sm" onclick="closeTicketModal()" style="flex:0 0 auto;">
           Close
         </button>
       </div>
       <p style="font-size:0.76rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;">
-        A copy will be sent to you and your guest (if provided). Bring your confirmation number to the event.
+        Your spot is reserved. Tickets will be emailed to you once payment is confirmed — usually within 24 hours.
       </p>
       <div style="margin-top:0.75rem;text-align:center;border-top:1px solid var(--border);padding-top:0.75rem;">
         <a id="refundRequestBtn" href="#" class="btn btn-ghost btn-sm" style="font-size:0.78rem;color:var(--text-muted);">
-          ↩ Can&rsquo;t make it anymore? Request a refund
+          ↩ Need to cancel? Request a refund
         </a>
       </div>
     </div>

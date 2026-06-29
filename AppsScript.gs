@@ -23,6 +23,7 @@ function doGet(e) {
     else if (action === 'getcomments')   result = getComments();
     else if (action === 'getprofiles')   result = getProfiles();
     else if (action === 'getrsvps')      result = getRsvps();
+    else if (action === 'sendtickets')   result = sendTickets(p);
     else                                 result = { ok: false, error: 'Unknown action: ' + action };
   } catch(err) {
     result = { ok: false, error: err.toString() };
@@ -33,9 +34,9 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ── RSVP ────────────────────────────────────────────────────
+// ── RSVP (records as Pending Payment; no tickets sent until paid) ────
 function handleRsvp(p) {
-  var ss   = SpreadsheetApp.openById(RSVP_SHEET_ID);
+  var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
   var sheet = getOrCreateSheet(ss, 'RSVPs', [
     'Timestamp','Confirmation','Name','Email','Qty','Total','Payment','Attendees','Guest Email','Status'
   ]);
@@ -43,60 +44,129 @@ function handleRsvp(p) {
   var notAttending = (p.conf === 'NOT_ATTENDING' || p.qty === '0');
   var qty   = notAttending ? 0 : parseInt(p.qty) || 1;
   var total = notAttending ? '$0.00' : '$' + (qty * 25).toFixed(2);
+  var status = notAttending ? 'Not Attending' : 'Pending Payment';
 
   sheet.appendRow([
     new Date(),
-    p.conf      || '',
-    p.name      || '',
-    p.email     || '',
+    p.conf       || '',
+    p.name       || '',
+    p.email      || '',
     qty,
     total,
-    p.payMethod || '',
-    p.attendees || '',
-    p.guestEmail|| '',
-    notAttending ? 'Not Attending' : 'Going'
+    p.payMethod  || '',
+    p.attendees  || '',
+    p.guestEmail || '',
+    status
   ]);
 
-  // Email purchaser confirmation
+  // Email attendee: reservation held, payment required
   if (!notAttending && p.email) {
-    var payNote = p.payMethod === 'venmo'  ? 'Payment: Venmo @Suz-Lu — please send $' + (qty * 25).toFixed(2) + ' with your confirmation code in the memo.'
-               : p.payMethod === 'zelle'  ? 'Payment: Zelle — please send $' + (qty * 25).toFixed(2) + ' with your confirmation code in the memo (use the QR code you scanned).'
-               : p.payMethod === 'paypal' ? 'Payment: PayPal — please send $' + (qty * 25).toFixed(2) + ' with your confirmation code in the memo (use the QR code you scanned).'
-               : 'Payment: Please send $' + (qty * 25).toFixed(2) + ' via Venmo, Zelle, or PayPal.';
-    var confirmBody = 'Hi ' + (p.name || '') + ',\n\n'
-      + 'Your RSVP for the Mohonasen Class of \'96 30-Year Reunion is confirmed!\n\n'
-      + '📅 Friday, July 31, 2026  ·  7:00 PM\n'
-      + '📍 Katie O\'Byrnes Irish Pub — Schenectady, NY\n\n'
+    var firstName = (p.name || '').split(' ')[0];
+    var payLine = p.payMethod === 'venmo'
+      ? 'Venmo @Suz-Lu — send $' + (qty * 25).toFixed(2) + ' with memo: ' + (p.conf || '')
+      : p.payMethod === 'zelle'
+      ? 'Zelle — use the QR code on the website and send $' + (qty * 25).toFixed(2) + ' with memo: ' + (p.conf || '')
+      : 'PayPal — use the QR code on the website and send $' + (qty * 25).toFixed(2) + ' with note: ' + (p.conf || '');
+    var reservationBody = 'Hi ' + firstName + ',\n\n'
+      + 'Your spot at the Mohonasen Class of \'96 30-Year Reunion is RESERVED!\n\n'
+      + 'To complete your registration, please send payment:\n'
+      + payLine + '\n\n'
       + '─────────────────────────\n'
       + 'Confirmation: ' + (p.conf || '') + '\n'
-      + 'Tickets: '      + qty + '\n'
-      + 'Total: '        + total + '\n'
-      + payNote + '\n'
-      + (p.attendees ? 'Attendees: ' + p.attendees + '\n' : '')
+      + 'Name: '         + (p.name || '') + '\n'
+      + 'Tickets: '      + qty + ' × $25 = ' + total + '\n'
+      + (p.attendees ? 'Attending: ' + p.attendees + '\n' : '')
       + '─────────────────────────\n\n'
-      + 'Questions? Reply to this email or contact mohonclass96@gmail.com\n\n'
+      + 'Once we confirm your payment, we\'ll email your tickets within 24 hours.\n\n'
+      + '📅 Friday, July 31, 2026  ·  7:00 PM\n'
+      + '📍 Katie O\'Byrnes Irish Pub — Schenectady, NY\n\n'
+      + 'Questions? mohonclass96@gmail.com | mohon96.com\n\n'
       + 'Go Warriors! 🧡🖤\n'
       + 'Mohonasen Class of \'96 Reunion Committee';
-    try { MailApp.sendEmail(p.email, 'RSVP Confirmed — Mohonasen Class of \'96 · ' + (p.conf || ''), confirmBody); } catch(e) {}
+    try { MailApp.sendEmail(p.email, 'Spot Reserved — Mohonasen Class of \'96 Reunion · ' + (p.conf || ''), reservationBody); } catch(e) {}
     if (p.guestEmail) {
-      try { MailApp.sendEmail(p.guestEmail, 'RSVP Confirmed — Mohonasen Class of \'96 · ' + (p.conf || ''), confirmBody); } catch(e) {}
+      try { MailApp.sendEmail(p.guestEmail, 'Spot Reserved — Mohonasen Class of \'96 Reunion · ' + (p.conf || ''), reservationBody); } catch(e) {}
     }
   }
 
-  // Notify committee
+  // Notify committee — includes link to send tickets once payment confirmed
   if (!notAttending) {
-    var subject = 'New RSVP — ' + (p.name || '') + ' (' + (p.conf || '') + ')';
-    var body    = 'Name: '      + (p.name      || '') + '\n'
+    var sendTicketsUrl = 'https://script.google.com/macros/s/AKfycbxR8bTSDcEiS8xhRkjYsyte77vjqFSuT6tLyL0vYimEWEjRveG-jm6BmD75RCX9vLIr/exec'
+      + '?action=sendtickets&conf=' + encodeURIComponent(p.conf || '')
+      + '&secret=' + encodeURIComponent(NOTIFY_EMAIL);
+    var subject = '💳 Payment Pending — ' + (p.name || '') + ' (' + (p.conf || '') + ')';
+    var body    = 'New reservation received — awaiting payment.\n\n'
+                + 'Name: '      + (p.name      || '') + '\n'
                 + 'Email: '     + (p.email     || '') + '\n'
                 + 'Tickets: '   + qty                  + '\n'
                 + 'Total: '     + total                 + '\n'
                 + 'Payment: '   + (p.payMethod || '') + '\n'
                 + 'Attendees: ' + (p.attendees  || '') + '\n'
-                + 'Conf: '      + (p.conf       || '');
+                + 'Conf: '      + (p.conf       || '') + '\n\n'
+                + 'Once payment is received, click to send tickets:\n'
+                + sendTicketsUrl;
     try { MailApp.sendEmail(NOTIFY_EMAIL + ',' + COMMITTEE_EMAIL, subject, body); } catch(e) {}
   }
 
   return { ok: true };
+}
+
+// ── SEND TICKETS (called by organizer after verifying payment) ────────
+function sendTickets(p) {
+  // Basic auth check
+  if ((p.secret || '') !== NOTIFY_EMAIL) return { ok: false, error: 'Unauthorized' };
+
+  var ss    = SpreadsheetApp.openById(RSVP_SHEET_ID);
+  var sheet = ss.getSheetByName('RSVPs');
+  if (!sheet) return { ok: false, error: 'RSVPs sheet not found' };
+
+  var rows = sheet.getDataRange().getValues();
+  var conf = (p.conf || '').trim();
+  var rowIndex = -1;
+  for (var i = 1; i < rows.length; i++) {
+    if ((rows[i][1] || '').trim() === conf) { rowIndex = i; break; }
+  }
+  if (rowIndex === -1) return { ok: false, error: 'Confirmation not found: ' + conf };
+
+  var row       = rows[rowIndex];
+  var name      = row[2] || '';
+  var email     = row[3] || '';
+  var qty       = parseInt(row[4]) || 1;
+  var total     = row[5] || ('$' + (qty * 25).toFixed(2));
+  var payMethod = row[6] || '';
+  var attendees = row[7] || name;
+  var guestEmail= row[8] || '';
+  var status    = (row[9] || '').toString();
+
+  if (status === 'Going') return { ok: false, error: 'Tickets already sent for ' + conf };
+
+  // Update status to Going (paid)
+  sheet.getRange(rowIndex + 1, 10).setValue('Going');
+
+  // Build ticket email
+  var firstName = name.split(' ')[0];
+  var ticketBody = 'Hi ' + firstName + ',\n\n'
+    + 'Great news — your payment has been confirmed! Here are your tickets:\n\n'
+    + '─────────────────────────\n'
+    + '🎟 CONFIRMATION: ' + conf + '\n'
+    + 'Name: '    + name  + '\n'
+    + 'Tickets: ' + qty + ' × $25 = ' + total + '\n'
+    + (attendees ? 'Attending: ' + attendees + '\n' : '')
+    + '─────────────────────────\n\n'
+    + '📅 Friday, July 31, 2026  ·  7:00 PM\n'
+    + '📍 Katie O\'Byrnes Irish Pub\n'
+    + '   121 Wall Street, Schenectady, NY 12305\n\n'
+    + 'Heavy appetizers included. Please bring your confirmation number to the event.\n\n'
+    + 'Questions? mohonclass96@gmail.com | mohon96.com\n\n'
+    + 'See you July 31! Go Warriors! 🧡🖤\n'
+    + 'Mohonasen Class of \'96 Reunion Committee';
+
+  try { MailApp.sendEmail(email, '🎟 Your Tickets — Mohonasen Class of \'96 Reunion · ' + conf, ticketBody); } catch(e) {}
+  if (guestEmail) {
+    try { MailApp.sendEmail(guestEmail, '🎟 Your Tickets — Mohonasen Class of \'96 Reunion · ' + conf, ticketBody); } catch(e) {}
+  }
+
+  return { ok: true, message: 'Tickets sent to ' + email };
 }
 
 // ── EMAIL SAVE (classmate submits their email) ───────────────
